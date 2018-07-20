@@ -90,12 +90,26 @@ class NearbyStationsActivity : AppCompatActivity(), NearbyStationsController, On
         mMap.setOnMarkerClickListener(mClusterManager)
     }
 
+    override fun showStopPoints(stopPoints: List<StopPoint>) {
+
+    }
+
+    override fun showNoPointsAvailable() {
+
+    }
+
+    override fun showFetchingError(errorMessage: String) {
+
+    }
+
+    override fun showMessage(resId: Int) {
+
+    }
+
     override fun showLoading() {
+
     }
 
     override fun hideLoading() {
-    }
-
-    override fun showStopPoints(stopPoints: List<StopPoint>) {
     }
 }

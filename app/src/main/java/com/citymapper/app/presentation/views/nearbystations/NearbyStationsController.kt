@@ -5,11 +5,17 @@ import com.citymapper.app.data.remote.models.stops.StopPoint
 
 interface NearbyStationsController : LifecycleOwner {
 
+    fun showStopPoints(stopPoints: List<StopPoint>)
+
+    fun showNoPointsAvailable()
+
+    fun showFetchingError(errorMessage: String)
+
+    fun showMessage(resId: Int)
 
     fun showLoading()
 
     fun hideLoading()
 
-    fun showStopPoints(stopPoints: List<StopPoint>)
 
 }

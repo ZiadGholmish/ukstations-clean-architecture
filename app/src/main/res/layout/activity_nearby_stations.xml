@@ -6,7 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".presentation.views.nearbystations.NearbyStationsActivity">
 
-
     <fragment
         android:id="@+id/map"
         android:name="com.google.android.gms.maps.SupportMapFragment"
@@ -17,5 +16,15 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:context="com.mytaxitask.presentation.views.vehicledetails.VehicleDetailsMapActivity" />
+
+    <android.support.v4.widget.ContentLoadingProgressBar
+        android:id="@+id/loadingView"
+        style="@style/Widget.AppCompat.ProgressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </android.support.constraint.ConstraintLayout>
