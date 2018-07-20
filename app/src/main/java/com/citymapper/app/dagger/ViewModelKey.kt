@@ -1,4 +1,4 @@
-package carriage.com.carriagerestaurantapp.dagger
+package com.citymapper.app.dagger
 
 import android.arch.lifecycle.ViewModel
 import dagger.MapKey

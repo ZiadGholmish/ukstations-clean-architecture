@@ -1,11 +1,10 @@
-package carriage.com.carriagerestaurantapp.dagger
+package com.citymapper.app.dagger
 
+import android.app.Service
 import android.content.Context
-import carriage.com.carriagerestaurantapp.R
-import carriage.com.carriagerestaurantapp.data.remote.network.APIConstants
-import carriage.com.carriagerestaurantapp.data.remote.network.APIInterface
-import carriage.com.carriagerestaurantapp.data.remote.network.MyServiceInterceptor
 import com.citymapper.app.R
+import com.citymapper.app.data.remote.net.APIInterface
+import com.citymapper.app.data.remote.net.ServiceInterceptor
 import dagger.Module
 import dagger.Provides
 import okhttp3.OkHttpClient
@@ -19,7 +18,7 @@ import javax.inject.Named
 import javax.inject.Singleton
 
 @Module
-class NetworkModule{
+class NetworkModule {
 
     @Provides
     @Named("BASE_URL_NAME")
@@ -45,7 +44,7 @@ class NetworkModule{
         val clientBuilder = OkHttpClient().newBuilder()
         clientBuilder.connectTimeout(30, TimeUnit.SECONDS)
         clientBuilder.addInterceptor(interceptor)
-        clientBuilder.addInterceptor(MyServiceInterceptor())
+        clientBuilder.addInterceptor(ServiceInterceptor())
         return clientBuilder
     }
 
