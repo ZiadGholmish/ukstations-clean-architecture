@@ -1,7 +1,8 @@
-package com.citymapper.app
+package com.citymapper.app.presentation.views.nearbystations
 
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import com.citymapper.app.R
 
 class NearbyStationsActivity : AppCompatActivity() {
 
