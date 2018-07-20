@@ -42,7 +42,9 @@ class NearbyStationsPresenter @Inject constructor() : AbsPresenter<NearbyStation
 
     private fun showStopPoints(stopPoints: List<StopPoint>) {
         mView?.showStopPoints(stopPoints)
+        mView?.zoomToStations(stopPoints.firstOrNull())
     }
+
 
     /**
      * handle the error code that come from the server

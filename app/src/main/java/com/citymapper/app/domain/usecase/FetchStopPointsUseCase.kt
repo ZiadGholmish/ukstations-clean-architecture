@@ -7,8 +7,7 @@ import com.citymapper.app.util.scheduler.BaseSchedulerProvider
 import io.reactivex.Observable
 import javax.inject.Inject
 
-class FetchStopPointsUseCase @Inject constructor(private val stopPointRepository: StopPointRepository,
-                                                 private val scheduler: BaseSchedulerProvider) {
+class FetchStopPointsUseCase @Inject constructor(private val stopPointRepository: StopPointRepository, private val scheduler: BaseSchedulerProvider) {
 
     fun fetchStopPoints(stopTypes: String, radius: Int,
                         lat: Double, lon: Double): Observable<StopPointsNetworkResult> = stopPointRepository

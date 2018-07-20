@@ -2,5 +2,6 @@
 
     <string name="invalid_credential">Invalid Credential, Please check email and password</string>
     <string name="service_not_available">Service not available now, please try again in sometime</string>
+    <string name="no_points_available">No Points Available for now </string>
 
 </resources>

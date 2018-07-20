@@ -4,17 +4,23 @@ import android.arch.lifecycle.ViewModelProviders
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import com.citymapper.app.R
 import com.citymapper.app.app.CitymapperApp
 import com.citymapper.app.dagger.ViewModelFactory
 import com.citymapper.app.data.remote.models.stops.StopPoint
+import com.citymapper.app.util.toClusterItem
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.Marker
 import com.google.maps.android.clustering.ClusterManager
 import io.reactivex.disposables.CompositeDisposable
+import kotlinx.android.synthetic.main.activity_nearby_stations.*
 import javax.inject.Inject
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.CameraUpdateFactory
+
 
 class NearbyStationsActivity : AppCompatActivity(), NearbyStationsController, OnMapReadyCallback,
         GoogleMap.OnInfoWindowClickListener, GoogleMap.InfoWindowAdapter {
@@ -83,7 +89,6 @@ class NearbyStationsActivity : AppCompatActivity(), NearbyStationsController, On
         return null
     }
 
-
     private fun setUpCluster() {
         mClusterManager = ClusterManager(this, mMap)
         mMap.setOnCameraIdleListener(mClusterManager)
@@ -91,25 +96,32 @@ class NearbyStationsActivity : AppCompatActivity(), NearbyStationsController, On
     }
 
     override fun showStopPoints(stopPoints: List<StopPoint>) {
+        mClusterManager.addItems(stopPoints.map { it.toClusterItem() })
+    }
 
+    override fun zoomToStations(stopPoint: StopPoint?) {
+        stopPoint?.let {
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(LatLng(it.lat, it.lon), 10f))
+        }
     }
 
     override fun showNoPointsAvailable() {
-
+        Toast.makeText(this, getString(R.string.no_points_available), Toast.LENGTH_LONG).show()
     }
 
     override fun showFetchingError(errorMessage: String) {
-
+        Toast.makeText(this, errorMessage, Toast.LENGTH_LONG).show()
     }
 
     override fun showMessage(resId: Int) {
-
+        Toast.makeText(this, getString(resId), Toast.LENGTH_LONG).show()
     }
 
     override fun showLoading() {
-
+        loadingView.show()
     }
 
     override fun hideLoading() {
+        loadingView.hide()
     }
 }
