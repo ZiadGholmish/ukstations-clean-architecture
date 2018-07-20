@@ -7,7 +7,7 @@ import retrofit2.http.*
 
 interface APIInterface {
 
-    @POST(APIConstants.API_STOP_POINTS_PREFIX)
+    @GET(APIConstants.API_STOP_POINTS_PREFIX)
     fun fetchStopPointsByLocation(@Query("stopTypes") stopTypes: String,
               @Query("radius") radius: Int,
               @Query("lat") lat: Double,

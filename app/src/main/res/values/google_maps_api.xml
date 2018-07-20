@@ -1,0 +1,26 @@
+<resources>
+    <!--
+    TODO: Before you run your application, you need a Google Maps API key.
+
+    To get one, follow this link, follow the directions and press "Create" at the end:
+
+    https://console.developers.google.com/flows/enableapi?apiid=maps_android_backend&keyType=CLIENT_SIDE_ANDROID&r=BA:81:9A:41:30:F8:41:DA:A3:25:34:A5:CB:82:09:1F:38:AB:EF:FD%3Bcom.mytaxitask.presentation.views.vehicledetails
+
+    You can also add your credentials to an existing key, using these values:
+
+    Package name:
+    BA:81:9A:41:30:F8:41:DA:A3:25:34:A5:CB:82:09:1F:38:AB:EF:FD
+
+    SHA-1 certificate fingerprint:
+    BA:81:9A:41:30:F8:41:DA:A3:25:34:A5:CB:82:09:1F:38:AB:EF:FD
+
+    Alternatively, follow the directions here:
+    https://developers.google.com/maps/documentation/android/start#get-key
+
+    Once you have your key (it starts with "AIza"), replace the "google_maps_key"
+    string in this file.
+    -->
+    <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">
+        AIzaSyAAPSntL5rpcm9zguyriJgngVSesOrM5Dc
+    </string>
+</resources>
