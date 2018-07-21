@@ -3,7 +3,9 @@ package com.citymapper.app.presentation.views.nearbystations
 import android.arch.lifecycle.ViewModelProviders
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
+import android.widget.TextView
 import android.widget.Toast
 import com.citymapper.app.R
 import com.citymapper.app.app.CitymapperApp
@@ -20,6 +22,9 @@ import javax.inject.Inject
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.model.MarkerOptions
+import android.widget.RelativeLayout
+
+
 
 
 class NearbyStationsActivity : AppCompatActivity(), NearbyStationsController, OnMapReadyCallback,
@@ -76,7 +81,7 @@ class NearbyStationsActivity : AppCompatActivity(), NearbyStationsController, On
     }
 
     private fun setOnCameraIdeaListener() {
-        mMap?.let {
+        mMap.let {
             mMap.setOnCameraIdleListener {
                 mPresenter.fetchStopPoints(mMap.cameraPosition.target)
             }
@@ -84,13 +89,25 @@ class NearbyStationsActivity : AppCompatActivity(), NearbyStationsController, On
     }
 
     override fun onInfoWindowClick(p0: Marker?) {
+        Log.e("info clicked", "info clicked")
     }
 
-    override fun getInfoWindow(p0: Marker?): View {
-        val infoView = layoutInflater
-                .inflate(R.layout.stop_point_arrivals_times_layout, null)
+    override fun getInfoWindow(marker: Marker): View {
+        var infoView = layoutInflater.inflate(R.layout.stop_point_arrivals_times_layout, null)
+        showMarkerInfo(marker, infoView)
         return infoView
     }
+
+
+    private fun showMarkerInfo(marker: Marker, infoView: View) {
+        val tvStationName: TextView = infoView.findViewById(R.id.tvStationName)
+        val tvMins: TextView = infoView.findViewById(R.id.tvMins)
+        //get the object for the stop point
+        val stopPoint: StopPoint = marker.tag as StopPoint
+        tvStationName.text  = stopPoint.commonName
+        tvMins.text = stopPoint.placeType
+    }
+
 
     override fun getInfoContents(marker: Marker): View? {
         return null
@@ -100,11 +117,9 @@ class NearbyStationsActivity : AppCompatActivity(), NearbyStationsController, On
         mMap.clear()
         stopPoints.forEach {
             mMap.addMarker(MarkerOptions()
-                    .position(LatLng(it.lat, it.lon)))
+                    .position(LatLng(it.lat, it.lon))).tag = it
         }
-
     }
-
 
     override fun moveMapToDefaultLocation(defaultLatLng: LatLng) {
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(defaultLatLng, 10f))

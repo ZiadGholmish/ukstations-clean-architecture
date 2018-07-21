@@ -1,9 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".presentation.views.linedetails.LineDetailsActivity">
+    android:layout_height="wrap_content"
+    android:layout_marginEnd="@dimen/activity_margin"
+    android:layout_marginStart="@dimen/activity_margin"
+    android:background="@android:color/white"
+    card_view:cardCornerRadius="5dp"
+    card_view:cardElevation="5dp">
 
-</android.support.constraint.ConstraintLayout>
+    <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/imgTubeIcon"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginStart="@dimen/generic_padding"
+            android:layout_marginTop="@dimen/activity_margin"
+            android:src="@drawable/ic_if_map_marker"
+            card_view:layout_constraintStart_toStartOf="parent"
+            card_view:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tvStationName"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/generic_padding"
+            android:paddingEnd="@dimen/generic_padding"
+            android:paddingStart="@dimen/generic_padding"
+            android:text="White City"
+            android:textSize="@dimen/titleTextSize"
+            card_view:layout_constraintEnd_toEndOf="parent"
+            card_view:layout_constraintStart_toEndOf="@id/imgTubeIcon"
+            card_view:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tvMins"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:paddingEnd="@dimen/generic_padding"
+            android:paddingStart="@dimen/generic_padding"
+            android:text="126 mins"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="@dimen/minTextSize"
+            card_view:layout_constraintEnd_toEndOf="parent"
+            card_view:layout_constraintStart_toEndOf="@id/imgTubeIcon"
+            card_view:layout_constraintTop_toBottomOf="@id/tvStationName" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/vehicles_recycler"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/activity_margin"
+            android:layout_marginStart="@dimen/activity_margin"
+            android:layout_marginTop="@dimen/generic_padding"
+            card_view:layout_constraintEnd_toEndOf="parent"
+            card_view:layout_constraintStart_toStartOf="parent"
+            card_view:layout_constraintTop_toBottomOf="@id/tvMins" />
+
+    </android.support.constraint.ConstraintLayout>
+
+</android.support.v7.widget.CardView>
