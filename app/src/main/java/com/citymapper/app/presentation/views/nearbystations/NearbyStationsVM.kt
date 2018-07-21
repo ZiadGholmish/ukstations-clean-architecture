@@ -27,12 +27,12 @@ class NearbyStationsVM @Inject constructor(private val fetchStopPointsUseCase: F
     //to listen for the order update status
     val stopPointsRequestState = MutableLiveData<RequestState>()
 
+    private val stopTypes = listOf("NaptanMetroStation","NaptanMetroPlatform" , "NaptanMetroEntrance" , "NaptanMetroAccessArea")
 
     fun loadStopPointsTest(lat: Double, lon: Double) {
-        Log.e("Lat and lon", "${lat} -- ${lon}")
         compositeDisposable.add(
                 fetchStopPointsUseCase
-                        .fetchStopPoints("NaptanRailStation", 1000, lat, lon)
+                        .fetchStopPoints(stopTypes.joinToString(), 1000, lat, lon)
                         .doOnError { stopPointsRequestState.value = RequestState.Complete }
                         .doOnNext { stopPointsRequestState.value = RequestState.Complete }
                         .doOnSubscribe { stopPointsRequestState.value = RequestState.Loading }
@@ -75,7 +75,6 @@ class NearbyStationsVM @Inject constructor(private val fetchStopPointsUseCase: F
     private fun handleError(result: NetworkHttpError) {
         stopPointsNetworkHttpError.value = result
     }
-
 
     override fun onCleared() {
         if (!compositeDisposable.isDisposed) {

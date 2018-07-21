@@ -2,12 +2,15 @@ package com.citymapper.app.presentation.views.nearbystations
 
 import android.arch.lifecycle.LifecycleOwner
 import com.citymapper.app.data.remote.models.stops.StopPoint
+import com.google.android.gms.maps.model.LatLng
 
 interface NearbyStationsController : LifecycleOwner {
 
     fun showStopPoints(stopPoints: List<StopPoint>)
 
     fun zoomToStations(stopPoint: StopPoint?)
+
+    fun moveMapToDefaultLocation(defaultLatLng: LatLng)
 
     fun showNoPointsAvailable()
 

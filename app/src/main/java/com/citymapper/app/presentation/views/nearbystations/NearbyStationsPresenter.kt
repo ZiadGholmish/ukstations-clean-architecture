@@ -6,6 +6,7 @@ import com.citymapper.app.app.AbsPresenter
 import com.citymapper.app.data.remote.models.RequestState
 import com.citymapper.app.data.remote.models.stops.NetworkHttpError
 import com.citymapper.app.data.remote.models.stops.StopPoint
+import com.citymapper.app.util.LocationUtil
 import com.google.android.gms.maps.model.LatLng
 import javax.inject.Inject
 
@@ -19,7 +20,11 @@ class NearbyStationsPresenter @Inject constructor() : AbsPresenter<NearbyStation
     }
 
     fun fetchStopPoints(markerPosition: LatLng) {
-        nearbyStationsVM.loadStopPointsTest(markerPosition.latitude, markerPosition.longitude)
+        if (!LocationUtil.checkLocationInsideCountry(markerPosition)) {
+            mView?.moveMapToDefaultLocation(LatLng(LocationUtil.defaultLat, LocationUtil.defaultLon))
+        } else {
+            nearbyStationsVM.loadStopPointsTest(markerPosition.latitude, markerPosition.longitude)
+        }
     }
 
     /**

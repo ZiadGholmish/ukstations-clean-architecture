@@ -33,8 +33,6 @@ class NearbyStationsActivity : AppCompatActivity(), NearbyStationsController, On
 
     private lateinit var mMap: GoogleMap
 
-    private lateinit var mClusterManager: ClusterManager<StopPointClusterMapItem>
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_nearby_stations)
@@ -71,7 +69,6 @@ class NearbyStationsActivity : AppCompatActivity(), NearbyStationsController, On
      */
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
-        setUpCluster()
         mMap.setOnInfoWindowClickListener(this)
         mMap.setInfoWindowAdapter(this)
         setupPresenterAndVM()
@@ -99,20 +96,18 @@ class NearbyStationsActivity : AppCompatActivity(), NearbyStationsController, On
         return null
     }
 
-    private fun setUpCluster() {
-        mClusterManager = ClusterManager(this, mMap)
-        mMap.setOnCameraIdleListener(mClusterManager)
-        mMap.setOnMarkerClickListener(mClusterManager)
-    }
-
     override fun showStopPoints(stopPoints: List<StopPoint>) {
-        //  mClusterManager.clearItems()
-        // mClusterManager.addItems(stopPoints.map { it.toClusterItem() })
-
+        mMap.clear()
         stopPoints.forEach {
             mMap.addMarker(MarkerOptions()
                     .position(LatLng(it.lat, it.lon)))
         }
+
+    }
+
+
+    override fun moveMapToDefaultLocation(defaultLatLng: LatLng) {
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(defaultLatLng, 10f))
     }
 
     override fun zoomToStations(stopPoint: StopPoint?) {
