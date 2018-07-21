@@ -2,6 +2,7 @@ package com.citymapper.app.presentation.views.nearbystations
 
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
+import android.util.Log
 import com.citymapper.app.data.remote.models.RequestState
 import com.citymapper.app.data.remote.models.stops.NetworkHttpError
 import com.citymapper.app.data.remote.models.stops.StopPoint
@@ -10,9 +11,12 @@ import com.citymapper.app.data.remote.models.stops.StopPointsPayload
 import com.citymapper.app.data.remote.repository.RepositoryImpl
 import com.citymapper.app.domain.repository.StopPointRepository
 import com.citymapper.app.domain.usecase.FetchStopPointsUseCase
+import io.reactivex.disposables.CompositeDisposable
 import javax.inject.Inject
 
 class NearbyStationsVM @Inject constructor(private val fetchStopPointsUseCase: FetchStopPointsUseCase) : ViewModel() {
+
+    private val compositeDisposable = CompositeDisposable()
 
     //points
     val stopPointsLiveData = MutableLiveData<List<StopPoint>>()
@@ -24,18 +28,20 @@ class NearbyStationsVM @Inject constructor(private val fetchStopPointsUseCase: F
     val stopPointsRequestState = MutableLiveData<RequestState>()
 
 
-    fun loadStopPointsTest() {
-        fetchStopPointsUseCase
-                .fetchStopPoints("NaptanRailStation", 1000, 51.583157, -0.074757)
-                .doOnError { stopPointsRequestState.value = RequestState.Complete }
-                .doOnNext { stopPointsRequestState.value = RequestState.Complete }
-                .doOnSubscribe { stopPointsRequestState.value = RequestState.Loading }
-                .subscribe({ response ->
-                    handleNetworkResult(response)
-                }, { error ->
-                    stopPointsRequestState.value = RequestState.Complete
-                    error.printStackTrace()
-                })
+    fun loadStopPointsTest(lat: Double, lon: Double) {
+        Log.e("Lat and lon", "${lat} -- ${lon}")
+        compositeDisposable.add(
+                fetchStopPointsUseCase
+                        .fetchStopPoints("NaptanRailStation", 1000, lat, lon)
+                        .doOnError { stopPointsRequestState.value = RequestState.Complete }
+                        .doOnNext { stopPointsRequestState.value = RequestState.Complete }
+                        .doOnSubscribe { stopPointsRequestState.value = RequestState.Loading }
+                        .subscribe({ response ->
+                            handleNetworkResult(response)
+                        }, { error ->
+                            stopPointsRequestState.value = RequestState.Complete
+                            error.printStackTrace()
+                        }))
     }
 
 
@@ -58,7 +64,7 @@ class NearbyStationsVM @Inject constructor(private val fetchStopPointsUseCase: F
             is StopPointsPayload.StopPointsModelsSealed -> {
                 if (!result.stopPoints.isEmpty()) {
                     stopPointsLiveData.value = result.stopPoints
-                } else stopPointsNetworkHttpError.value = NetworkHttpError.UnknownError(500, "Error from the api")
+                } else stopPointsRequestState.value = RequestState.Complete
             }
         }
     }
@@ -68,6 +74,14 @@ class NearbyStationsVM @Inject constructor(private val fetchStopPointsUseCase: F
      */
     private fun handleError(result: NetworkHttpError) {
         stopPointsNetworkHttpError.value = result
+    }
+
+
+    override fun onCleared() {
+        if (!compositeDisposable.isDisposed) {
+            compositeDisposable.dispose()
+        }
+        super.onCleared()
     }
 
 }

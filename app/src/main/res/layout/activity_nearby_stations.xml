@@ -17,11 +17,23 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:context="com.mytaxitask.presentation.views.vehicledetails.VehicleDetailsMapActivity" />
 
+    <ImageView
+        android:id="@+id/locationMarker"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:scaleType="fitCenter"
+        android:src="@drawable/ic_if_map_marker"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <android.support.v4.widget.ContentLoadingProgressBar
         android:id="@+id/loadingView"
         style="@style/Widget.AppCompat.ProgressBar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_marginBottom="16.5dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

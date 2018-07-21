@@ -6,6 +6,7 @@ import com.citymapper.app.app.AbsPresenter
 import com.citymapper.app.data.remote.models.RequestState
 import com.citymapper.app.data.remote.models.stops.NetworkHttpError
 import com.citymapper.app.data.remote.models.stops.StopPoint
+import com.google.android.gms.maps.model.LatLng
 import javax.inject.Inject
 
 class NearbyStationsPresenter @Inject constructor() : AbsPresenter<NearbyStationsController>() {
@@ -15,9 +16,11 @@ class NearbyStationsPresenter @Inject constructor() : AbsPresenter<NearbyStation
     fun initPresenter(nearbyStationsVM: NearbyStationsVM) {
         this.nearbyStationsVM = nearbyStationsVM
         setObservers()
-        nearbyStationsVM.loadStopPointsTest()
     }
 
+    fun fetchStopPoints(markerPosition: LatLng) {
+        nearbyStationsVM.loadStopPointsTest(markerPosition.latitude, markerPosition.longitude)
+    }
 
     /**
      * set the observers for the live data for the request state, data and errors
@@ -42,7 +45,7 @@ class NearbyStationsPresenter @Inject constructor() : AbsPresenter<NearbyStation
 
     private fun showStopPoints(stopPoints: List<StopPoint>) {
         mView?.showStopPoints(stopPoints)
-        mView?.zoomToStations(stopPoints.firstOrNull())
+        //  mView?.zoomToStations(stopPoints.firstOrNull())
     }
 
 
@@ -53,8 +56,9 @@ class NearbyStationsPresenter @Inject constructor() : AbsPresenter<NearbyStation
         when (result) {
             is NetworkHttpError.UnAuthorizedRequest -> mView?.showMessage(R.string.invalid_credential)
             is NetworkHttpError.InternalServerError -> mView?.showMessage(R.string.service_not_available)
-            is NetworkHttpError.UnknownError -> mView?.showFetchingError("Unknown error ${result.code}: ${result.message}")
+            is NetworkHttpError.GeneralError -> mView?.showFetchingError("${result.message}")
         }
     }
+
 
 }

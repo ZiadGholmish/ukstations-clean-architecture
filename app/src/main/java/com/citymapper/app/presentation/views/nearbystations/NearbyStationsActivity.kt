@@ -15,11 +15,11 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.Marker
 import com.google.maps.android.clustering.ClusterManager
-import io.reactivex.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.activity_nearby_stations.*
 import javax.inject.Inject
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.model.MarkerOptions
 
 
 class NearbyStationsActivity : AppCompatActivity(), NearbyStationsController, OnMapReadyCallback,
@@ -38,7 +38,6 @@ class NearbyStationsActivity : AppCompatActivity(), NearbyStationsController, On
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_nearby_stations)
-        setupPresenterAndVM()
         setupGoogleMap()
     }
 
@@ -55,7 +54,9 @@ class NearbyStationsActivity : AppCompatActivity(), NearbyStationsController, On
      *  the map is ready to be used.
      */
     private fun setupGoogleMap() {
-        val mapFragment = supportFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
+        val mapFragment = supportFragmentManager.findFragmentById(R.id.map)
+                as SupportMapFragment
+        mapFragment.retainInstance = true
         mapFragment.getMapAsync(this)
     }
 
@@ -73,8 +74,17 @@ class NearbyStationsActivity : AppCompatActivity(), NearbyStationsController, On
         setUpCluster()
         mMap.setOnInfoWindowClickListener(this)
         mMap.setInfoWindowAdapter(this)
+        setupPresenterAndVM()
+        setOnCameraIdeaListener()
     }
 
+    private fun setOnCameraIdeaListener() {
+        mMap?.let {
+            mMap.setOnCameraIdleListener {
+                mPresenter.fetchStopPoints(mMap.cameraPosition.target)
+            }
+        }
+    }
 
     override fun onInfoWindowClick(p0: Marker?) {
     }
@@ -96,7 +106,13 @@ class NearbyStationsActivity : AppCompatActivity(), NearbyStationsController, On
     }
 
     override fun showStopPoints(stopPoints: List<StopPoint>) {
-        mClusterManager.addItems(stopPoints.map { it.toClusterItem() })
+        //  mClusterManager.clearItems()
+        // mClusterManager.addItems(stopPoints.map { it.toClusterItem() })
+
+        stopPoints.forEach {
+            mMap.addMarker(MarkerOptions()
+                    .position(LatLng(it.lat, it.lon)))
+        }
     }
 
     override fun zoomToStations(stopPoint: StopPoint?) {
@@ -124,4 +140,5 @@ class NearbyStationsActivity : AppCompatActivity(), NearbyStationsController, On
     override fun hideLoading() {
         loadingView.hide()
     }
+
 }

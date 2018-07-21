@@ -6,7 +6,10 @@ data class TubeModel(
         val stopPoints: List<StopPoint>,
         val pageSize: Int,
         val total: Int,
-        val page: Int
+        val page: Int,
+        val message: String,
+        val httpStatusCode: Int
+
 )
 
 data class StopPoint(
@@ -25,48 +28,47 @@ data class StopPoint(
         val distance: Double,
         val placeType: String,
         val additionalProperties: List<AdditionalProperty>,
-        val children: List<Children>,
         val lat: Double,
         val lon: Double
 )
 
 data class AdditionalProperty(
-    val category: String,
-    val key: String,
-    val sourceSystemKey: String,
-    val value: String
+        val category: String,
+        val key: String,
+        val sourceSystemKey: String,
+        val value: String
 )
 
-data class Children(
-    val naptanId: String,
-    val modes: List<Any>,
-    val icsCode: String,
-    val stationNaptan: String,
-    val status: Boolean,
-    val id: String,
-    val commonName: String,
-    val placeType: String,
-    val additionalProperties: List<Any>,
-    val children: List<Any>,
-    val lat: Int,
-    val lon: Int
-)
+//data class Children(
+//    val naptanId: String,
+//    val modes: List<Any>,
+//    val icsCode: String,
+//    val stationNaptan: String,
+//    val status: Boolean,
+//    val id: String,
+//    val commonName: String,
+//    val placeType: String,
+//    val additionalProperties: List<Any>,
+//    val children: List<Any>,
+//    val lat: Int,
+//    val lon: Int
+//)
 
 data class LineModeGroup(
-    val modeName: String,
-    val lineIdentifier: List<String>
+        val modeName: String,
+        val lineIdentifier: List<String>
 )
 
 data class Line(
-    val id: String,
-    val name: String,
-    val uri: String,
-    val type: String
+        val id: String,
+        val name: String,
+        val uri: String,
+        val type: String
 )
 
 
 data class LineGroup(
-    val naptanIdReference: String,
-    val stationAtcoCode: String,
-    val lineIdentifier: List<String>
+        val naptanIdReference: String,
+        val stationAtcoCode: String,
+        val lineIdentifier: List<String>
 )
