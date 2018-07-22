@@ -18,21 +18,20 @@ class NearbyStationsVM @Inject constructor(private val fetchStopPointsUseCase: F
 
     private val compositeDisposable = CompositeDisposable()
 
-    //points
     val stopPointsLiveData = MutableLiveData<List<StopPoint>>()
-
-    //to listen for the errors in the network
     val stopPointsNetworkHttpError = MutableLiveData<NetworkHttpError>()
-
-    //to listen for the order update status
     val stopPointsRequestState = MutableLiveData<RequestState>()
 
-    private val stopTypes = listOf("NaptanMetroStation","NaptanMetroPlatform" , "NaptanMetroEntrance" , "NaptanMetroAccessArea")
+    private val stopTypes = listOf("NaptanMetroStation", "NaptanMetroPlatform", "NaptanMetroEntrance", "NaptanMetroAccessArea")
+    private val radius = 1000
 
-    fun loadStopPointsTest(lat: Double, lon: Double) {
+    /**
+     * load the available stop points within 1 km from the user a
+     */
+    fun loadStopPointsByLocation(lat: Double, lon: Double) {
         compositeDisposable.add(
                 fetchStopPointsUseCase
-                        .fetchStopPoints(stopTypes.joinToString(), 1000, lat, lon)
+                        .fetchStopPoints(stopTypes.joinToString(), radius, lat, lon)
                         .doOnError { stopPointsRequestState.value = RequestState.Complete }
                         .doOnNext { stopPointsRequestState.value = RequestState.Complete }
                         .doOnSubscribe { stopPointsRequestState.value = RequestState.Loading }
@@ -54,7 +53,6 @@ class NearbyStationsVM @Inject constructor(private val fetchStopPointsUseCase: F
             is NetworkHttpError -> handleError(result)
         }
     }
-
 
     /**
      * handle the success result and check the envelop for messages or what

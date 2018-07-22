@@ -27,7 +27,7 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory
 
 
 class NearbyStationsActivity : AppCompatActivity(), NearbyStationsController, OnMapReadyCallback,
-        GoogleMap.OnInfoWindowClickListener, GoogleMap.InfoWindowAdapter {
+        GoogleMap.OnInfoWindowClickListener {
 
     @Inject
     lateinit var mPresenter: NearbyStationsPresenter
@@ -65,19 +65,12 @@ class NearbyStationsActivity : AppCompatActivity(), NearbyStationsController, On
         mapFragment.getMapAsync(this)
     }
 
-    /**
-     * Manipulates the map once available.
-     * This callback is triggered when the map is ready to be used.
-     * This is where we can add markers or lines, add listeners or move the camera. In this case,
-     * we just add a marker near Sydney, Australia.
-     * If Google Play services is not installed on the device, the user will be prompted to install
-     * it inside the SupportMapFragment. This method will only be triggered once the user has
-     * installed Google Play services and returned to the app.
-     */
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
         mMap.setOnInfoWindowClickListener(this)
-        mMap.setInfoWindowAdapter(this)
+        mMap.setInfoWindowAdapter(CustomInfoWindowGoogleMap(this))
+        //recommended by the google to fix the stack overflow exception
+        mMap.isIndoorEnabled = false
         addCustomSettingsToMap()
         setupPresenterAndVM()
         setOnCameraIdeaListener()
@@ -102,26 +95,6 @@ class NearbyStationsActivity : AppCompatActivity(), NearbyStationsController, On
     override fun onInfoWindowClick(p0: Marker?) {
     }
 
-    override fun getInfoWindow(marker: Marker): View {
-        val infoView = layoutInflater.inflate(R.layout.stop_point_arrivals_times_layout, null)
-        showMarkerInfo(marker, infoView)
-        return infoView
-    }
-
-
-    private fun showMarkerInfo(marker: Marker, infoView: View) {
-        val tvStationName: TextView = infoView.findViewById(R.id.tvStationName)
-        val tvMins: TextView = infoView.findViewById(R.id.tvMins)
-        //get the object for the stop point
-        val stopPoint: StopPoint = marker.tag as StopPoint
-        tvStationName.text = stopPoint.commonName.trim()
-        tvMins.text = stopPoint.placeType.trim()
-    }
-
-
-    override fun getInfoContents(marker: Marker): View? {
-        return null
-    }
 
     /**
      * show the stop points available and set the tag for each marker
@@ -131,7 +104,7 @@ class NearbyStationsActivity : AppCompatActivity(), NearbyStationsController, On
         stopPoints.forEach {
             val marker = mMap.addMarker(MarkerOptions()
                     .position(LatLng(it.lat, it.lon)))
-            marker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.tube_big_icon))
+            marker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.tube_icon))
             marker.tag = it
             currentMarkers.add(marker)
         }
