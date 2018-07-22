@@ -8,6 +8,8 @@ import com.citymapper.app.data.remote.models.stops.NetworkHttpError
 import com.citymapper.app.data.remote.models.stops.StopPoint
 import com.citymapper.app.util.LocationUtil
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.Marker
+import com.google.android.gms.maps.model.MarkerOptions
 import javax.inject.Inject
 
 class NearbyStationsPresenter @Inject constructor() : AbsPresenter<NearbyStationsController>() {
@@ -50,7 +52,6 @@ class NearbyStationsPresenter @Inject constructor() : AbsPresenter<NearbyStation
 
     private fun showStopPoints(stopPoints: List<StopPoint>) {
         mView?.showStopPoints(stopPoints)
-        //  mView?.zoomToStations(stopPoints.firstOrNull())
     }
 
 

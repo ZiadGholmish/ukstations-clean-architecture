@@ -11,7 +11,7 @@ import com.citymapper.app.R
 import com.citymapper.app.app.CitymapperApp
 import com.citymapper.app.dagger.ViewModelFactory
 import com.citymapper.app.data.remote.models.stops.StopPoint
-import com.citymapper.app.util.toClusterItem
+
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
@@ -23,8 +23,7 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.model.MarkerOptions
 import android.widget.RelativeLayout
-
-
+import com.google.android.gms.maps.model.BitmapDescriptorFactory
 
 
 class NearbyStationsActivity : AppCompatActivity(), NearbyStationsController, OnMapReadyCallback,
@@ -37,6 +36,9 @@ class NearbyStationsActivity : AppCompatActivity(), NearbyStationsController, On
     lateinit var viewModelFactory: ViewModelFactory
 
     private lateinit var mMap: GoogleMap
+
+    private var currentMarkers = mutableListOf<Marker>()
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -76,8 +78,17 @@ class NearbyStationsActivity : AppCompatActivity(), NearbyStationsController, On
         mMap = googleMap
         mMap.setOnInfoWindowClickListener(this)
         mMap.setInfoWindowAdapter(this)
+        addCustomSettingsToMap()
         setupPresenterAndVM()
         setOnCameraIdeaListener()
+    }
+
+    private fun addCustomSettingsToMap() {
+        mMap.uiSettings.isMapToolbarEnabled = false
+        mMap.setOnMarkerClickListener {
+            it.showInfoWindow()
+            return@setOnMarkerClickListener true
+        }
     }
 
     private fun setOnCameraIdeaListener() {
@@ -89,11 +100,10 @@ class NearbyStationsActivity : AppCompatActivity(), NearbyStationsController, On
     }
 
     override fun onInfoWindowClick(p0: Marker?) {
-        Log.e("info clicked", "info clicked")
     }
 
     override fun getInfoWindow(marker: Marker): View {
-        var infoView = layoutInflater.inflate(R.layout.stop_point_arrivals_times_layout, null)
+        val infoView = layoutInflater.inflate(R.layout.stop_point_arrivals_times_layout, null)
         showMarkerInfo(marker, infoView)
         return infoView
     }
@@ -104,8 +114,8 @@ class NearbyStationsActivity : AppCompatActivity(), NearbyStationsController, On
         val tvMins: TextView = infoView.findViewById(R.id.tvMins)
         //get the object for the stop point
         val stopPoint: StopPoint = marker.tag as StopPoint
-        tvStationName.text  = stopPoint.commonName
-        tvMins.text = stopPoint.placeType
+        tvStationName.text = stopPoint.commonName.trim()
+        tvMins.text = stopPoint.placeType.trim()
     }
 
 
@@ -113,12 +123,28 @@ class NearbyStationsActivity : AppCompatActivity(), NearbyStationsController, On
         return null
     }
 
+    /**
+     * show the stop points available and set the tag for each marker
+     */
     override fun showStopPoints(stopPoints: List<StopPoint>) {
-        mMap.clear()
+        clearCurrentMarker()
         stopPoints.forEach {
-            mMap.addMarker(MarkerOptions()
-                    .position(LatLng(it.lat, it.lon))).tag = it
+            val marker = mMap.addMarker(MarkerOptions()
+                    .position(LatLng(it.lat, it.lon)))
+            marker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.tube_big_icon))
+            marker.tag = it
+            currentMarkers.add(marker)
         }
+    }
+
+    /**
+     * remove the current markers
+     */
+    private fun clearCurrentMarker() {
+        currentMarkers.forEach {
+            it.remove()
+        }
+        currentMarkers.clear()
     }
 
     override fun moveMapToDefaultLocation(defaultLatLng: LatLng) {
@@ -127,7 +153,7 @@ class NearbyStationsActivity : AppCompatActivity(), NearbyStationsController, On
 
     override fun zoomToStations(stopPoint: StopPoint?) {
         stopPoint?.let {
-            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(LatLng(it.lat, it.lon), 10f))
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(LatLng(it.lat, it.lon), 15f))
         }
     }
 
