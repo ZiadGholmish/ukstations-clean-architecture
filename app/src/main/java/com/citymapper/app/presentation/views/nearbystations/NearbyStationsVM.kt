@@ -98,7 +98,7 @@ class NearbyStationsVM @Inject constructor(private val fetchStopPointsUseCase: F
         val updatedList = stopPointsLiveData.value?.map {
             if (!arrivalTimes.isEmpty()) {
                 if (arrivalTimes[0].naptanId == it.id) {
-                    it.copy(arrivalsTimes = arrivalTimes.takeLast(3))
+                    it.copy(arrivalsTimes = arrivalTimes.takeLast(3).sortedBy { it.timeToStation })
                 } else {
                     it
                 }

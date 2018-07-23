@@ -51,7 +51,7 @@
         android:id="@+id/arrivalsTimesCard"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:behavior_hideable="true"
+        app:behavior_hideable="false"
         app:behavior_peekHeight="@dimen/bottomSheetPeekHeight"
         app:layout_behavior="android.support.design.widget.BottomSheetBehavior"
         card_view:cardBackgroundColor="@color/colorTube"
