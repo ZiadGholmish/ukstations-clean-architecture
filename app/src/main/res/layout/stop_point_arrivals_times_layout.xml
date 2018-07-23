@@ -29,17 +29,17 @@
 
         <TextView
             android:id="@+id/tvStationName"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/activity_margin"
             android:ellipsize="end"
             android:lines="1"
-            android:maxLength="20"
             android:paddingEnd="@dimen/generic_padding"
             android:paddingStart="@dimen/generic_padding"
             android:text="White City"
             android:textSize="@dimen/titleTextSize"
             android:textStyle="bold"
+            card_view:layout_constraintEnd_toEndOf="parent"
             card_view:layout_constraintStart_toEndOf="@id/imgTubeIcon"
             card_view:layout_constraintTop_toTopOf="parent" />
 

@@ -37,6 +37,8 @@ class NearbyStationsActivity : AppCompatActivity(), NearbyStationsController, On
 
     private var currentMarkers = mutableListOf<Marker>()
 
+    private lateinit var adapter: StopPointAdapter
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -114,11 +116,12 @@ class NearbyStationsActivity : AppCompatActivity(), NearbyStationsController, On
         val linearLayout = LinearLayoutManager(this)
         linearLayout.orientation = LinearLayoutManager.VERTICAL
         stopPointRecycler.layoutManager = linearLayout
+        adapter = StopPointAdapter(mutableListOf(), applicationContext)
+        stopPointRecycler.adapter = adapter
     }
 
     private fun showStopPointsInAdapter(stopPoints: List<StopPoint>) {
-        val stopPointAdapter = StopPointAdapter(stopPoints, applicationContext)
-        stopPointRecycler.adapter = stopPointAdapter
+        adapter.setNewStopPoints(stopPoints)
     }
 
 

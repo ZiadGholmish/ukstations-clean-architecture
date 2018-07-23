@@ -17,8 +17,8 @@ class ArrivalTimeViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
     fun bind(arrivalTimeModel: ArrivalTimeModel) {
         tvArrivalTime.text = arrivalTimeModel.expectedArrival
-        tvStreetName.text = arrivalTimeModel.destinationName
-        tvArrivalTimeInMinute.text = "${arrivalTimeModel.timeToStation}"
+        tvStreetName.text = "${arrivalTimeModel.direction} - ${arrivalTimeModel.towards}"
+        tvArrivalTimeInMinute.text = "${(arrivalTimeModel.timeToStation / 60) }"
         tvPlatNumber.text = arrivalTimeModel.lineName
     }
 

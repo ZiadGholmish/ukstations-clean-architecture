@@ -23,5 +23,4 @@ class ArrivalTimeAdapter(private val arrivalTimes: List<ArrivalTimeModel>, val c
         holder.bind(arrivalTimes[holder.adapterPosition])
     }
 
-
 }

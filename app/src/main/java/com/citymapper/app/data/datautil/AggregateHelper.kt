@@ -34,11 +34,13 @@ fun Response<List<ArrivalTimeEntity>>.toAggregateArrivalsResult() =
  * extension function to map the entity to the stop point domain model
  */
 fun StopPointEntity.toStopPoint(): StopPoint {
-    return StopPoint(this.id,this.commonName, this.distance, this.lat, this.lon, listOf())
+    return StopPoint(this.id, this.commonName, this.distance, this.lat, this.lon, listOf())
 }
 
 fun ArrivalTimeEntity.toArrivalTime(): ArrivalTimeModel {
-    return ArrivalTimeModel(this.id , this.naptanId , this.lineName, this.destinationName, this.timeToStation, this.expectedArrival)
+    return ArrivalTimeModel(this.id, this.naptanId, this.lineName,
+            this.destinationName, this.timeToStation,
+            this.expectedArrival, this.towards, this.direction)
 }
 
 
