@@ -3,9 +3,7 @@ package com.citymapper.app.presentation.views.nearbystations
 import android.arch.lifecycle.ViewModelProviders
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
-import android.view.View
-import android.widget.TextView
+import android.support.v7.widget.LinearLayoutManager
 import android.widget.Toast
 import com.citymapper.app.R
 import com.citymapper.app.app.CitymapperApp
@@ -16,13 +14,13 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.Marker
-import com.google.maps.android.clustering.ClusterManager
 import kotlinx.android.synthetic.main.activity_nearby_stations.*
 import javax.inject.Inject
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.model.MarkerOptions
-import android.widget.RelativeLayout
+import com.citymapper.app.presentation.views.nearbystations.adapter.CustomInfoWindowGoogleMap
+import com.citymapper.app.presentation.views.nearbystations.adapter.StopPointAdapter
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 
 
@@ -43,6 +41,7 @@ class NearbyStationsActivity : AppCompatActivity(), NearbyStationsController, On
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_nearby_stations)
+        setupArrivalTimesRecycler()
         setupGoogleMap()
     }
 
@@ -108,7 +107,20 @@ class NearbyStationsActivity : AppCompatActivity(), NearbyStationsController, On
             marker.tag = it
             currentMarkers.add(marker)
         }
+        showStopPoints()
     }
+
+    private fun setupArrivalTimesRecycler() {
+        val linearLayout = LinearLayoutManager(this)
+        linearLayout.orientation = LinearLayoutManager.VERTICAL
+        stopPointRecycler.layoutManager = linearLayout
+    }
+
+    private fun showStopPoints() {
+        val stopPointAdapter = StopPointAdapter(listOf(), applicationContext)
+        stopPointRecycler.adapter = stopPointAdapter
+    }
+
 
     /**
      * remove the current markers
