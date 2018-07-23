@@ -1,18 +1,17 @@
 package com.citymapper.app.data.remote.models.stops
 
 
-data class TubeModel(
+data class StopPointsResponseModel(
         val centrePoint: List<Double>,
-        val stopPoints: List<StopPoint>,
+        val stopPoints: List<StopPointEntity>,
         val pageSize: Int,
         val total: Int,
         val page: Int,
         val message: String,
         val httpStatusCode: Int
-
 )
 
-data class StopPoint(
+data class StopPointEntity(
         val naptanId: String,
         val modes: List<String>,
         val icsCode: String,
@@ -38,21 +37,6 @@ data class AdditionalProperty(
         val sourceSystemKey: String,
         val value: String
 )
-
-//data class Children(
-//    val naptanId: String,
-//    val modes: List<Any>,
-//    val icsCode: String,
-//    val stationNaptan: String,
-//    val status: Boolean,
-//    val id: String,
-//    val commonName: String,
-//    val placeType: String,
-//    val additionalProperties: List<Any>,
-//    val children: List<Any>,
-//    val lat: Int,
-//    val lon: Int
-//)
 
 data class LineModeGroup(
         val modeName: String,

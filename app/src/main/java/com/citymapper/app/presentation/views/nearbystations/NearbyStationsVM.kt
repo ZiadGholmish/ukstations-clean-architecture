@@ -2,14 +2,11 @@ package com.citymapper.app.presentation.views.nearbystations
 
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
-import android.util.Log
 import com.citymapper.app.data.remote.models.RequestState
-import com.citymapper.app.data.remote.models.stops.NetworkHttpError
-import com.citymapper.app.data.remote.models.stops.StopPoint
-import com.citymapper.app.data.remote.models.stops.StopPointsNetworkResult
-import com.citymapper.app.data.remote.models.stops.StopPointsPayload
-import com.citymapper.app.data.remote.repository.RepositoryImpl
-import com.citymapper.app.domain.repository.StopPointRepository
+import com.citymapper.app.domain.models.stoppoint.NetworkHttpError
+import com.citymapper.app.domain.models.stoppoint.StopPintsPayLoad
+import com.citymapper.app.domain.models.stoppoint.StopPoint
+import com.citymapper.app.domain.models.stoppoint.StopPointsResult
 import com.citymapper.app.domain.usecase.FetchStopPointsUseCase
 import io.reactivex.disposables.CompositeDisposable
 import javax.inject.Inject
@@ -47,9 +44,9 @@ class NearbyStationsVM @Inject constructor(private val fetchStopPointsUseCase: F
     /**
      * handle the response from login or check the error code
      */
-    private fun handleNetworkResult(result: StopPointsNetworkResult) {
+    private fun handleNetworkResult(result: StopPointsResult) {
         return when (result) {
-            is StopPointsPayload -> handleResult(result)
+            is StopPintsPayLoad -> handleResult(result)
             is NetworkHttpError -> handleError(result)
         }
     }
@@ -57,11 +54,11 @@ class NearbyStationsVM @Inject constructor(private val fetchStopPointsUseCase: F
     /**
      * handle the success result and check the envelop for messages or what
      */
-    private fun handleResult(result: StopPointsPayload) {
+    private fun handleResult(result: StopPintsPayLoad) {
         when (result) {
-            is StopPointsPayload.StopPointsModelsSealed -> {
-                if (!result.stopPoints.isEmpty()) {
-                    stopPointsLiveData.value = result.stopPoints
+            is StopPintsPayLoad.Data -> {
+                if (!result.data.isEmpty()) {
+                    stopPointsLiveData.value = result.data
                 } else stopPointsRequestState.value = RequestState.Complete
             }
         }

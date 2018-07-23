@@ -4,7 +4,7 @@ import android.support.v7.app.AppCompatActivity
 import android.view.View
 import android.widget.TextView
 import com.citymapper.app.R
-import com.citymapper.app.data.remote.models.stops.StopPoint
+import com.citymapper.app.domain.models.stoppoint.StopPoint
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.Marker
 
@@ -26,10 +26,10 @@ class CustomInfoWindowGoogleMap(private val context: AppCompatActivity) : Google
         val stopPoint: StopPoint = marker.tag as StopPoint
 
         val tvStationName: TextView = infoView.findViewById(R.id.tvStationName)
-        val tvMins: TextView = infoView.findViewById(R.id.tvMins)
+        val tvMins: TextView = infoView.findViewById(R.id.tvMinutes)
 
         tvStationName.text = stopPoint.commonName.trim()
-        tvMins.text = stopPoint.stopType
+        tvMins.text = stopPoint.distance.toString()
 
     }
 

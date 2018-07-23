@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/card_view"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingBottom="@dimen/activity_margin"
+    android:paddingEnd="@dimen/activity_margin"
+    android:paddingStart="@dimen/activity_margin"
+    android:paddingTop="@dimen/activity_margin">
+
+    <ImageView
+        android:id="@+id/imgTubeIcon"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:src="@drawable/tube_big_icon"
+        card_view:layout_constraintStart_toStartOf="parent"
+        card_view:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tvArrivalTime"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+
+        android:ellipsize="end"
+        android:lines="1"
+        android:maxLength="20"
+        android:paddingEnd="@dimen/generic_padding"
+        android:paddingStart="@dimen/generic_padding"
+        android:text="09.67"
+        android:textSize="@dimen/titleTextSize"
+        android:textStyle="bold"
+        card_view:layout_constraintEnd_toStartOf="@+id/tvArrivalTimeInMinute"
+        card_view:layout_constraintStart_toEndOf="@id/imgTubeIcon"
+        card_view:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tvStreetName"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:paddingStart="@dimen/generic_padding"
+        android:text="London Street"
+        android:textSize="@dimen/titleTextSize"
+        card_view:layout_constraintEnd_toEndOf="@id/tvArrivalTime"
+        card_view:layout_constraintStart_toStartOf="@id/tvArrivalTime"
+        card_view:layout_constraintTop_toBottomOf="@id/tvArrivalTime" />
+
+    <TextView
+        android:id="@+id/tvArrivalTimeInMinute"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:lines="1"
+        android:maxLength="20"
+        android:paddingStart="@dimen/generic_padding"
+        android:text="10 min"
+        android:textSize="@dimen/titleTextSize"
+        card_view:layout_constraintEnd_toEndOf="parent"
+        card_view:layout_constraintTop_toTopOf="@id/tvArrivalTime" />
+
+    <TextView
+        android:id="@+id/tvPlatNumber"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:lines="1"
+        android:maxLength="20"
+        android:paddingStart="@dimen/generic_padding"
+        android:text="Plat. 6"
+        android:textSize="@dimen/titleTextSize"
+        android:textStyle="bold"
+        card_view:layout_constraintEnd_toEndOf="parent"
+        card_view:layout_constraintTop_toBottomOf="@id/tvArrivalTimeInMinute" />
+
+
+</android.support.constraint.ConstraintLayout>

@@ -9,10 +9,6 @@ import javax.inject.Singleton
 
 @Singleton
 class ServiceInterceptor @Inject constructor() : Interceptor {
-
-    companion object {
-    }
-
     override fun intercept(chain: Interceptor.Chain): Response {
         val request = chain.request()
         val requestBuilder = request.newBuilder()

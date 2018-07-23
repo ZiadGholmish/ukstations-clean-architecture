@@ -1,7 +1,7 @@
 package com.citymapper.app.presentation.views.nearbystations
 
 import android.arch.lifecycle.LifecycleOwner
-import com.citymapper.app.data.remote.models.stops.StopPoint
+import com.citymapper.app.domain.models.stoppoint.StopPoint
 import com.google.android.gms.maps.model.LatLng
 
 interface NearbyStationsController : LifecycleOwner {
