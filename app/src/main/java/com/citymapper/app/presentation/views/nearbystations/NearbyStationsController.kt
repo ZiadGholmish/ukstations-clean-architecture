@@ -8,6 +8,8 @@ interface NearbyStationsController : LifecycleOwner {
 
     fun showStopPoints(stopPoints: List<StopPoint>)
 
+    fun showArrivalTimes(stopPoints: List<StopPoint>)
+
     fun zoomToStations(stopPoint: StopPoint?)
 
     fun moveMapToDefaultLocation(defaultLatLng: LatLng)

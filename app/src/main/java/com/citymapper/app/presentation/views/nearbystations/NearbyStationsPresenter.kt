@@ -32,7 +32,11 @@ class NearbyStationsPresenter @Inject constructor() : AbsPresenter<NearbyStation
      */
     private fun setObservers() {
         nearbyStationsVM.stopPointsLiveData.observe(mView!!, Observer {
-            showStopPoints(it.let { it } ?: listOf())
+            mView?.showStopPoints(it.let { it } ?: listOf())
+        })
+
+        nearbyStationsVM.arrivalTimesData.observe(mView!!, Observer {
+            mView?.showArrivalTimes(it.let { it } ?: listOf())
         })
 
         nearbyStationsVM.stopPointsNetworkHttpError.observe(mView!!, Observer {
@@ -48,9 +52,6 @@ class NearbyStationsPresenter @Inject constructor() : AbsPresenter<NearbyStation
         })
     }
 
-    private fun showStopPoints(stopPoints: List<StopPoint>) {
-        mView?.showStopPoints(stopPoints)
-    }
 
     /**
      * handle the error code that come from the server

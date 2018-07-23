@@ -21,9 +21,8 @@ class NearbyStationsVM @Inject constructor(private val fetchStopPointsUseCase: F
 
     private val compositeDisposable = CompositeDisposable()
 
-    private val arrivalTimesDisposable = CompositeDisposable()
-
     val stopPointsLiveData = MutableLiveData<List<StopPoint>>()
+    val arrivalTimesData = MutableLiveData<List<StopPoint>>()
     val stopPointsNetworkHttpError = MutableLiveData<NetworkHttpError>()
     val stopPointsRequestState = MutableLiveData<RequestState>()
 
@@ -66,6 +65,7 @@ class NearbyStationsVM @Inject constructor(private val fetchStopPointsUseCase: F
             is StopPintsPayLoad.Data -> {
                 if (!result.data.isEmpty()) {
                     stopPointsLiveData.value = result.data
+                    arrivalTimesData.value = result.data
                     getArrivalTimesForStopPoints()
                 } else stopPointsRequestState.value = RequestState.Complete
             }
@@ -74,17 +74,14 @@ class NearbyStationsVM @Inject constructor(private val fetchStopPointsUseCase: F
 
 
     private fun getArrivalTimesForStopPoints() {
-//        if (!arrivalTimesDisposable.isDisposed) {
-//            arrivalTimesDisposable.dispose()
-//        }
-        stopPointsLiveData.value?.forEach {
-            arrivalTimesDisposable.add(fetchArrivalTimesUseCase
+        arrivalTimesData.value?.forEach {
+            fetchArrivalTimesUseCase
                     .fetchStopPointArrivals(it.id)
                     .doOnError { it.printStackTrace() }
                     .repeatWhen { completed -> completed.delay(30, TimeUnit.SECONDS) }
                     .subscribe {
                         checkArrivalTimesData(it)
-                    })
+                    }
         }
     }
 
@@ -95,10 +92,10 @@ class NearbyStationsVM @Inject constructor(private val fetchStopPointsUseCase: F
     }
 
     private fun updateStopPoints(arrivalTimes: List<ArrivalTimeModel>) {
-        val updatedList = stopPointsLiveData.value?.map {
+        val updatedList = arrivalTimesData.value?.map {
             if (!arrivalTimes.isEmpty()) {
                 if (arrivalTimes[0].naptanId == it.id) {
-                    it.copy(arrivalsTimes = arrivalTimes.takeLast(3).sortedBy { it.timeToStation })
+                    it.copy(arrivalsTimes = arrivalTimes.take(3).sortedBy { it.timeToStation })
                 } else {
                     it
                 }
@@ -107,7 +104,7 @@ class NearbyStationsVM @Inject constructor(private val fetchStopPointsUseCase: F
             }
         }
 
-        stopPointsLiveData.value = updatedList
+        arrivalTimesData.value = updatedList
     }
 
     /**

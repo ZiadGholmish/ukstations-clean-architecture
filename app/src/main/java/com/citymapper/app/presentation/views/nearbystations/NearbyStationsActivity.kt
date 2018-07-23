@@ -109,7 +109,6 @@ class NearbyStationsActivity : AppCompatActivity(), NearbyStationsController, On
             marker.tag = it
             currentMarkers.add(marker)
         }
-        showStopPointsInAdapter(stopPoints)
     }
 
     private fun setupArrivalTimesRecycler() {
@@ -120,10 +119,9 @@ class NearbyStationsActivity : AppCompatActivity(), NearbyStationsController, On
         stopPointRecycler.adapter = adapter
     }
 
-    private fun showStopPointsInAdapter(stopPoints: List<StopPoint>) {
+    override fun showArrivalTimes(stopPoints: List<StopPoint>) {
         adapter.setNewStopPoints(stopPoints)
     }
-
 
     /**
      * remove the current markers
