@@ -1,9 +1,11 @@
 package com.citymapper.app.data.remote.repository
 
-import com.citymapper.app.data.datautil.toAggregateResult
-import com.citymapper.app.data.remote.models.arrivaltimes.ArrivalTimeModel
+import com.citymapper.app.data.datautil.toAggregateArrivalsResult
+import com.citymapper.app.data.datautil.toAggregatePointsResult
 import com.citymapper.app.data.remote.net.APIConstants
 import com.citymapper.app.data.remote.net.APIInterface
+import com.citymapper.app.domain.models.arrivals.ArrivalTimeModel
+import com.citymapper.app.domain.models.arrivals.StopArrivalsResult
 import com.citymapper.app.domain.models.stoppoint.StopPointsResult
 import com.citymapper.app.domain.repository.StopPointRepository
 import io.reactivex.Observable
@@ -25,12 +27,11 @@ class RepositoryImpl @Inject constructor(private val apiInterface: APIInterface)
     override fun fetchStopPointsByLocation(stopTypes: String, radius: Int,
                                            lat: Double, lon: Double): Observable<StopPointsResult> {
         return apiInterface.fetchStopPointsByLocation(stopTypes, radius, lat, lon, APIConstants.app_id, APIConstants.app_key)
-                .map { it.toAggregateResult() }
-
+                .map { it.toAggregatePointsResult() }
     }
 
-
-    override fun fetchStopPointArrivals(id: String): Observable<List<ArrivalTimeModel>> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override fun fetchStopPointArrivals(id: String): Observable<StopArrivalsResult> {
+        return apiInterface.fetchStopPointArrivals(id)
+                .map { it.toAggregateArrivalsResult() }
     }
 }

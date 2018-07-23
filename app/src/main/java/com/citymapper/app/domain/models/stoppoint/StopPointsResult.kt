@@ -11,8 +11,6 @@ sealed class StopPintsPayLoad : StopPointsResult() {
  * and remove un necessary condition in on error function
  */
 sealed class NetworkHttpError : StopPointsResult() {
-    object UnAuthorizedRequest : NetworkHttpError()
-    object InternalServerError : NetworkHttpError()
-    data class GeneralError(val code: Int, val message: String) : NetworkHttpError()
+    data class Error(val code: Int, val message: String) : NetworkHttpError()
 }
 
