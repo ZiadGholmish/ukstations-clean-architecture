@@ -31,7 +31,7 @@ class RepositoryImpl @Inject constructor(private val apiInterface: APIInterface)
     }
 
     override fun fetchStopPointArrivals(id: String): Observable<StopArrivalsResult> {
-        return apiInterface.fetchStopPointArrivals(id)
+        return apiInterface.fetchStopPointArrivals(id,APIConstants.app_id, APIConstants.app_key)
                 .map { it.toAggregateArrivalsResult() }
     }
 }

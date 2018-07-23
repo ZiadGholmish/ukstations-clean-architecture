@@ -6,10 +6,11 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.citymapper.app.R
 import com.citymapper.app.domain.models.arrivals.ArrivalTimeModel
+import com.citymapper.app.domain.models.stoppoint.StopPoint
 
 import com.citymapper.app.presentation.views.nearbystations.viewholder.StopPointViewHolder
 
-class StopPointAdapter(private val arrivalTimesModel: List<ArrivalTimeModel>, val context: Context) : RecyclerView.Adapter<StopPointViewHolder>() {
+class StopPointAdapter(private val stopPoints: List<StopPoint>, val context: Context) : RecyclerView.Adapter<StopPointViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, p1: Int): StopPointViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
@@ -17,10 +18,10 @@ class StopPointAdapter(private val arrivalTimesModel: List<ArrivalTimeModel>, va
     }
 
     override fun getItemCount(): Int {
-        return 50 //stopPointArrivalTimes.size
+        return stopPoints.size
     }
 
     override fun onBindViewHolder(holder: StopPointViewHolder, position: Int) {
-        holder.bind()
+        holder.bind(stopPoints[holder.adapterPosition])
     }
 }

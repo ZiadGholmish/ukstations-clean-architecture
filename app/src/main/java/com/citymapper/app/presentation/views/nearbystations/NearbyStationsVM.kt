@@ -2,18 +2,26 @@ package com.citymapper.app.presentation.views.nearbystations
 
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
+import android.util.Log
 import com.citymapper.app.data.remote.models.RequestState
+import com.citymapper.app.domain.models.arrivals.ArrivalTimeModel
+import com.citymapper.app.domain.models.arrivals.StopArrivalsPayLoad
+import com.citymapper.app.domain.models.arrivals.StopArrivalsResult
 import com.citymapper.app.domain.models.stoppoint.NetworkHttpError
 import com.citymapper.app.domain.models.stoppoint.StopPintsPayLoad
 import com.citymapper.app.domain.models.stoppoint.StopPoint
 import com.citymapper.app.domain.models.stoppoint.StopPointsResult
+import com.citymapper.app.domain.usecase.FetchArrivalTimesUseCase
 import com.citymapper.app.domain.usecase.FetchStopPointsUseCase
 import io.reactivex.disposables.CompositeDisposable
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
-class NearbyStationsVM @Inject constructor(private val fetchStopPointsUseCase: FetchStopPointsUseCase) : ViewModel() {
+class NearbyStationsVM @Inject constructor(private val fetchStopPointsUseCase: FetchStopPointsUseCase, private val fetchArrivalTimesUseCase: FetchArrivalTimesUseCase) : ViewModel() {
 
     private val compositeDisposable = CompositeDisposable()
+
+    private val arrivalTimesDisposable = CompositeDisposable()
 
     val stopPointsLiveData = MutableLiveData<List<StopPoint>>()
     val stopPointsNetworkHttpError = MutableLiveData<NetworkHttpError>()
@@ -40,7 +48,6 @@ class NearbyStationsVM @Inject constructor(private val fetchStopPointsUseCase: F
                         }))
     }
 
-
     /**
      * handle the response from login or check the error code
      */
@@ -59,9 +66,48 @@ class NearbyStationsVM @Inject constructor(private val fetchStopPointsUseCase: F
             is StopPintsPayLoad.Data -> {
                 if (!result.data.isEmpty()) {
                     stopPointsLiveData.value = result.data
+                    getArrivalTimesForStopPoints()
                 } else stopPointsRequestState.value = RequestState.Complete
             }
         }
+    }
+
+
+    private fun getArrivalTimesForStopPoints() {
+//        if (!arrivalTimesDisposable.isDisposed) {
+//            arrivalTimesDisposable.dispose()
+//        }
+        stopPointsLiveData.value?.forEach {
+            arrivalTimesDisposable.add(fetchArrivalTimesUseCase
+                    .fetchStopPointArrivals(it.id)
+                    .doOnError { it.printStackTrace() }
+                    .repeatWhen { completed -> completed.delay(30, TimeUnit.SECONDS) }
+                    .subscribe {
+                        checkArrivalTimesData(it)
+                    })
+        }
+    }
+
+    private fun checkArrivalTimesData(result: StopArrivalsResult) {
+        when (result) {
+            is StopArrivalsPayLoad.Data -> updateStopPoints(result.data)
+        }
+    }
+
+    private fun updateStopPoints(arrivalTimes: List<ArrivalTimeModel>) {
+   val updatedList = stopPointsLiveData.value?.map {
+            if (!arrivalTimes.isEmpty()) {
+                if (arrivalTimes[0].naptanId == it.id) {
+                    it.copy(arrivalsTimes = arrivalTimes.takeLast(3))
+                }else{
+                    it
+                }
+            }else{
+                it
+            }
+        }
+
+        stopPointsLiveData.value =updatedList
     }
 
     /**

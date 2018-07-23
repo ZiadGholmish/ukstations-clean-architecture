@@ -7,6 +7,7 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import com.citymapper.app.R
+import com.citymapper.app.domain.models.stoppoint.StopPoint
 import com.citymapper.app.presentation.views.nearbystations.adapter.ArrivalTimeAdapter
 
 class StopPointViewHolder(view: View, val context: Context) : RecyclerView.ViewHolder(view) {
@@ -20,8 +21,10 @@ class StopPointViewHolder(view: View, val context: Context) : RecyclerView.ViewH
         setupRecyclerView()
     }
 
-    fun bind() {
-        val arrivalTimeAdapter = ArrivalTimeAdapter(context)
+    fun bind(stopPoint: StopPoint) {
+        tvStationName.text = stopPoint.commonName
+        tvMinutes.text = "${stopPoint.distance}"
+        val arrivalTimeAdapter = ArrivalTimeAdapter(stopPoint.arrivalsTimes, context)
         stopPointArrivalsRecycler.adapter = arrivalTimeAdapter
     }
 

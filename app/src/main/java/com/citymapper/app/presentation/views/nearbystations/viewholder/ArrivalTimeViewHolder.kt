@@ -16,7 +16,10 @@ class ArrivalTimeViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     val tvPlatNumber: TextView = view.findViewById(R.id.tvPlatNumber)
 
     fun bind(arrivalTimeModel: ArrivalTimeModel) {
-
+        tvArrivalTime.text = arrivalTimeModel.expectedArrival
+        tvStreetName.text = arrivalTimeModel.destinationName
+        tvArrivalTimeInMinute.text = "${arrivalTimeModel.timeToStation}"
+        tvPlatNumber.text = arrivalTimeModel.lineName
     }
 
 }

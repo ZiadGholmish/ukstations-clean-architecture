@@ -5,9 +5,10 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.citymapper.app.R
+import com.citymapper.app.domain.models.arrivals.ArrivalTimeModel
 import com.citymapper.app.presentation.views.nearbystations.viewholder.ArrivalTimeViewHolder
 
-class ArrivalTimeAdapter(val context: Context) : RecyclerView.Adapter<ArrivalTimeViewHolder>() {
+class ArrivalTimeAdapter(private val arrivalTimes: List<ArrivalTimeModel>, val context: Context) : RecyclerView.Adapter<ArrivalTimeViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, p1: Int): ArrivalTimeViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
@@ -15,10 +16,11 @@ class ArrivalTimeAdapter(val context: Context) : RecyclerView.Adapter<ArrivalTim
     }
 
     override fun getItemCount(): Int {
-        return 4//stopPointArrivalTimes.size
+        return arrivalTimes.size
     }
 
     override fun onBindViewHolder(holder: ArrivalTimeViewHolder, position: Int) {
+        holder.bind(arrivalTimes[holder.adapterPosition])
     }
 
 

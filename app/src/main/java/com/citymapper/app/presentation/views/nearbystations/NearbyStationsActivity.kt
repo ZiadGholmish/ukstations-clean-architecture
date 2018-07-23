@@ -107,7 +107,7 @@ class NearbyStationsActivity : AppCompatActivity(), NearbyStationsController, On
             marker.tag = it
             currentMarkers.add(marker)
         }
-        showStopPoints()
+        showStopPointsInAdapter(stopPoints)
     }
 
     private fun setupArrivalTimesRecycler() {
@@ -116,8 +116,8 @@ class NearbyStationsActivity : AppCompatActivity(), NearbyStationsController, On
         stopPointRecycler.layoutManager = linearLayout
     }
 
-    private fun showStopPoints() {
-        val stopPointAdapter = StopPointAdapter(listOf(), applicationContext)
+    private fun showStopPointsInAdapter(stopPoints: List<StopPoint>) {
+        val stopPointAdapter = StopPointAdapter(stopPoints, applicationContext)
         stopPointRecycler.adapter = stopPointAdapter
     }
 

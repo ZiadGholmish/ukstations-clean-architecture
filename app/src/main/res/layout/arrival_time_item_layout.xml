@@ -11,8 +11,8 @@
 
     <ImageView
         android:id="@+id/imgTubeIcon"
-        android:layout_width="35dp"
-        android:layout_height="35dp"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
         android:src="@drawable/tube_big_icon"
         card_view:layout_constraintStart_toStartOf="parent"
         card_view:layout_constraintTop_toTopOf="parent" />
@@ -21,7 +21,6 @@
         android:id="@+id/tvArrivalTime"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-
         android:ellipsize="end"
         android:lines="1"
         android:maxLength="20"
@@ -41,7 +40,7 @@
         android:paddingStart="@dimen/generic_padding"
         android:text="London Street"
         android:textSize="@dimen/titleTextSize"
-        card_view:layout_constraintEnd_toEndOf="@id/tvArrivalTime"
+        card_view:layout_constraintEnd_toStartOf="@+id/tvPlatNumber"
         card_view:layout_constraintStart_toStartOf="@id/tvArrivalTime"
         card_view:layout_constraintTop_toBottomOf="@id/tvArrivalTime" />
 
@@ -71,6 +70,5 @@
         android:textStyle="bold"
         card_view:layout_constraintEnd_toEndOf="parent"
         card_view:layout_constraintTop_toBottomOf="@id/tvArrivalTimeInMinute" />
-
 
 </android.support.constraint.ConstraintLayout>

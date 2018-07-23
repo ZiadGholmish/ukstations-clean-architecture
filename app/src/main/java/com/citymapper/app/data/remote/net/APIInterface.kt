@@ -18,6 +18,8 @@ interface APIInterface {
     ): Observable<Response<StopPointsResponseModel>>
 
     @GET(APIConstants.API_STOP_POINTS_ARRIVALS_PREFIX)
-    fun fetchStopPointArrivals(@Path("id") id: String): Observable<Response<List<ArrivalTimeEntity>>>
+    fun fetchStopPointArrivals(@Path("id") id: String,
+                               @Query("app_id") app_id: String,
+                               @Query("app_key") app_key: String): Observable<Response<List<ArrivalTimeEntity>>>
 
 }
