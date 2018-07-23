@@ -4,8 +4,8 @@ import android.arch.lifecycle.Observer
 import com.citymapper.app.R
 import com.citymapper.app.app.AbsPresenter
 import com.citymapper.app.data.remote.models.RequestState
-import com.citymapper.app.data.remote.models.stops.NetworkHttpError
 import com.citymapper.app.data.remote.models.stops.StopPoint
+import com.citymapper.app.domain.models.NetworkHttpError
 import com.citymapper.app.util.LocationUtil
 import com.google.android.gms.maps.model.LatLng
 import javax.inject.Inject
@@ -60,7 +60,7 @@ class NearbyStationsPresenter @Inject constructor() : AbsPresenter<NearbyStation
         when (result) {
             is NetworkHttpError.UnAuthorizedRequest -> mView?.showMessage(R.string.invalid_credential)
             is NetworkHttpError.InternalServerError -> mView?.showMessage(R.string.service_not_available)
-            is NetworkHttpError.GeneralError -> mView?.showFetchingError("${result.message}")
+            is NetworkHttpError.GeneralError -> mView?.showFetchingError(result.message)
         }
     }
 

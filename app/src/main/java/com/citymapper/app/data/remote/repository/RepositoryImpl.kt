@@ -1,14 +1,11 @@
 package com.citymapper.app.data.remote.repository
-
-import com.citymapper.app.data.remote.models.stops.StopPointsNetworkResult
-import com.citymapper.app.data.remote.models.stops.TubeModel
-import com.citymapper.app.data.remote.models.stops.toAggregateResult
+import com.citymapper.app.data.datautil.toAggregateResult
 import com.citymapper.app.data.remote.net.APIConstants
 import com.citymapper.app.data.remote.net.APIInterface
+import com.citymapper.app.domain.models.StopPointsResult
 import com.citymapper.app.domain.repository.StopPointRepository
 import io.reactivex.Observable
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
+
 
 import javax.inject.Inject
 
@@ -22,8 +19,17 @@ class RepositoryImpl @Inject constructor(private val apiInterface: APIInterface)
      * @param lon longitude of the user location
      */
     override fun fetchStopPointsByLocation(stopTypes: String, radius: Int,
-                                           lat: Double, lon: Double): Observable<StopPointsNetworkResult> {
+                                           lat: Double, lon: Double): Observable<StopPointsResult> {
         return apiInterface.fetchStopPointsByLocation(stopTypes, radius, lat, lon, APIConstants.app_id, APIConstants.app_key)
                 .map { it.toAggregateResult() }
+
     }
+
+//    override fun fetchStopPointArrivals(id: String): Observable<List<StopPointArrivalTimesModel>> {
+//        return apiInterface.fetchStopPointArrivals(id)
+//                .map {
+//                }
+//
+//        return null
+//    }
 }
