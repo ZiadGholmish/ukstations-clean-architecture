@@ -17,9 +17,17 @@ class ArrivalTimeViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
     fun bind(arrivalTimeModel: ArrivalTimeModel) {
         tvArrivalTime.text = arrivalTimeModel.expectedArrival
-        tvStreetName.text = "${arrivalTimeModel.direction} ${arrivalTimeModel.towards}"
-        tvArrivalTimeInMinute.text = "${(arrivalTimeModel.timeToStation / 60)}"
-        tvPlatNumber.text = arrivalTimeModel.lineName
+        tvStreetName.text = "${arrivalTimeModel.direction} - ${arrivalTimeModel.towards}"
+        tvArrivalTimeInMinute.text = "${(arrivalTimeModel.timeToStation / 60)} min"
+        tvPlatNumber.text = getPlatformNumber(arrivalTimeModel.platformName)
+    }
+
+    private fun getPlatformNumber(platform: String): String {
+        val platformParts = platform.split("Platform")
+        if (platformParts.size > 1) {
+            return "Plat. ${platformParts[1].trim()}"
+        }
+        return platform
     }
 
 }

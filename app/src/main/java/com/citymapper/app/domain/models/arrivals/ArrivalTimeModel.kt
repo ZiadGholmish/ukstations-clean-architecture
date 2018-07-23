@@ -9,4 +9,5 @@ data class ArrivalTimeModel(val id: String,
                             val timeToStation: Int,
                             val expectedArrival: String,
                             val towards: String,
-                            var direction: String?)
+                            var direction: String?,
+                            var platformName: String)

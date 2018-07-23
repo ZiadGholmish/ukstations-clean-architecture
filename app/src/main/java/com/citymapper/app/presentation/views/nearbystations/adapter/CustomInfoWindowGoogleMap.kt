@@ -27,10 +27,10 @@ class CustomInfoWindowGoogleMap(private val context: AppCompatActivity) : Google
         val stopPoint: StopPoint = marker.tag as StopPoint
 
         val tvStationName: TextView = infoView.findViewById(R.id.tvStationName)
-        val tvMins: TextView = infoView.findViewById(R.id.tvMinutes)
+        val tvMeter: TextView = infoView.findViewById(R.id.tvMeter)
 
         tvStationName.text = stopPoint.commonName.trim()
-        tvMins.text = stopPoint.distance.toString()
+        tvMeter.text = stopPoint.distance.toInt().toString()
 
     }
 

@@ -14,7 +14,7 @@ class StopPointViewHolder(view: View, val context: Context) : RecyclerView.ViewH
 
     private val imgTubeIcon: ImageView = view.findViewById(R.id.imgTubeIcon)
     private val tvStationName: TextView = view.findViewById(R.id.tvStationName)
-    private val tvMinutes: TextView = view.findViewById(R.id.tvMinutes)
+    private val tvMeter: TextView = view.findViewById(R.id.tvMeter)
     private val stopPointArrivalsRecycler: RecyclerView = view.findViewById(R.id.stopPointArrivalsRecycler)
 
     init {
@@ -23,7 +23,7 @@ class StopPointViewHolder(view: View, val context: Context) : RecyclerView.ViewH
 
     fun bind(stopPoint: StopPoint) {
         tvStationName.text = stopPoint.commonName
-        tvMinutes.text = "${stopPoint.distance}"
+        tvMeter.text = "${stopPoint.distance.toInt()} Meter"
         val arrivalTimeAdapter = ArrivalTimeAdapter(stopPoint.arrivalsTimes, context)
         stopPointArrivalsRecycler.adapter = arrivalTimeAdapter
     }
