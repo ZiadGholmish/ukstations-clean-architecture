@@ -1,8 +1,8 @@
 package com.citymapper.app.data.datautil
 
 import com.citymapper.app.data.remote.models.stops.StopPointsResponseModel
-import com.citymapper.app.domain.models.NetworkHttpError
-import com.citymapper.app.domain.models.StopPointsResult
+import com.citymapper.app.domain.models.stoppoint.NetworkHttpError
+import com.citymapper.app.domain.models.stoppoint.StopPointsResult
 import org.json.JSONException
 import org.json.JSONObject
 import retrofit2.Response
@@ -21,7 +21,6 @@ object Util {
             response.message()
         }
     }
-
 
     fun fromErrorResponse(code: Int, message: String?): StopPointsResult {
         return when (code) {

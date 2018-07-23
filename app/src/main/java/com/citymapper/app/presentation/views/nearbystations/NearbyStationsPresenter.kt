@@ -4,8 +4,8 @@ import android.arch.lifecycle.Observer
 import com.citymapper.app.R
 import com.citymapper.app.app.AbsPresenter
 import com.citymapper.app.data.remote.models.RequestState
-import com.citymapper.app.data.remote.models.stops.StopPoint
-import com.citymapper.app.domain.models.NetworkHttpError
+import com.citymapper.app.domain.models.stoppoint.NetworkHttpError
+import com.citymapper.app.domain.models.stoppoint.StopPoint
 import com.citymapper.app.util.LocationUtil
 import com.google.android.gms.maps.model.LatLng
 import javax.inject.Inject

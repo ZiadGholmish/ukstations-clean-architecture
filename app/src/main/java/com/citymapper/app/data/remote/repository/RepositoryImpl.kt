@@ -1,14 +1,18 @@
 package com.citymapper.app.data.remote.repository
+
 import com.citymapper.app.data.datautil.toAggregateResult
+import com.citymapper.app.data.remote.models.arrivaltimes.ArrivalTimeModel
 import com.citymapper.app.data.remote.net.APIConstants
 import com.citymapper.app.data.remote.net.APIInterface
-import com.citymapper.app.domain.models.StopPointsResult
+import com.citymapper.app.domain.models.stoppoint.StopPointsResult
 import com.citymapper.app.domain.repository.StopPointRepository
 import io.reactivex.Observable
 
 
 import javax.inject.Inject
+import javax.inject.Singleton
 
+@Singleton
 class RepositoryImpl @Inject constructor(private val apiInterface: APIInterface) : StopPointRepository {
 
     /**
@@ -25,11 +29,8 @@ class RepositoryImpl @Inject constructor(private val apiInterface: APIInterface)
 
     }
 
-//    override fun fetchStopPointArrivals(id: String): Observable<List<StopPointArrivalTimesModel>> {
-//        return apiInterface.fetchStopPointArrivals(id)
-//                .map {
-//                }
-//
-//        return null
-//    }
+
+    override fun fetchStopPointArrivals(id: String): Observable<List<ArrivalTimeModel>> {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
 }

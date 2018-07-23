@@ -1,6 +1,6 @@
 package com.citymapper.app.domain.usecase
 
-import com.citymapper.app.domain.models.StopPointsResult
+import com.citymapper.app.domain.models.stoppoint.StopPointsResult
 import com.citymapper.app.domain.repository.StopPointRepository
 import com.citymapper.app.util.scheduler.BaseSchedulerProvider
 import io.reactivex.Observable

@@ -3,10 +3,10 @@ package com.citymapper.app.presentation.views.nearbystations
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
 import com.citymapper.app.data.remote.models.RequestState
-import com.citymapper.app.data.remote.models.stops.StopPoint
-import com.citymapper.app.domain.models.NetworkHttpError
-import com.citymapper.app.domain.models.StopPintsPayLoad
-import com.citymapper.app.domain.models.StopPointsResult
+import com.citymapper.app.domain.models.stoppoint.NetworkHttpError
+import com.citymapper.app.domain.models.stoppoint.StopPintsPayLoad
+import com.citymapper.app.domain.models.stoppoint.StopPoint
+import com.citymapper.app.domain.models.stoppoint.StopPointsResult
 import com.citymapper.app.domain.usecase.FetchStopPointsUseCase
 import io.reactivex.disposables.CompositeDisposable
 import javax.inject.Inject

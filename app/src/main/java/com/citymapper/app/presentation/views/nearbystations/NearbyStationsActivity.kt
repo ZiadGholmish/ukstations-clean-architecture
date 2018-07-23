@@ -8,7 +8,7 @@ import android.widget.Toast
 import com.citymapper.app.R
 import com.citymapper.app.app.CitymapperApp
 import com.citymapper.app.dagger.ViewModelFactory
-import com.citymapper.app.data.remote.models.stops.StopPoint
+import com.citymapper.app.domain.models.stoppoint.StopPoint
 
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback

@@ -1,6 +1,4 @@
-package com.citymapper.app.domain.models
-
-import com.citymapper.app.data.remote.models.stops.StopPoint
+package com.citymapper.app.domain.models.stoppoint
 
 sealed class StopPointsResult
 
