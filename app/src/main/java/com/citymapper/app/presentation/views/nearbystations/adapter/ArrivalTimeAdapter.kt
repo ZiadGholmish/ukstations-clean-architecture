@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import com.citymapper.app.R
 import com.citymapper.app.presentation.views.nearbystations.viewholder.ArrivalTimeViewHolder
 
-class ArrivalTimeAdapter(context: Context) : RecyclerView.Adapter<ArrivalTimeViewHolder>() {
+class ArrivalTimeAdapter(val context: Context) : RecyclerView.Adapter<ArrivalTimeViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, p1: Int): ArrivalTimeViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)

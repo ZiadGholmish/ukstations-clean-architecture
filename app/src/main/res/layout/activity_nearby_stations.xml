@@ -52,7 +52,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:behavior_hideable="true"
-        app:behavior_peekHeight="80dp"
+        app:behavior_peekHeight="@dimen/bottomSheetPeekHeight"
         app:layout_behavior="android.support.design.widget.BottomSheetBehavior"
         card_view:cardBackgroundColor="@color/colorTube"
         card_view:cardCornerRadius="8dp">
@@ -89,11 +89,14 @@
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/stopPointRecycler"
-                android:layout_width="match_parent"
-                android:layout_height="300dp"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/activity_margin"
                 android:clipToPadding="false"
+                android:nestedScrollingEnabled="false"
                 android:paddingBottom="@dimen/activity_margin"
+                card_view:layout_constraintEnd_toEndOf="parent"
+                card_view:layout_constraintStart_toStartOf="parent"
                 card_view:layout_constraintTop_toBottomOf="@id/tvTubeLabel"
                 tools:listitem="@layout/stop_point_arrivals_times_layout" />
 

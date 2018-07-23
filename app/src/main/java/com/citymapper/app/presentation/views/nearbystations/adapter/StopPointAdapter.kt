@@ -12,7 +12,7 @@ class StopPointAdapter(private val stopPointArrivalTimes: List<StopPointArrivalT
 
     override fun onCreateViewHolder(parent: ViewGroup, p1: Int): StopPointViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
-        return StopPointViewHolder(layoutInflater.inflate(R.layout.stop_point_arrivals_times_layout, parent, false))
+        return StopPointViewHolder(layoutInflater.inflate(R.layout.stop_point_arrivals_times_layout, parent, false),context)
     }
 
     override fun getItemCount(): Int {
@@ -20,5 +20,6 @@ class StopPointAdapter(private val stopPointArrivalTimes: List<StopPointArrivalT
     }
 
     override fun onBindViewHolder(holder: StopPointViewHolder, position: Int) {
+        holder.bind()
     }
 }
