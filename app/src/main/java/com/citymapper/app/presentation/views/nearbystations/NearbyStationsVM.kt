@@ -20,14 +20,17 @@ import javax.inject.Inject
 
 class NearbyStationsVM @Inject constructor(private val fetchStopPointsUseCase: FetchStopPointsUseCase, private val fetchArrivalTimesUseCase: FetchArrivalTimesUseCase) : ViewModel() {
 
+    //disposal to clear the old requests and clear resources then the vm is cleared
     private val compositeDisposable = CompositeDisposable()
     private var arrivalsTimeDisposable = CompositeDisposable()
 
+    //live data to control the values
     val stopPointsLiveData = MutableLiveData<List<StopPoint>>()
     val arrivalTimesData = MutableLiveData<List<StopPoint>>()
     val stopPointsNetworkHttpError = MutableLiveData<NetworkHttpError>()
     val stopPointsRequestState = MutableLiveData<RequestState>()
 
+    // api criteria --> it can come from the user inputs or the settings of the chosen city
     private val stopTypes = listOf("NaptanMetroStation", "NaptanMetroPlatform", "NaptanMetroEntrance", "NaptanMetroAccessArea")
     private val radius = 1000
 
@@ -75,7 +78,11 @@ class NearbyStationsVM @Inject constructor(private val fetchStopPointsUseCase: F
         }
     }
 
-
+    /**
+     * create observable for stop point to call the arrival times and then
+     * zip them so we can get the all responses in the same time then update the adapter one time
+     *  ==we can ignore zip if we want to refresh every stop point separately==
+     */
     private fun getArrivalTimesForStopPoints() {
         arrivalsTimeDisposable.clear()
         val arrivalTimesObservableList: List<Observable<StopArrivalsResult>>? = arrivalTimesData.value?.map {
@@ -83,7 +90,7 @@ class NearbyStationsVM @Inject constructor(private val fetchStopPointsUseCase: F
         }
         val zip = Observable.zip(arrivalTimesObservableList) { args1 -> args1 }
                 .repeatWhen { completed -> completed.delay(30, TimeUnit.SECONDS) }
-                .subscribe { arrivalsTimesResult ->
+                .subscribe( { arrivalsTimesResult ->
                     val list = mutableListOf<StopArrivalsResult>()
                     arrivalsTimesResult.forEach {
                         if (it is StopArrivalsResult) {
@@ -91,10 +98,16 @@ class NearbyStationsVM @Inject constructor(private val fetchStopPointsUseCase: F
                         }
                     }
                     checkArrivalTimesData(list)
-                }
+                }, {
+                    it.printStackTrace()
+                })
         arrivalsTimeDisposable.add(zip)
     }
 
+    /**
+     * handle the arrival time success items to refresh the data
+     * if there is error i am ignore it for now
+     */
     private fun checkArrivalTimesData(result: List<StopArrivalsResult>) {
         val updatedMap = result.map {
             if (it is StopArrivalsPayLoad.Data) {
@@ -106,6 +119,12 @@ class NearbyStationsVM @Inject constructor(private val fetchStopPointsUseCase: F
         updateStopPoints(updatedMap)
     }
 
+    /**
+     * check the stop points and update the arrival times inside stop point
+     * then notify the live data to update the views
+     *
+     * ==i have to handle the case when list contains items then became empty=====
+     */
     private fun updateStopPoints(arrivalTimes: List<List<ArrivalTimeModel>?>) {
         val updatedList = arrivalTimesData.value?.map { stopPoint ->
             arrivalTimes.forEach {
@@ -125,9 +144,15 @@ class NearbyStationsVM @Inject constructor(private val fetchStopPointsUseCase: F
         stopPointsNetworkHttpError.value = result
     }
 
+    /**
+     * clear the resources when the VM cleared
+     */
     override fun onCleared() {
         if (!compositeDisposable.isDisposed) {
             compositeDisposable.dispose()
+        }
+        if (!arrivalsTimeDisposable.isDisposed) {
+            arrivalsTimeDisposable.dispose()
         }
         super.onCleared()
     }
