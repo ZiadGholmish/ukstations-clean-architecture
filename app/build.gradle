@@ -65,6 +65,12 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+    testImplementation 'android.arch.core:core-testing:1.1.1'
+    testCompile 'org.mockito:mockito-inline:2.8.9'
+    testCompile('com.nhaarman:mockito-kotlin:1.5.0') {
+        exclude group: 'org.jetbrains.kotlin'
+        exclude group: 'org.mockito'
+    }
 
     //dagger
     implementation 'com.google.dagger:dagger:2.15'
