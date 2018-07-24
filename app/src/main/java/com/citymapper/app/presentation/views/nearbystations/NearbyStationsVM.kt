@@ -13,6 +13,7 @@ import com.citymapper.app.domain.models.stoppoint.StopPoint
 import com.citymapper.app.domain.models.stoppoint.StopPointsResult
 import com.citymapper.app.domain.usecase.FetchArrivalTimesUseCase
 import com.citymapper.app.domain.usecase.FetchStopPointsUseCase
+import io.reactivex.Observable
 import io.reactivex.disposables.CompositeDisposable
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
@@ -20,6 +21,7 @@ import javax.inject.Inject
 class NearbyStationsVM @Inject constructor(private val fetchStopPointsUseCase: FetchStopPointsUseCase, private val fetchArrivalTimesUseCase: FetchArrivalTimesUseCase) : ViewModel() {
 
     private val compositeDisposable = CompositeDisposable()
+    private var arrivalsTimeDisposable = CompositeDisposable()
 
     val stopPointsLiveData = MutableLiveData<List<StopPoint>>()
     val arrivalTimesData = MutableLiveData<List<StopPoint>>()
@@ -33,18 +35,19 @@ class NearbyStationsVM @Inject constructor(private val fetchStopPointsUseCase: F
      * load the available stop points within 1 km from the user a
      */
     fun loadStopPointsByLocation(lat: Double, lon: Double) {
-        compositeDisposable.add(
-                fetchStopPointsUseCase
-                        .fetchStopPoints(stopTypes.joinToString(), radius, lat, lon)
-                        .doOnError { stopPointsRequestState.value = RequestState.Complete }
-                        .doOnNext { stopPointsRequestState.value = RequestState.Complete }
-                        .doOnSubscribe { stopPointsRequestState.value = RequestState.Loading }
-                        .subscribe({ response ->
-                            handleNetworkResult(response)
-                        }, { error ->
-                            stopPointsRequestState.value = RequestState.Complete
-                            error.printStackTrace()
-                        }))
+        compositeDisposable.clear()
+        val stopPointObservable = fetchStopPointsUseCase
+                .fetchStopPoints(stopTypes.joinToString(), radius, lat, lon)
+                .doOnError { stopPointsRequestState.value = RequestState.Complete }
+                .doOnNext { stopPointsRequestState.value = RequestState.Complete }
+                .doOnSubscribe { stopPointsRequestState.value = RequestState.Loading }
+                .subscribe({ response ->
+                    handleNetworkResult(response)
+                }, { error ->
+                    stopPointsRequestState.value = RequestState.Complete
+                    error.printStackTrace()
+                })
+        compositeDisposable.add(stopPointObservable)
     }
 
     /**
@@ -74,36 +77,44 @@ class NearbyStationsVM @Inject constructor(private val fetchStopPointsUseCase: F
 
 
     private fun getArrivalTimesForStopPoints() {
-        arrivalTimesData.value?.forEach {
-            fetchArrivalTimesUseCase
-                    .fetchStopPointArrivals(it.id)
-                    .doOnError { it.printStackTrace() }
-                    .repeatWhen { completed -> completed.delay(30, TimeUnit.SECONDS) }
-                    .subscribe {
-                        checkArrivalTimesData(it)
+        arrivalsTimeDisposable.clear()
+        val arrivalTimesObservableList: List<Observable<StopArrivalsResult>>? = arrivalTimesData.value?.map {
+            fetchArrivalTimesUseCase.fetchStopPointArrivals(it.id)
+        }
+        val zip = Observable.zip(arrivalTimesObservableList) { args1 -> args1 }
+                .repeatWhen { completed -> completed.delay(30, TimeUnit.SECONDS) }
+                .subscribe { arrivalsTimesResult ->
+                    val list = mutableListOf<StopArrivalsResult>()
+                    arrivalsTimesResult.forEach {
+                        if (it is StopArrivalsResult) {
+                            list.add(it)
+                        }
                     }
-        }
-    }
-
-    private fun checkArrivalTimesData(result: StopArrivalsResult) {
-        when (result) {
-            is StopArrivalsPayLoad.Data -> updateStopPoints(result.data)
-        }
-    }
-
-    private fun updateStopPoints(arrivalTimes: List<ArrivalTimeModel>) {
-        val updatedList = arrivalTimesData.value?.map {
-            if (!arrivalTimes.isEmpty()) {
-                if (arrivalTimes[0].naptanId == it.id) {
-                    it.copy(arrivalsTimes = arrivalTimes.take(3).sortedBy { it.timeToStation })
-                } else {
-                    it
+                    checkArrivalTimesData(list)
                 }
+        arrivalsTimeDisposable.add(zip)
+    }
+
+    private fun checkArrivalTimesData(result: List<StopArrivalsResult>) {
+        val updatedMap = result.map {
+            if (it is StopArrivalsPayLoad.Data) {
+                return@map it.data
             } else {
-                it
+                null
             }
         }
+        updateStopPoints(updatedMap)
+    }
 
+    private fun updateStopPoints(arrivalTimes: List<List<ArrivalTimeModel>?>) {
+        val updatedList = arrivalTimesData.value?.map { stopPoint ->
+            arrivalTimes.forEach {
+                if (it != null && it.isNotEmpty() && it[0].naptanId == stopPoint.id) {
+                    return@map stopPoint.copy(arrivalsTimes = it.sortedBy { it.timeToStation }.take(3))
+                }
+            }
+            stopPoint
+        }
         arrivalTimesData.value = updatedList
     }
 

@@ -15,7 +15,7 @@ class CustomInfoWindowGoogleMap(private val context: AppCompatActivity) : Google
     }
 
     override fun getInfoWindow(marker: Marker): View {
-        val infoView = context.layoutInflater.inflate(R.layout.stop_point_arrivals_times_layout, null)
+        val infoView = context.layoutInflater.inflate(R.layout.stop_point_arrivals_info_windwo_layout, null)
         showMarkerInfo(marker, infoView)
         return infoView
     }

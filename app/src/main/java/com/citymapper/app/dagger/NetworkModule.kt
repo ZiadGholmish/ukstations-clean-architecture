@@ -1,10 +1,8 @@
 package com.citymapper.app.dagger
 
-import android.app.Service
 import android.content.Context
 import com.citymapper.app.R
 import com.citymapper.app.data.remote.net.APIInterface
-import com.citymapper.app.data.remote.net.ServiceInterceptor
 import dagger.Module
 import dagger.Provides
 import okhttp3.OkHttpClient
@@ -44,7 +42,6 @@ class NetworkModule {
         val clientBuilder = OkHttpClient().newBuilder()
         clientBuilder.connectTimeout(30, TimeUnit.SECONDS)
         clientBuilder.addInterceptor(interceptor)
-        clientBuilder.addInterceptor(ServiceInterceptor())
         return clientBuilder
     }
 

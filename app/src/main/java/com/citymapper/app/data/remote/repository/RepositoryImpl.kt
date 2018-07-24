@@ -26,7 +26,8 @@ class RepositoryImpl @Inject constructor(private val apiInterface: APIInterface)
      */
     override fun fetchStopPointsByLocation(stopTypes: String, radius: Int,
                                            lat: Double, lon: Double): Observable<StopPointsResult> {
-        return apiInterface.fetchStopPointsByLocation(stopTypes, radius, lat, lon, APIConstants.app_id, APIConstants.app_key)
+        return apiInterface.
+                fetchStopPointsByLocation(stopTypes, radius, lat, lon, APIConstants.app_id, APIConstants.app_key)
                 .map { it.toAggregatePointsResult() }
     }
 

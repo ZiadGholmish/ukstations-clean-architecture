@@ -14,4 +14,5 @@ class FetchArrivalTimesUseCase @Inject constructor(private val stopPointReposito
             .fetchStopPointArrivals(id)
             .subscribeOn(scheduler.getIOScheduler())
             .observeOn(scheduler.getUiScheduler())
+
 }

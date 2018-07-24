@@ -8,10 +8,12 @@
     android:layout_marginBottom="@dimen/activity_margin"
     android:layout_marginEnd="@dimen/activity_margin"
     android:layout_marginStart="@dimen/activity_margin"
+    android:clickable="true"
+    android:foreground="?android:attr/selectableItemBackground"
     card_view:cardCornerRadius="4dp">
 
     <android.support.constraint.ConstraintLayout
-        android:layout_width="match_parent"
+        android:layout_width="350dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center">
 
