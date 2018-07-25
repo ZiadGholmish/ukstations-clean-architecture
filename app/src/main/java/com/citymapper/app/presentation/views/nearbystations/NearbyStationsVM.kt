@@ -56,7 +56,7 @@ class NearbyStationsVM @Inject constructor(private val fetchStopPointsUseCase: F
     /**
      * handle the response from login or check the error code
      */
-     private fun handleNetworkResult(result: StopPointsResult) {
+    private fun handleNetworkResult(result: StopPointsResult) {
         return when (result) {
             is StopPintsPayLoad -> handleResult(result)
             is NetworkHttpError -> handleError(result)
@@ -88,21 +88,22 @@ class NearbyStationsVM @Inject constructor(private val fetchStopPointsUseCase: F
         val arrivalTimesObservableList: List<Observable<StopArrivalsResult>>? = arrivalTimesData.value?.map {
             fetchArrivalTimesUseCase.fetchStopPointArrivals(it.id)
         }
-        val zip = Observable.zip(arrivalTimesObservableList) { args1 -> args1 }
-                .repeatWhen { completed -> completed.delay(30, TimeUnit.SECONDS) }
-                .subscribe({ arrivalsTimesResult ->
-                    val list = mutableListOf<StopArrivalsResult>()
-                    arrivalsTimesResult.forEach {
-                        if (it is StopArrivalsResult) {
-                            list.add(it)
-                        }
-                    }
-                    checkArrivalTimesData(list)
-                }, {
-                    it.printStackTrace()
-                })
+        val zip = Observable.zip(arrivalTimesObservableList) { args1 ->
+            val arrivals = mutableListOf<StopArrivalsResult>()
+            args1.forEach { arrivals.add(it as StopArrivalsResult) }
+            return@zip arrivals
+        }
+                .repeatWhen { completed -> completed.delay(10, TimeUnit.SECONDS) }
+                .subscribe(
+                        { arrivalsTimesResult ->
+                            checkArrivalTimesData(arrivalsTimesResult)
+                        },
+                        {
+                            it.printStackTrace()
+                        })
         arrivalsTimeDisposable.add(zip)
     }
+
 
     /**
      * handle the arrival time success items to refresh the data
@@ -115,7 +116,7 @@ class NearbyStationsVM @Inject constructor(private val fetchStopPointsUseCase: F
             } else {
                 null
             }
-        }
+        }.filter { it != null }
         updateStopPoints(updatedMap)
     }
 
@@ -134,7 +135,7 @@ class NearbyStationsVM @Inject constructor(private val fetchStopPointsUseCase: F
             }
             stopPoint
         }
-        arrivalTimesData.postValue( updatedList)
+        arrivalTimesData.postValue(updatedList)
     }
 
     /**
