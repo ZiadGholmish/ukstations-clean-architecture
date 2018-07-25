@@ -35,4 +35,7 @@ class RepositoryImpl @Inject constructor(private val apiInterface: APIInterface)
         return apiInterface.fetchStopPointArrivals(id,APIConstants.app_id, APIConstants.app_key)
                 .map { it.toAggregateArrivalsResult() }
     }
+
+    override fun fetchLineStopPoints(id: String, direction: String) {
+    }
 }
