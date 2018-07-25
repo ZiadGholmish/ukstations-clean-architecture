@@ -18,13 +18,14 @@
             android:value="@string/google_maps_key" />
 
         <activity android:name=".presentation.views.nearbystations.NearbyStationsActivity">
+        </activity>
+        <activity android:name=".presentation.views.linedetails.LineDetailsActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".presentation.views.linedetails.LineDetailsActivity"></activity>
     </application>
 
 </manifest>

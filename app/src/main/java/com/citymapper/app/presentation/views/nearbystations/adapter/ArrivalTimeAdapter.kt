@@ -2,6 +2,7 @@ package com.citymapper.app.presentation.views.nearbystations.adapter
 
 import android.content.Context
 import android.support.v7.widget.RecyclerView
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.citymapper.app.R
@@ -21,6 +22,10 @@ class ArrivalTimeAdapter(private val arrivalTimes: List<ArrivalTimeModel>, val c
 
     override fun onBindViewHolder(holder: ArrivalTimeViewHolder, position: Int) {
         holder.bind(arrivalTimes[holder.adapterPosition])
+
+        holder.itemView.setOnClickListener{
+            Log.e("the arrival id " , arrivalTimes[holder.adapterPosition].id)
+        }
     }
 
 }

@@ -3,6 +3,7 @@ package com.citymapper.app.presentation.views.nearbystations.viewholder
 import android.content.Context
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
@@ -26,6 +27,10 @@ class StopPointViewHolder(view: View, val context: Context) : RecyclerView.ViewH
         tvMeter.text = "${stopPoint.distance.toInt()} Meter"
         val arrivalTimeAdapter = ArrivalTimeAdapter(stopPoint.arrivalsTimes, context)
         stopPointArrivalsRecycler.adapter = arrivalTimeAdapter
+
+//        tvStationName.setOnClickListener{
+//            Log.e("the station id is :: " , stopPoint.id)
+//        }
     }
 
     private fun setupRecyclerView() {

@@ -9,6 +9,7 @@ import io.reactivex.Observable
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.mockito.Mock
 import org.mockito.Mockito.`when`
 import org.mockito.Mockito.mock
 import org.mockito.junit.MockitoJUnitRunner
@@ -19,9 +20,10 @@ class FetchStopPointsUnitTest {
     @get:Rule
     var instantTaskExecutorRule = InstantTaskExecutorRule()
 
+    private val stopPointResult = mock(StopPointsResult::class.java)
+
     private val stopPointsRepo = mock(RepositoryImpl::class.java)
     private val schedulerProvider: FakeSchedulerImpl = FakeSchedulerImpl()
-    private val stopPointResult = mock(StopPointsResult::class.java)
     private val fetchStopPoints by lazy { FetchStopPointsUseCase(stopPointsRepo, schedulerProvider) }
 
     //fake values
