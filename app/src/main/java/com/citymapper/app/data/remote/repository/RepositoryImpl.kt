@@ -37,7 +37,7 @@ class RepositoryImpl @Inject constructor(private val apiInterface: APIInterface)
                 .map { it.toAggregateArrivalsResult() }
     }
 
-    override fun fetchLineStopPoints(id: String, direction: String): Observable<LineDetailsResult> {
+    override fun fetchLineDetails(id: String, direction: String): Observable<LineDetailsResult> {
         return apiInterface.fetchLineStopPoints(id, direction, APIConstants.app_id, APIConstants.app_key)
                 .map { it.toAggregateLineDetailsResult() }
     }

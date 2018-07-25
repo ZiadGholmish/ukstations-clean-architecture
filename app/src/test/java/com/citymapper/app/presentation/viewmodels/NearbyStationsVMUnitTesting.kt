@@ -58,7 +58,7 @@ class NearbyStationsVMUnitTesting {
 //        `when`(stopPointsUseCase.fetchStopPoints(ArgumentMatchers.anyString(), ArgumentMatchers.anyInt(), ArgumentMatchers.anyDouble(), ArgumentMatchers.anyDouble()))
 //                .thenReturn(fakeObservable)
 //        nearbyStationsVM.stopPointsLiveData.observeForever(observer)
-//        nearbyStationsVM.loadStopPointsByLocation(0.0, 0.0)
+//        nearbyStationsVM.fetchStopPointsByLocation(0.0, 0.0)
 //
 //
 //    }

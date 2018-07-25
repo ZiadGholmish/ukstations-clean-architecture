@@ -12,5 +12,5 @@ interface StopPointRepository {
 
     fun fetchStopPointArrivals(id: String): Observable<StopArrivalsResult>
 
-    fun fetchLineStopPoints(id: String, direction: String): Observable<LineDetailsResult>
+    fun fetchLineDetails(id: String, direction: String): Observable<LineDetailsResult>
 }

@@ -21,7 +21,7 @@ class NearbyStationsPresenter @Inject constructor() : AbsPresenter<NearbyStation
         if (!LocationUtil.checkLocationInsideCountry(markerPosition)) {
             mView?.moveMapToDefaultLocation(LatLng(LocationUtil.defaultLat, LocationUtil.defaultLon))
         } else {
-            nearbyStationsVM.loadStopPointsByLocation(markerPosition.latitude, markerPosition.longitude)
+            nearbyStationsVM.fetchStopPointsByLocation(markerPosition.latitude, markerPosition.longitude)
         }
     }
 
