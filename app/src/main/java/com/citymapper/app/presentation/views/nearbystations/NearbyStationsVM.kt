@@ -47,7 +47,7 @@ class NearbyStationsVM @Inject constructor(private val fetchStopPointsUseCase: F
                 .subscribe({ response ->
                     handleNetworkResult(response)
                 }, { error ->
-                    stopPointsRequestState.value = RequestState.Complete
+                    stopPointsRequestState.postValue(RequestState.Complete)
                     error.printStackTrace()
                 })
         compositeDisposable.add(stopPointObservable)
@@ -56,7 +56,7 @@ class NearbyStationsVM @Inject constructor(private val fetchStopPointsUseCase: F
     /**
      * handle the response from login or check the error code
      */
-    private fun handleNetworkResult(result: StopPointsResult) {
+     private fun handleNetworkResult(result: StopPointsResult) {
         return when (result) {
             is StopPintsPayLoad -> handleResult(result)
             is NetworkHttpError -> handleError(result)
@@ -90,7 +90,7 @@ class NearbyStationsVM @Inject constructor(private val fetchStopPointsUseCase: F
         }
         val zip = Observable.zip(arrivalTimesObservableList) { args1 -> args1 }
                 .repeatWhen { completed -> completed.delay(30, TimeUnit.SECONDS) }
-                .subscribe( { arrivalsTimesResult ->
+                .subscribe({ arrivalsTimesResult ->
                     val list = mutableListOf<StopArrivalsResult>()
                     arrivalsTimesResult.forEach {
                         if (it is StopArrivalsResult) {
@@ -134,14 +134,14 @@ class NearbyStationsVM @Inject constructor(private val fetchStopPointsUseCase: F
             }
             stopPoint
         }
-        arrivalTimesData.value = updatedList
+        arrivalTimesData.postValue( updatedList)
     }
 
     /**
      * handle the error code that come from the server
      */
     private fun handleError(result: NetworkHttpError) {
-        stopPointsNetworkHttpError.value = result
+        stopPointsNetworkHttpError.postValue(result)
     }
 
     /**

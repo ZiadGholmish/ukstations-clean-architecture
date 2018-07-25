@@ -10,6 +10,7 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mockito
+import org.mockito.Mockito.`when`
 import org.mockito.junit.MockitoJUnitRunner
 
 @RunWith(MockitoJUnitRunner::class)
@@ -20,11 +21,12 @@ class FetchArrivalTimesUseCaseUnitTest {
 
     private val stopPointsRepo = Mockito.mock(RepositoryImpl::class.java)
     private val schedulerProvider: FakeSchedulerImpl = FakeSchedulerImpl()
-    private val fetchArrivalTimesUseCase by lazy { FetchArrivalTimesUseCase(stopPointsRepo, schedulerProvider) }
     private val stopPointArrivalResult = Mockito.mock(StopArrivalsResult::class.java)
 
+    private val fetchArrivalTimesUseCase by lazy { FetchArrivalTimesUseCase(stopPointsRepo, schedulerProvider) }
+
     //fake values
-    val stopPointId = "-1"
+    private val stopPointId = "-1"
 
     /**
      *test the success case when the use case calling the
@@ -35,7 +37,7 @@ class FetchArrivalTimesUseCaseUnitTest {
 
         val fakeObservable = Observable.just(stopPointArrivalResult)
 
-        Mockito.`when`(stopPointsRepo.fetchStopPointArrivals(stopPointId))
+       `when`(stopPointsRepo.fetchStopPointArrivals(stopPointId))
                 .thenReturn(fakeObservable)
 
         fetchArrivalTimesUseCase.fetchStopPointArrivals(stopPointId)
@@ -52,7 +54,7 @@ class FetchArrivalTimesUseCaseUnitTest {
 
         val response = Throwable("Error response")
 
-        Mockito.`when`(stopPointsRepo.fetchStopPointArrivals(stopPointId))
+        `when`(stopPointsRepo.fetchStopPointArrivals(stopPointId))
                 .thenReturn(Observable.error(response))
 
         fetchArrivalTimesUseCase.fetchStopPointArrivals(stopPointId)
@@ -70,7 +72,7 @@ class FetchArrivalTimesUseCaseUnitTest {
 
         val fakeObservable = Observable.just(stopPointArrivalResult)
 
-        Mockito.`when`(stopPointsRepo.fetchStopPointArrivals(stopPointId))
+        `when`(stopPointsRepo.fetchStopPointArrivals(stopPointId))
                 .thenReturn(fakeObservable)
 
         fetchArrivalTimesUseCase.fetchStopPointArrivals(stopPointId)
