@@ -139,7 +139,7 @@ class NearbyStationsActivity : AppCompatActivity(), NearbyStationsController, On
 
     override fun zoomToStations(stopPointModel: StopPointModel?) {
         stopPointModel?.let {
-            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(LatLng(it.lat, it.lon), 15f))
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(LatLng(it.lat, it.lon), 10f))
         }
     }
 

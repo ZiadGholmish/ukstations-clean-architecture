@@ -48,7 +48,7 @@ fun StopPointEntity.toStopPoint(): StopPointModel {
 }
 
 fun ArrivalTimeResponseModel.toArrivalTime(): ArrivalTimeModel {
-    return ArrivalTimeModel(this.id, this.naptanId, this.lineName,
+    return ArrivalTimeModel(this.id, this.naptanId, this.lineName,this.lineId,
             this.destinationName, this.timeToStation,
             this.expectedArrival, this.towards, this.direction,
             this.platformName)

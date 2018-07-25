@@ -1,9 +1,11 @@
 package com.citymapper.app.presentation.views.linedetails
 
 import android.arch.lifecycle.ViewModelProviders
+import android.graphics.Color
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
+import android.widget.Toast
 import com.citymapper.app.R
 import com.citymapper.app.app.CitymapperApp
 import com.citymapper.app.dagger.ViewModelFactory
@@ -15,9 +17,11 @@ import com.citymapper.app.presentation.views.nearbystations.adapter.StopPointAda
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
-import com.google.android.gms.maps.model.Marker
 import kotlinx.android.synthetic.main.activity_line_details.*
 import javax.inject.Inject
+import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.model.*
+
 
 class LineDetailsActivity : AppCompatActivity(), LineDetailsController,
         OnMapReadyCallback, GoogleMap.OnInfoWindowClickListener {
@@ -64,7 +68,7 @@ class LineDetailsActivity : AppCompatActivity(), LineDetailsController,
         mPresenter.attachView(this)
         val lineDetailsVM = ViewModelProviders.of(this,
                 viewModelFactory).get(LineDetailsVM::class.java)
-        mPresenter.initPresenter(lineDetailsVM , intent.getStringExtra("id") , intent.getStringExtra("direction"))
+        mPresenter.initPresenter(lineDetailsVM, intent.getStringExtra("id"), intent.getStringExtra("direction"))
     }
 
     private fun setupRecycler() {
@@ -79,22 +83,43 @@ class LineDetailsActivity : AppCompatActivity(), LineDetailsController,
 
 
     override fun showSequenceStopPoints(stopPointModel: List<StopPointModel>) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        stopPointModel.forEach {
+            val marker = mMap.addMarker(MarkerOptions()
+                    .position(LatLng(it.lat, it.lon)))
+            marker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.tube_icon))
+            marker.tag = it
+        }
+        drawRouteOnMap(stopPointModel.map { LatLng(it.lat, it.lon) })
+    }
+
+
+    private fun drawRouteOnMap(positions: List<LatLng>) {
+        val options = PolylineOptions().width(10f).color(Color.BLUE).geodesic(true)
+        options.addAll(positions)
+        if (positions.isNotEmpty()) {
+            mMap.addPolyline(options)
+            val cameraPosition = CameraPosition.Builder()
+                    .target(LatLng(positions[0].latitude, positions[0].longitude))
+                    .zoom(17f)
+                    .build()
+            mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition))
+        }
     }
 
     override fun showNoStopPoints() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        Toast.makeText(this, getString(R.string.no_points_available), Toast.LENGTH_LONG).show()
     }
 
     override fun showFetchingError(errorMessage: String) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        Toast.makeText(this, errorMessage, Toast.LENGTH_LONG).show()
     }
 
     override fun showLoading() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        loadingView.show()
     }
 
     override fun hideLoading() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        loadingView.hide()
     }
+
 }
