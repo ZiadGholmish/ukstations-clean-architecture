@@ -1,16 +1,16 @@
 package com.citymapper.app.presentation.views.nearbystations
 
 import android.arch.lifecycle.LifecycleOwner
-import com.citymapper.app.domain.models.stoppoint.StopPoint
+import com.citymapper.app.domain.models.stoppoint.StopPointModel
 import com.google.android.gms.maps.model.LatLng
 
 interface NearbyStationsController : LifecycleOwner {
 
-    fun showStopPoints(stopPoints: List<StopPoint>)
+    fun showStopPoints(stopPointModels: List<StopPointModel>)
 
-    fun showArrivalTimes(stopPoints: List<StopPoint>)
+    fun showArrivalTimes(stopPointModels: List<StopPointModel>)
 
-    fun zoomToStations(stopPoint: StopPoint?)
+    fun zoomToStations(stopPointModel: StopPointModel?)
 
     fun moveMapToDefaultLocation(defaultLatLng: LatLng)
 

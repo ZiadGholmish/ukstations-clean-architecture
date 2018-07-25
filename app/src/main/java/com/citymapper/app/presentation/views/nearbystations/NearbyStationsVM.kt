@@ -2,14 +2,13 @@ package com.citymapper.app.presentation.views.nearbystations
 
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
-import android.util.Log
 import com.citymapper.app.data.remote.models.RequestState
 import com.citymapper.app.domain.models.arrivals.ArrivalTimeModel
 import com.citymapper.app.domain.models.arrivals.StopArrivalsPayLoad
 import com.citymapper.app.domain.models.arrivals.StopArrivalsResult
 import com.citymapper.app.domain.models.stoppoint.NetworkHttpError
 import com.citymapper.app.domain.models.stoppoint.StopPintsPayLoad
-import com.citymapper.app.domain.models.stoppoint.StopPoint
+import com.citymapper.app.domain.models.stoppoint.StopPointModel
 import com.citymapper.app.domain.models.stoppoint.StopPointsResult
 import com.citymapper.app.domain.usecase.FetchArrivalTimesUseCase
 import com.citymapper.app.domain.usecase.FetchStopPointsUseCase
@@ -25,8 +24,8 @@ class NearbyStationsVM @Inject constructor(private val fetchStopPointsUseCase: F
     private var arrivalsTimeDisposable = CompositeDisposable()
 
     //live data to control the values
-    val stopPointsLiveData = MutableLiveData<List<StopPoint>>()
-    val arrivalTimesData = MutableLiveData<List<StopPoint>>()
+    val stopPointsLiveData = MutableLiveData<List<StopPointModel>>()
+    val arrivalTimesData = MutableLiveData<List<StopPointModel>>()
     val stopPointsNetworkHttpError = MutableLiveData<NetworkHttpError>()
     val stopPointsRequestState = MutableLiveData<RequestState>()
 

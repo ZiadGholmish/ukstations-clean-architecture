@@ -1,12 +1,18 @@
 package com.citymapper.app.data.datautil
 
 import com.citymapper.app.data.remote.models.arrivaltimes.ArrivalTimeResponseModel
+import com.citymapper.app.data.remote.models.linedetails.LineDetailsResponseModel
+import com.citymapper.app.data.remote.models.linedetails.StopPointSequence
 import com.citymapper.app.data.remote.models.stops.StopPointEntity
 import com.citymapper.app.data.remote.models.stops.StopPointsResponseModel
 import com.citymapper.app.domain.models.arrivals.ArrivalTimeModel
 import com.citymapper.app.domain.models.arrivals.StopArrivalsPayLoad
+import com.citymapper.app.domain.models.linedetails.LineDetailsModel
+import com.citymapper.app.domain.models.linedetails.LineDetailsPayLoad
+import com.citymapper.app.domain.models.linedetails.LineDetailsResult
+import com.citymapper.app.domain.models.linedetails.StopPointSequenceModel
 import com.citymapper.app.domain.models.stoppoint.StopPintsPayLoad
-import com.citymapper.app.domain.models.stoppoint.StopPoint
+import com.citymapper.app.domain.models.stoppoint.StopPointModel
 import retrofit2.Response
 
 
@@ -27,12 +33,18 @@ fun Response<List<ArrivalTimeResponseModel>>.toAggregateArrivalsResult() =
             Util.fromArrivalErrorResponse(this.code(), Util.formatErrorBody(this.errorBody()))
         }
 
+fun Response<LineDetailsResponseModel>.toAggregateLineDetailsResult() =
+        if (this.isSuccessful) {
+            LineDetailsPayLoad.Data(this.body()!!.toLineDetailsModel())
+        } else {
+            Util.fromLineDetailsErrorResponse(this.code(), Util.formatErrorBody(this.errorBody()))
+        }
 
 /**
  * extension function to map the entity to the stop point domain model
  */
-fun StopPointEntity.toStopPoint(): StopPoint {
-    return StopPoint(this.id, this.commonName, this.distance, this.lat, this.lon, listOf())
+fun StopPointEntity.toStopPoint(): StopPointModel {
+    return StopPointModel(this.id, this.commonName, this.distance, this.lat, this.lon, listOf())
 }
 
 fun ArrivalTimeResponseModel.toArrivalTime(): ArrivalTimeModel {
@@ -40,6 +52,23 @@ fun ArrivalTimeResponseModel.toArrivalTime(): ArrivalTimeModel {
             this.destinationName, this.timeToStation,
             this.expectedArrival, this.towards, this.direction,
             this.platformName)
+}
+
+/**
+ * extension function to map the data sequence model to the domain one
+ */
+fun StopPointSequence.toStopPointSequenceModel(): StopPointSequenceModel {
+    return StopPointSequenceModel(this.lineId, this.lineName, this.direction
+            , this.branchId, this.stopPoint.map { it.toStopPoint() }, this.serviceType)
+
+}
+
+/**
+ * extension function to map the whole line details response to the domain one
+ */
+fun LineDetailsResponseModel.toLineDetailsModel(): LineDetailsModel {
+    val sequence = this.stopPointSequences.map { it.toStopPointSequenceModel() }
+    return LineDetailsModel(this.lineId, this.lineName, sequence)
 }
 
 

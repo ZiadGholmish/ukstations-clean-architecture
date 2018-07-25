@@ -1,8 +1,5 @@
 package com.citymapper.app.domain.models.arrivals
 
-import com.citymapper.app.domain.models.stoppoint.StopPoint
-import com.citymapper.app.domain.models.stoppoint.StopPointsResult
-
 sealed class StopArrivalsResult
 
 sealed class StopArrivalsPayLoad : StopArrivalsResult() {

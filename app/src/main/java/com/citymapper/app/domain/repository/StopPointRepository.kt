@@ -2,6 +2,7 @@ package com.citymapper.app.domain.repository
 
 import com.citymapper.app.domain.models.arrivals.ArrivalTimeModel
 import com.citymapper.app.domain.models.arrivals.StopArrivalsResult
+import com.citymapper.app.domain.models.linedetails.LineDetailsResult
 import com.citymapper.app.domain.models.stoppoint.StopPointsResult
 import io.reactivex.Observable
 
@@ -11,5 +12,5 @@ interface StopPointRepository {
 
     fun fetchStopPointArrivals(id: String): Observable<StopArrivalsResult>
 
-    fun fetchLineStopPoints(id: String, direction: String)
+    fun fetchLineStopPoints(id: String, direction: String): Observable<LineDetailsResult>
 }

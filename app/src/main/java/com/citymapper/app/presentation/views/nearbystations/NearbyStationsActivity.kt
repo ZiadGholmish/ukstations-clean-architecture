@@ -8,7 +8,7 @@ import android.widget.Toast
 import com.citymapper.app.R
 import com.citymapper.app.app.CitymapperApp
 import com.citymapper.app.dagger.ViewModelFactory
-import com.citymapper.app.domain.models.stoppoint.StopPoint
+import com.citymapper.app.domain.models.stoppoint.StopPointModel
 
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -100,9 +100,9 @@ class NearbyStationsActivity : AppCompatActivity(), NearbyStationsController, On
     /**
      * show the stop points available and set the tag for each marker
      */
-    override fun showStopPoints(stopPoints: List<StopPoint>) {
+    override fun showStopPoints(stopPointModels: List<StopPointModel>) {
         clearCurrentMarker()
-        stopPoints.forEach {
+        stopPointModels.forEach {
             val marker = mMap.addMarker(MarkerOptions()
                     .position(LatLng(it.lat, it.lon)))
             marker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.tube_icon))
@@ -119,8 +119,8 @@ class NearbyStationsActivity : AppCompatActivity(), NearbyStationsController, On
         stopPointRecycler.adapter = adapter
     }
 
-    override fun showArrivalTimes(stopPoints: List<StopPoint>) {
-        adapter.setNewStopPoints(stopPoints)
+    override fun showArrivalTimes(stopPointModels: List<StopPointModel>) {
+        adapter.setNewStopPoints(stopPointModels)
     }
 
     /**
@@ -137,8 +137,8 @@ class NearbyStationsActivity : AppCompatActivity(), NearbyStationsController, On
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(defaultLatLng, 10f))
     }
 
-    override fun zoomToStations(stopPoint: StopPoint?) {
-        stopPoint?.let {
+    override fun zoomToStations(stopPointModel: StopPointModel?) {
+        stopPointModel?.let {
             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(LatLng(it.lat, it.lon), 15f))
         }
     }
