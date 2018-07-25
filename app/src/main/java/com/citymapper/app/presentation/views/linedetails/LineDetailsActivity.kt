@@ -7,6 +7,7 @@ import android.support.v7.widget.LinearLayoutManager
 import com.citymapper.app.R
 import com.citymapper.app.app.CitymapperApp
 import com.citymapper.app.dagger.ViewModelFactory
+import com.citymapper.app.domain.models.stoppoint.StopPointModel
 import com.citymapper.app.presentation.views.nearbystations.NearbyStationsPresenter
 import com.citymapper.app.presentation.views.nearbystations.NearbyStationsVM
 import com.citymapper.app.presentation.views.nearbystations.adapter.CustomInfoWindowGoogleMap
@@ -63,7 +64,7 @@ class LineDetailsActivity : AppCompatActivity(), LineDetailsController,
         mPresenter.attachView(this)
         val lineDetailsVM = ViewModelProviders.of(this,
                 viewModelFactory).get(LineDetailsVM::class.java)
-        mPresenter.initPresenter(lineDetailsVM)
+        mPresenter.initPresenter(lineDetailsVM , intent.getStringExtra("id") , intent.getStringExtra("direction"))
     }
 
     private fun setupRecycler() {
@@ -76,4 +77,24 @@ class LineDetailsActivity : AppCompatActivity(), LineDetailsController,
     override fun onInfoWindowClick(p0: Marker?) {
     }
 
+
+    override fun showSequenceStopPoints(stopPointModel: List<StopPointModel>) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun showNoStopPoints() {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun showFetchingError(errorMessage: String) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun showLoading() {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun hideLoading() {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
 }
