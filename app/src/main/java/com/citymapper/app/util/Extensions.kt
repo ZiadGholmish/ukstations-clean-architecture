@@ -15,5 +15,5 @@ fun StopPoint.toParcable(): StopPointSequenceParcelable {
 
 fun ArrivalTime.toParcable(): ArrivalTimeParcelable {
     return ArrivalTimeParcelable(this.id,
-            this.lineName, this.expectedArrival, this.direction)
+            this.lineName, this.lineId,this.expectedArrival, this.direction)
 }

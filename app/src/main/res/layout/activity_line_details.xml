@@ -30,7 +30,7 @@
             android:layout_height="match_parent"
             android:gravity="start|center"
             android:textColor="@color/colorWhite"
-            android:textSize="@dimen/titleTextSize"
+            android:textSize="20sp"
             tools:text="19:07 Liverpool Street" />
     </android.support.v7.widget.Toolbar>
 

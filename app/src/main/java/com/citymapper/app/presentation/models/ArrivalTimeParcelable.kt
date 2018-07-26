@@ -5,9 +5,11 @@ import android.os.Parcelable
 
 data class ArrivalTimeParcelable(val id: String,
                                  val lineName: String,
+                                 val lineId: String,
                                  val expectedArrival: String,
                                  var direction: String?) : Parcelable {
     constructor(parcel: Parcel) : this(
+            parcel.readString(),
             parcel.readString(),
             parcel.readString(),
             parcel.readString(),
@@ -17,6 +19,7 @@ data class ArrivalTimeParcelable(val id: String,
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeString(id)
         parcel.writeString(lineName)
+        parcel.writeString(lineId)
         parcel.writeString(expectedArrival)
         parcel.writeString(direction)
     }

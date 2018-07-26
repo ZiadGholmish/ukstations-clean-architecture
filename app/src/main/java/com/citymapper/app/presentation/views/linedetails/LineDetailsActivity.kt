@@ -35,8 +35,10 @@ class LineDetailsActivity : AppCompatActivity(), LineDetailsController,
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setSupportActionBar(toolbar)
         setContentView(R.layout.activity_line_details)
+        setSupportActionBar(toolbar)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        title = ""
         setupRecycler()
         setupGoogleMap()
     }
@@ -105,7 +107,7 @@ class LineDetailsActivity : AppCompatActivity(), LineDetailsController,
             mMap.addPolyline(options)
             val cameraPosition = CameraPosition.Builder()
                     .target(LatLng(positions[0].latitude, positions[0].longitude))
-                    .zoom(17f)
+                    .zoom(15f)
                     .build()
             mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition))
         }

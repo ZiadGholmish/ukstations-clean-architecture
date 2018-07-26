@@ -2,12 +2,14 @@ package com.citymapper.app.data.datautil
 
 import com.citymapper.app.data.remote.models.arrivaltimes.ArrivalTimeResponse
 import com.citymapper.app.data.remote.models.linedetails.LineDetailsResponseModel
+import com.citymapper.app.data.remote.models.linedetails.StopPointSequence
 import com.citymapper.app.data.remote.models.stops.StopPointResponse
 import com.citymapper.app.data.remote.models.stops.StopPointsResponseModel
 import com.citymapper.app.domain.models.arrivals.ArrivalTime
 import com.citymapper.app.domain.models.arrivals.StopArrivalsPayLoad
 import com.citymapper.app.domain.models.linedetails.LineDetails
 import com.citymapper.app.domain.models.linedetails.LineDetailsPayLoad
+import com.citymapper.app.domain.models.linedetails.LineSequence
 import com.citymapper.app.domain.models.stoppoint.StopPintsPayLoad
 import com.citymapper.app.domain.models.stoppoint.StopPoint
 import retrofit2.Response
@@ -45,7 +47,7 @@ fun StopPointResponse.toStopPoint(): StopPoint {
 }
 
 fun ArrivalTimeResponse.toArrivalTime(): ArrivalTime {
-    return ArrivalTime(this.id, this.naptanId, this.lineName,this.lineId,
+    return ArrivalTime(this.id, this.naptanId, this.lineName, this.lineId,
             this.destinationName, this.timeToStation,
             this.expectedArrival, this.towards, this.direction,
             this.platformName)
@@ -54,8 +56,8 @@ fun ArrivalTimeResponse.toArrivalTime(): ArrivalTime {
 /**
  * extension function to map the data sequence model to the domain one
  */
-fun StopPointSequence.toStopPointSequenceModel(): com.citymapper.app.domain.models.linedetails.LineSequence {
-    return com.citymapper.app.domain.models.linedetails.StopPointSequence(lineId, lineName, direction
+fun StopPointSequence.toStopPointSequenceModel(): LineSequence {
+    return LineSequence(lineId, lineName, direction
             , branchId, stopPoint.map { it.toStopPoint() }, serviceType)
 
 }

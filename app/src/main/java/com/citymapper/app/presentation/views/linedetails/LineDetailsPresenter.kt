@@ -15,7 +15,7 @@ class LineDetailsPresenter @Inject constructor() : AbsPresenter<LineDetailsContr
         this.liveDetailsVM = liveDetailsVM
         setObservers()
         arrivalTime?.let {
-            liveDetailsVM.fetchLineDetails(arrivalTime.id, arrivalTime.direction?.let { it }
+            liveDetailsVM.fetchLineDetails(arrivalTime.lineId, arrivalTime.direction?.let { it }
                     ?: "inbound")
             mView?.showLineName(arrivalTime.lineName)
         }
