@@ -5,11 +5,12 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.citymapper.app.R
+import com.citymapper.app.presentation.models.StopPointSequenceParcelable
 import com.citymapper.app.presentation.views.linedetails.LineDetailsActivity
 import com.citymapper.app.presentation.views.linedetails.viewholders.StopPointSequenceViewHolder
 import com.citymapper.app.presentation.views.nearbystations.viewholder.ArrivalTimeViewHolder
 
-class StopPointSequenceAdapter : RecyclerView.Adapter<StopPointSequenceViewHolder>() {
+class StopPointSequenceAdapter(private val lineStopPoints: List<StopPointSequenceParcelable>) : RecyclerView.Adapter<StopPointSequenceViewHolder>() {
 
 
     override fun onCreateViewHolder(parent: ViewGroup, p1: Int): StopPointSequenceViewHolder {
@@ -18,17 +19,20 @@ class StopPointSequenceAdapter : RecyclerView.Adapter<StopPointSequenceViewHolde
     }
 
     override fun getItemCount(): Int {
-        return 30
+        return lineStopPoints.size
     }
 
     override fun onBindViewHolder(holder: StopPointSequenceViewHolder, position: Int) {
-
+        val stopPoint = lineStopPoints[holder.adapterPosition]
         when {
-            holder.adapterPosition == 0 -> holder.bind(true, true, false)
-            holder.adapterPosition == 29 -> holder.bind(false, false, true)
-            else -> holder.bind(false, false, false)
+            holder.adapterPosition == 0 -> stopPoint.hideTop = false
+            holder.adapterPosition == lineStopPoints.size - 1 -> stopPoint.hideTop = false
+            else -> {
+                stopPoint.hideTop = false
+                stopPoint.hideCenter = false
+                stopPoint.hideBottom = false
+            }
         }
-
-
+        holder.bind(stopPoint)
     }
 }

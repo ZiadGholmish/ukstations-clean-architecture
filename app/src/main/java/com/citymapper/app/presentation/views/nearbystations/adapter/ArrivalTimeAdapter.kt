@@ -10,7 +10,7 @@ import com.citymapper.app.app.AppConstants
 import com.citymapper.app.domain.models.arrivals.ArrivalTime
 import com.citymapper.app.presentation.views.linedetails.LineDetailsActivity
 import com.citymapper.app.presentation.views.nearbystations.viewholder.ArrivalTimeViewHolder
-import com.citymapper.app.util.toParcable
+import com.citymapper.app.util.toParcelable
 
 class ArrivalTimeAdapter(private val arrivalTimes: List<ArrivalTime>, val context: Context) : RecyclerView.Adapter<ArrivalTimeViewHolder>() {
 
@@ -27,7 +27,7 @@ class ArrivalTimeAdapter(private val arrivalTimes: List<ArrivalTime>, val contex
         holder.bind(arrivalTimes[holder.adapterPosition])
         holder.itemView.setOnClickListener {
             val intent = Intent(context, LineDetailsActivity::class.java)
-            intent.putExtra(AppConstants.ARRIVAL_TIME_INTENT_NAME, arrivalTimes[holder.adapterPosition].toParcable())
+            intent.putExtra(AppConstants.ARRIVAL_TIME_INTENT_NAME, arrivalTimes[holder.adapterPosition].toParcelable())
             context.startActivity(intent)
         }
     }

@@ -2,15 +2,19 @@ package com.citymapper.app.presentation.views.linedetails
 
 import android.arch.lifecycle.ViewModelProviders
 import android.graphics.Color
+import android.os.Build
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.v4.content.ContextCompat
 import android.support.v7.widget.LinearLayoutManager
+import android.view.WindowManager
 import android.widget.Toast
 import com.citymapper.app.R
 import com.citymapper.app.app.AppConstants
 import com.citymapper.app.app.CitymapperApp
 import com.citymapper.app.dagger.ViewModelFactory
 import com.citymapper.app.domain.models.stoppoint.StopPoint
+import com.citymapper.app.presentation.models.StopPointSequenceParcelable
 import com.citymapper.app.presentation.views.linedetails.adapters.StopPointSequenceAdapter
 import com.citymapper.app.presentation.views.nearbystations.adapter.CustomInfoWindowGoogleMap
 import com.google.android.gms.maps.GoogleMap
@@ -36,11 +40,25 @@ class LineDetailsActivity : AppCompatActivity(), LineDetailsController,
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_line_details)
-        setSupportActionBar(toolbar)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        title = ""
+        setupActionBar()
         setupRecycler()
         setupGoogleMap()
+    }
+
+    private fun setupActionBar() {
+        setSupportActionBar(toolbar)
+        changeStatusBarColor(R.color.colorTube)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        title = ""
+    }
+
+    private fun changeStatusBarColor(color: Int) {
+        if (Build.VERSION.SDK_INT >= 21) {
+            val window = window
+            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+            window.statusBarColor = ContextCompat.getColor(this, color)
+        }
     }
 
 
@@ -76,8 +94,6 @@ class LineDetailsActivity : AppCompatActivity(), LineDetailsController,
         val linearLayout = LinearLayoutManager(this)
         linearLayout.orientation = LinearLayoutManager.VERTICAL
         lineStopPointsRecycler.layoutManager = linearLayout
-        val adapter = StopPointSequenceAdapter()
-        lineStopPointsRecycler.adapter = adapter
     }
 
 
@@ -89,7 +105,8 @@ class LineDetailsActivity : AppCompatActivity(), LineDetailsController,
      * change the stop points to markers on the map
      * and then draw the Polyline
      */
-    override fun showSequenceStopPoints(stopPoint: List<StopPoint>) {
+    override fun showSequenceStopPoints(stopPoint: List<StopPointSequenceParcelable>) {
+        showStopPointsForLinea(stopPoint)
         stopPoint.forEach {
             val marker = mMap.addMarker(MarkerOptions()
                     .position(LatLng(it.lat, it.lon)))
@@ -97,8 +114,8 @@ class LineDetailsActivity : AppCompatActivity(), LineDetailsController,
             marker.tag = it
         }
         drawRouteOnMap(stopPoint.map { LatLng(it.lat, it.lon) })
-    }
 
+    }
 
     private fun drawRouteOnMap(positions: List<LatLng>) {
         val options = PolylineOptions().width(10f).color(Color.BLUE).geodesic(true)
@@ -111,6 +128,11 @@ class LineDetailsActivity : AppCompatActivity(), LineDetailsController,
                     .build()
             mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition))
         }
+    }
+
+    private fun showStopPointsForLinea(stopPoints: List<StopPointSequenceParcelable>) {
+        val adapter = StopPointSequenceAdapter(stopPoints)
+        lineStopPointsRecycler.adapter = adapter
     }
 
     override fun showNoStopPoints() {

@@ -6,8 +6,9 @@ import com.citymapper.app.data.remote.models.RequestState
 import com.citymapper.app.domain.models.linedetails.LineDetailsNetworkHttpError
 import com.citymapper.app.domain.models.linedetails.LineDetailsPayLoad
 import com.citymapper.app.domain.models.linedetails.LineDetailsResult
-import com.citymapper.app.domain.models.stoppoint.StopPoint
 import com.citymapper.app.domain.usecase.FetchLineDetailsUseCase
+import com.citymapper.app.presentation.models.StopPointSequenceParcelable
+import com.citymapper.app.util.toParcelable
 import io.reactivex.disposables.CompositeDisposable
 import javax.inject.Inject
 
@@ -17,7 +18,7 @@ class LineDetailsVM @Inject constructor(private val fetchLineDetailsUseCase: Fet
     private val compositeDisposable = CompositeDisposable()
 
     //live data to control the values
-    val lineStopPointsLiveData = MutableLiveData<List<StopPoint>>()
+    val lineStopPointsLiveData = MutableLiveData<List<StopPointSequenceParcelable>>()
     val lineStopPointsNetworkHttpError = MutableLiveData<LineDetailsNetworkHttpError>()
     val lineStopPointsRequestState = MutableLiveData<RequestState>()
 
@@ -55,7 +56,7 @@ class LineDetailsVM @Inject constructor(private val fetchLineDetailsUseCase: Fet
         when (payload) {
             is LineDetailsPayLoad.Data ->
                 if (payload.data.stopPointSequences.isNotEmpty()) {
-                    lineStopPointsLiveData.value = payload.data.stopPointSequences[0].stopPoint
+                    lineStopPointsLiveData.value = payload.data.stopPointSequences[0].stopPoint.map { it.toParcelable() }
                 }
         }
     }

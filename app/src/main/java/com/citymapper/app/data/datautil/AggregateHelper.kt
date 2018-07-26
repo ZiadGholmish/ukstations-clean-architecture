@@ -2,6 +2,7 @@ package com.citymapper.app.data.datautil
 
 import com.citymapper.app.data.remote.models.arrivaltimes.ArrivalTimeResponse
 import com.citymapper.app.data.remote.models.linedetails.LineDetailsResponseModel
+import com.citymapper.app.data.remote.models.linedetails.LineStopPoint
 import com.citymapper.app.data.remote.models.linedetails.StopPointSequence
 import com.citymapper.app.data.remote.models.stops.StopPointResponse
 import com.citymapper.app.data.remote.models.stops.StopPointsResponseModel
@@ -45,6 +46,15 @@ fun Response<LineDetailsResponseModel>.toAggregateLineDetailsResult() =
 fun StopPointResponse.toStopPoint(): StopPoint {
     return StopPoint(this.id, this.commonName, this.distance, this.lat, this.lon, listOf())
 }
+
+
+/**
+ * extension function to map the entity to the stop point domain model
+ */
+fun LineStopPoint.toStopPoint(): StopPoint {
+    return StopPoint(this.id, this.name, 0.0, this.lat, this.lon, listOf())
+}
+
 
 fun ArrivalTimeResponse.toArrivalTime(): ArrivalTime {
     return ArrivalTime(this.id, this.naptanId, this.lineName, this.lineId,

@@ -4,15 +4,13 @@ import android.os.Parcel
 import android.os.Parcelable
 
 data class StopPointSequenceParcelable(val id: String,
-                                       var commonName:
-                                       String?,
+                                       var commonName: String?,
                                        val distance: Double,
                                        val lat: Double,
                                        val lon: Double,
-                                       val hideTop: Boolean = true,
-                                       val hideCenter: Boolean = true,
-                                       val hideDown: Boolean = true
-) : Parcelable {
+                                       var hideTop: Boolean = true,
+                                       var hideCenter: Boolean = true,
+                                       var hideBottom: Boolean = true) : Parcelable {
     constructor(parcel: Parcel) : this(
             parcel.readString(),
             parcel.readString(),
@@ -32,7 +30,7 @@ data class StopPointSequenceParcelable(val id: String,
         parcel.writeDouble(lon)
         parcel.writeByte(if (hideTop) 1 else 0)
         parcel.writeByte(if (hideCenter) 1 else 0)
-        parcel.writeByte(if (hideDown) 1 else 0)
+        parcel.writeByte(if (hideBottom) 1 else 0)
     }
 
     override fun describeContents(): Int {

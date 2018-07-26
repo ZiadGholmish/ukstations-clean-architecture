@@ -26,11 +26,11 @@ data class StopPointSequence(
         val lineName: String,
         val direction: String,
         val branchId: Int,
-        val stopPoint: List<StopPointResponse>,
+        val stopPoint: List<LineStopPoint>,
         val serviceType: String
 )
 
-data class StopPoint(
+data class LineStopPoint(
         val parentId: String,
         val stationId: String,
         val icsId: String,
