@@ -25,12 +25,6 @@ class AppModule(application: Application) {
 
     @Singleton
     @Provides
-    fun provideShared(): SharedPreferences {
-        return application.getSharedPreferences("citymapper", 0)
-    }
-
-    @Singleton
-    @Provides
     fun provideStopRepo(apiInterface: APIInterface): StopPointRepository {
         return RepositoryImpl(apiInterface)
     }

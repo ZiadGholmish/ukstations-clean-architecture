@@ -3,7 +3,7 @@ package com.citymapper.app.data.datautil
 import com.citymapper.app.data.remote.models.arrivaltimes.ArrivalTimeResponse
 import com.citymapper.app.data.remote.models.linedetails.LineDetailsResponseModel
 import com.citymapper.app.data.remote.models.linedetails.LineStopPoint
-import com.citymapper.app.data.remote.models.linedetails.StopPointSequence
+import com.citymapper.app.data.remote.models.linedetails.LineSequenceResponse
 import com.citymapper.app.data.remote.models.stops.StopPointResponse
 import com.citymapper.app.data.remote.models.stops.StopPointsResponseModel
 import com.citymapper.app.domain.models.arrivals.ArrivalTime
@@ -66,9 +66,8 @@ fun ArrivalTimeResponse.toArrivalTime(): ArrivalTime {
 /**
  * extension function to map the data sequence model to the domain one
  */
-fun StopPointSequence.toStopPointSequenceModel(): LineSequence {
-    return LineSequence(lineId, lineName, direction
-            , branchId, stopPoint.map { it.toStopPoint() }, serviceType)
+fun LineSequenceResponse.toStopPointSequenceModel(): LineSequence {
+    return LineSequence(lineId, lineName, direction, branchId, stopPoint.map { it.toStopPoint() })
 
 }
 
