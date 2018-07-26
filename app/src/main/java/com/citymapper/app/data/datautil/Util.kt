@@ -3,6 +3,8 @@ package com.citymapper.app.data.datautil
 import com.citymapper.app.data.remote.models.stops.StopPointsResponseModel
 import com.citymapper.app.domain.models.arrivals.StopArrivalNetworkHttpError
 import com.citymapper.app.domain.models.arrivals.StopArrivalsResult
+import com.citymapper.app.domain.models.linedetails.LineDetailsNetworkHttpError
+import com.citymapper.app.domain.models.linedetails.LineDetailsResult
 import com.citymapper.app.domain.models.stoppoint.NetworkHttpError
 import com.citymapper.app.domain.models.stoppoint.StopPointsResult
 import okhttp3.ResponseBody
@@ -44,6 +46,17 @@ object Util {
             500 -> StopArrivalNetworkHttpError.Error(code, message
                     ?: "")
             else -> StopArrivalNetworkHttpError.Error(code, message
+                    ?: "")
+        }
+    }
+
+    fun fromLineDetailsErrorResponse(code: Int, message: String?): LineDetailsResult {
+        return when (code) {
+            401 -> LineDetailsNetworkHttpError.Error(code, message
+                    ?: "")
+            500 -> LineDetailsNetworkHttpError.Error(code, message
+                    ?: "")
+            else -> LineDetailsNetworkHttpError.Error(code, message
                     ?: "")
         }
     }

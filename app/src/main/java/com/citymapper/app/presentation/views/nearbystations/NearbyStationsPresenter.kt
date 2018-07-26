@@ -1,11 +1,9 @@
 package com.citymapper.app.presentation.views.nearbystations
 
 import android.arch.lifecycle.Observer
-import com.citymapper.app.R
 import com.citymapper.app.app.AbsPresenter
 import com.citymapper.app.data.remote.models.RequestState
 import com.citymapper.app.domain.models.stoppoint.NetworkHttpError
-import com.citymapper.app.domain.models.stoppoint.StopPoint
 import com.citymapper.app.util.LocationUtil
 import com.google.android.gms.maps.model.LatLng
 import javax.inject.Inject
@@ -23,7 +21,7 @@ class NearbyStationsPresenter @Inject constructor() : AbsPresenter<NearbyStation
         if (!LocationUtil.checkLocationInsideCountry(markerPosition)) {
             mView?.moveMapToDefaultLocation(LatLng(LocationUtil.defaultLat, LocationUtil.defaultLon))
         } else {
-            nearbyStationsVM.loadStopPointsByLocation(markerPosition.latitude, markerPosition.longitude)
+            nearbyStationsVM.fetchStopPointsByLocation(markerPosition.latitude, markerPosition.longitude)
         }
     }
 

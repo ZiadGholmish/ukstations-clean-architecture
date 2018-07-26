@@ -6,13 +6,12 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.citymapper.app.R
-import com.citymapper.app.domain.models.arrivals.ArrivalTimeModel
-import com.citymapper.app.domain.models.stoppoint.StopPoint
+import com.citymapper.app.domain.models.stoppoint.StopPointModel
 import com.citymapper.app.presentation.utils.StopPointDiffCallback
 
 import com.citymapper.app.presentation.views.nearbystations.viewholder.StopPointViewHolder
 
-class StopPointAdapter(private val stopPoints: MutableList<StopPoint>, val context: Context) : RecyclerView.Adapter<StopPointViewHolder>() {
+class StopPointAdapter(private val stopPointModels: MutableList<StopPointModel>, val context: Context) : RecyclerView.Adapter<StopPointViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, p1: Int): StopPointViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
@@ -20,18 +19,18 @@ class StopPointAdapter(private val stopPoints: MutableList<StopPoint>, val conte
     }
 
     override fun getItemCount(): Int {
-        return stopPoints.size
+        return stopPointModels.size
     }
 
     override fun onBindViewHolder(holder: StopPointViewHolder, position: Int) {
-        holder.bind(stopPoints[holder.adapterPosition])
+        holder.bind(stopPointModels[holder.adapterPosition])
     }
 
-    fun setNewStopPoints(newStopPoints: List<StopPoint>) {
-        val diffCallback = StopPointDiffCallback(this.stopPoints, newStopPoints)
+    fun setNewStopPoints(newStopPointModels: List<StopPointModel>) {
+        val diffCallback = StopPointDiffCallback(this.stopPointModels, newStopPointModels)
         val diffResult = DiffUtil.calculateDiff(diffCallback)
-        stopPoints.clear()
-        stopPoints.addAll(newStopPoints)
+        stopPointModels.clear()
+        stopPointModels.addAll(newStopPointModels)
         diffResult.dispatchUpdatesTo(this)
     }
 }

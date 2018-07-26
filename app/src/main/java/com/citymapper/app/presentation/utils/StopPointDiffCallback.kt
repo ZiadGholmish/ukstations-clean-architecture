@@ -1,25 +1,25 @@
 package com.citymapper.app.presentation.utils
 
 import android.support.v7.util.DiffUtil
-import com.citymapper.app.domain.models.stoppoint.StopPoint
+import com.citymapper.app.domain.models.stoppoint.StopPointModel
 
-class StopPointDiffCallback constructor(private val mOldStopPoints: List<StopPoint>, private val mNewStopPoints: List<StopPoint>) : DiffUtil.Callback() {
+class StopPointDiffCallback constructor(private val mOldStopPointModels: List<StopPointModel>, private val mNewStopPointModels: List<StopPointModel>) : DiffUtil.Callback() {
 
     override fun getOldListSize(): Int {
-        return mOldStopPoints.size
+        return mOldStopPointModels.size
     }
 
     override fun getNewListSize(): Int {
-        return mNewStopPoints.size
+        return mNewStopPointModels.size
     }
 
     override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-        return mOldStopPoints[oldItemPosition].id == mNewStopPoints[newItemPosition].id
+        return mOldStopPointModels[oldItemPosition].id == mNewStopPointModels[newItemPosition].id
     }
 
     override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-        val oldStopPoint = mOldStopPoints[oldItemPosition]
-        val newStopPoint = mNewStopPoints[newItemPosition]
+        val oldStopPoint = mOldStopPointModels[oldItemPosition]
+        val newStopPoint = mNewStopPointModels[newItemPosition]
         return oldStopPoint.toString() == newStopPoint.toString()
     }
 

@@ -1,6 +1,6 @@
 package com.citymapper.app.data.remote.models.arrivaltimes
 
-data class ArrivalTimeEntity(
+data class ArrivalTimeResponseModel(
         val id: String,
         val operationType: Int,
         val vehicleId: String,

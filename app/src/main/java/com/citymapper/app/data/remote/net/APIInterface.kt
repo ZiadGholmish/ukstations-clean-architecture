@@ -1,6 +1,7 @@
 package com.citymapper.app.data.remote.net
 
-import com.citymapper.app.data.remote.models.arrivaltimes.ArrivalTimeEntity
+import com.citymapper.app.data.remote.models.arrivaltimes.ArrivalTimeResponseModel
+import com.citymapper.app.data.remote.models.linedetails.LineDetailsResponseModel
 import com.citymapper.app.data.remote.models.stops.StopPointsResponseModel
 import io.reactivex.Observable
 import retrofit2.Response
@@ -20,6 +21,12 @@ interface APIInterface {
     @GET(APIConstants.API_STOP_POINTS_ARRIVALS_PREFIX)
     fun fetchStopPointArrivals(@Path("id") id: String,
                                @Query("app_id") app_id: String,
-                               @Query("app_key") app_key: String): Observable<Response<List<ArrivalTimeEntity>>>
+                               @Query("app_key") app_key: String): Observable<Response<List<ArrivalTimeResponseModel>>>
+
+    @GET(APIConstants.API_Line_Details_PREFIX)
+    fun fetchLineStopPoints(@Path("id") id: String,
+                            @Path("direction") direction: String,
+                            @Query("app_id") app_id: String,
+                            @Query("app_key") app_key: String): Observable<Response<LineDetailsResponseModel>>
 
 }

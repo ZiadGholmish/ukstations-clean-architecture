@@ -1,6 +1,7 @@
 package com.citymapper.app.presentation.views.nearbystations.viewholder
 
 import android.support.v7.widget.RecyclerView
+import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
@@ -20,6 +21,7 @@ class ArrivalTimeViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         tvStreetName.text = "${arrivalTimeModel.direction.let { it }} - ${arrivalTimeModel.towards}"
         tvArrivalTimeInMinute.text = "${(arrivalTimeModel.timeToStation / 60)} min"
         tvPlatNumber.text = getPlatformNumber(arrivalTimeModel.platformName)
+
     }
 
     private fun getPlatformNumber(platform: String): String {

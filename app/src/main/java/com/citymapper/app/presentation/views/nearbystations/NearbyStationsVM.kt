@@ -2,14 +2,13 @@ package com.citymapper.app.presentation.views.nearbystations
 
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
-import android.util.Log
 import com.citymapper.app.data.remote.models.RequestState
 import com.citymapper.app.domain.models.arrivals.ArrivalTimeModel
 import com.citymapper.app.domain.models.arrivals.StopArrivalsPayLoad
 import com.citymapper.app.domain.models.arrivals.StopArrivalsResult
 import com.citymapper.app.domain.models.stoppoint.NetworkHttpError
 import com.citymapper.app.domain.models.stoppoint.StopPintsPayLoad
-import com.citymapper.app.domain.models.stoppoint.StopPoint
+import com.citymapper.app.domain.models.stoppoint.StopPointModel
 import com.citymapper.app.domain.models.stoppoint.StopPointsResult
 import com.citymapper.app.domain.usecase.FetchArrivalTimesUseCase
 import com.citymapper.app.domain.usecase.FetchStopPointsUseCase
@@ -25,8 +24,8 @@ class NearbyStationsVM @Inject constructor(private val fetchStopPointsUseCase: F
     private var arrivalsTimeDisposable = CompositeDisposable()
 
     //live data to control the values
-    val stopPointsLiveData = MutableLiveData<List<StopPoint>>()
-    val arrivalTimesData = MutableLiveData<List<StopPoint>>()
+    val stopPointsLiveData = MutableLiveData<List<StopPointModel>>()
+    val arrivalTimesData = MutableLiveData<List<StopPointModel>>()
     val stopPointsNetworkHttpError = MutableLiveData<NetworkHttpError>()
     val stopPointsRequestState = MutableLiveData<RequestState>()
 
@@ -37,7 +36,7 @@ class NearbyStationsVM @Inject constructor(private val fetchStopPointsUseCase: F
     /**
      * load the available stop points within 1 km from the user a
      */
-    fun loadStopPointsByLocation(lat: Double, lon: Double) {
+    fun fetchStopPointsByLocation(lat: Double, lon: Double) {
         compositeDisposable.clear()
         val stopPointObservable = fetchStopPointsUseCase
                 .fetchStopPoints(stopTypes.joinToString(), radius, lat, lon)
@@ -58,7 +57,7 @@ class NearbyStationsVM @Inject constructor(private val fetchStopPointsUseCase: F
      */
     private fun handleNetworkResult(result: StopPointsResult) {
         return when (result) {
-            is StopPintsPayLoad -> handleResult(result)
+            is StopPintsPayLoad -> handlePayLoad(result)
             is NetworkHttpError -> handleError(result)
         }
     }
@@ -66,7 +65,7 @@ class NearbyStationsVM @Inject constructor(private val fetchStopPointsUseCase: F
     /**
      * handle the success result and check the envelop for messages or what
      */
-    private fun handleResult(result: StopPintsPayLoad) {
+    private fun handlePayLoad(result: StopPintsPayLoad) {
         when (result) {
             is StopPintsPayLoad.Data -> {
                 if (!result.data.isEmpty()) {
@@ -93,7 +92,7 @@ class NearbyStationsVM @Inject constructor(private val fetchStopPointsUseCase: F
             args1.forEach { arrivals.add(it as StopArrivalsResult) }
             return@zip arrivals
         }
-                .repeatWhen { completed -> completed.delay(10, TimeUnit.SECONDS) }
+                .repeatWhen { completed -> completed.delay(30, TimeUnit.SECONDS) }
                 .subscribe(
                         { arrivalsTimesResult ->
                             checkArrivalTimesData(arrivalsTimesResult)
@@ -124,7 +123,7 @@ class NearbyStationsVM @Inject constructor(private val fetchStopPointsUseCase: F
      * check the stop points and update the arrival times inside stop point
      * then notify the live data to update the views
      *
-     * ==i have to handle the case when list contains items then became empty=====
+     * ==i have to handle the case when there is arrivals times so i can update the stop point also =====
      */
     private fun updateStopPoints(arrivalTimes: List<List<ArrivalTimeModel>?>) {
         val updatedList = arrivalTimesData.value?.map { stopPoint ->
