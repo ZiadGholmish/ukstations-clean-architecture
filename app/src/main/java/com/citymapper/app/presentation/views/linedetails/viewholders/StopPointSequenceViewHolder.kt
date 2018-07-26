@@ -17,6 +17,12 @@ class StopPointSequenceViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         handleCenterView(stopPoint.hideCenter)
         handleBottomView(stopPoint.hideBottom)
         stopPointName.text = stopPoint.commonName
+
+        if(stopPoint.clickedStation){
+            stopPointName.textSize = 20F
+        }else{
+            stopPointName.textSize = 15F
+        }
     }
 
     private fun handleTopView(hide: Boolean) {

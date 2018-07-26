@@ -1,27 +1,26 @@
 package com.citymapper.app.presentation.views.nearbystations
 
 import android.arch.lifecycle.ViewModelProviders
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.widget.Toast
 import com.citymapper.app.R
 import com.citymapper.app.app.CitymapperApp
 import com.citymapper.app.dagger.ViewModelFactory
 import com.citymapper.app.domain.models.stoppoint.StopPoint
-
+import com.citymapper.app.presentation.views.nearbystations.adapter.CustomInfoWindowGoogleMap
+import com.citymapper.app.presentation.views.nearbystations.adapter.StopPointAdapter
+import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.BitmapDescriptorFactory
+import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
+import com.google.android.gms.maps.model.MarkerOptions
 import kotlinx.android.synthetic.main.activity_nearby_stations.*
 import javax.inject.Inject
-import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.CameraUpdateFactory
-import com.google.android.gms.maps.model.MarkerOptions
-import com.citymapper.app.presentation.views.nearbystations.adapter.CustomInfoWindowGoogleMap
-import com.citymapper.app.presentation.views.nearbystations.adapter.StopPointAdapter
-import com.google.android.gms.maps.model.BitmapDescriptorFactory
 
 
 class NearbyStationsActivity : AppCompatActivity(), NearbyStationsController, OnMapReadyCallback,
@@ -33,7 +32,7 @@ class NearbyStationsActivity : AppCompatActivity(), NearbyStationsController, On
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
 
-    private lateinit var mMap: GoogleMap
+    private  var mMap: GoogleMap? = null
 
     private var currentMarkers = mutableListOf<Marker>()
 
@@ -68,27 +67,26 @@ class NearbyStationsActivity : AppCompatActivity(), NearbyStationsController, On
 
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
-        mMap.setOnInfoWindowClickListener(this)
-        mMap.setInfoWindowAdapter(CustomInfoWindowGoogleMap(this))
+        mMap?.setOnInfoWindowClickListener(this)
+        mMap?.setInfoWindowAdapter(CustomInfoWindowGoogleMap(this))
         //recommended by the google to fix the stack overflow exception
-        mMap.isIndoorEnabled = false
+        mMap?.isIndoorEnabled = false
         addCustomSettingsToMap()
         setupPresenterAndVM()
         setOnCameraIdeaListener()
     }
 
     private fun addCustomSettingsToMap() {
-        mMap.uiSettings.isMapToolbarEnabled = false
-        mMap.setOnMarkerClickListener {
+        mMap?.setOnMarkerClickListener {
             it.showInfoWindow()
             return@setOnMarkerClickListener true
         }
     }
 
     private fun setOnCameraIdeaListener() {
-        mMap.let {
-            mMap.setOnCameraIdleListener {
-                mPresenter.fetchStopPoints(mMap.cameraPosition.target)
+        mMap?.let {
+            it.setOnCameraIdleListener {
+                mPresenter.fetchStopPoints(it.cameraPosition.target)
             }
         }
     }
@@ -103,11 +101,11 @@ class NearbyStationsActivity : AppCompatActivity(), NearbyStationsController, On
     override fun showStopPoints(stopPoints: List<StopPoint>) {
         clearCurrentMarker()
         stopPoints.forEach {
-            val marker = mMap.addMarker(MarkerOptions()
+            val marker = mMap?.addMarker(MarkerOptions()
                     .position(LatLng(it.lat, it.lon)))
-            marker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.tube_icon))
-            marker.tag = it
-            currentMarkers.add(marker)
+            marker?.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.tube_icon))
+            marker?.tag = it
+            marker?.let { currentMarkers.add(marker) }
         }
     }
 
@@ -134,12 +132,12 @@ class NearbyStationsActivity : AppCompatActivity(), NearbyStationsController, On
     }
 
     override fun moveMapToDefaultLocation(defaultLatLng: LatLng) {
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(defaultLatLng, 10f))
+        mMap?.moveCamera(CameraUpdateFactory.newLatLngZoom(defaultLatLng, 10f))
     }
 
     override fun zoomToStations(stopPoint: StopPoint?) {
         stopPoint?.let {
-            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(LatLng(it.lat, it.lon), 10f))
+            mMap?.moveCamera(CameraUpdateFactory.newLatLngZoom(LatLng(it.lat, it.lon), 10f))
         }
     }
 
@@ -161,6 +159,12 @@ class NearbyStationsActivity : AppCompatActivity(), NearbyStationsController, On
 
     override fun hideLoading() {
         loadingView.hide()
+    }
+
+    override fun onDestroy() {
+        mMap?.clear()
+        stopPointRecycler.adapter = null
+        super.onDestroy()
     }
 
 }

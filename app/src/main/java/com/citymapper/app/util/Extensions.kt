@@ -1,6 +1,5 @@
 package com.citymapper.app.util
 
-import com.citymapper.app.data.remote.models.linedetails.StopPointSequence
 import com.citymapper.app.domain.models.arrivals.ArrivalTime
 import com.citymapper.app.domain.models.stoppoint.StopPoint
 import com.citymapper.app.presentation.models.ArrivalTimeParcelable
@@ -15,5 +14,5 @@ fun StopPoint.toParcelable(): StopPointSequenceParcelable {
 
 fun ArrivalTime.toParcelable(): ArrivalTimeParcelable {
     return ArrivalTimeParcelable(this.id,
-            this.lineName, this.lineId, this.expectedArrival, this.direction)
+            this.lineName, this.lineId, this.naptanId, this.expectedArrival, this.direction)
 }

@@ -1,7 +1,5 @@
 package com.citymapper.app.data.remote.models.linedetails
 
-import com.citymapper.app.data.remote.models.stops.StopPointResponse
-
 
 data class LineDetailsResponseModel(
         val lineId: String,

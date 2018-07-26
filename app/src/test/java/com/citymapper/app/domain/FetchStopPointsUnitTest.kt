@@ -1,15 +1,14 @@
 package com.citymapper.app.domain
 
 import android.arch.core.executor.testing.InstantTaskExecutorRule
-import com.citymapper.app.utils.FakeSchedulerImpl
 import com.citymapper.app.data.remote.repository.RepositoryImpl
 import com.citymapper.app.domain.models.stoppoint.StopPointsResult
 import com.citymapper.app.domain.usecase.FetchStopPointsUseCase
+import com.citymapper.app.utils.FakeSchedulerImpl
 import io.reactivex.Observable
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.mockito.Mock
 import org.mockito.Mockito.`when`
 import org.mockito.Mockito.mock
 import org.mockito.junit.MockitoJUnitRunner

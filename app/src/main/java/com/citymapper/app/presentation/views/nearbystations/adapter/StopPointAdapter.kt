@@ -7,9 +7,8 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.citymapper.app.R
 import com.citymapper.app.domain.models.stoppoint.StopPoint
-import com.citymapper.app.util.StopPointDiffCallback
-
 import com.citymapper.app.presentation.views.nearbystations.viewholder.StopPointViewHolder
+import com.citymapper.app.util.StopPointDiffCallback
 
 class StopPointAdapter(private val stopPoints: MutableList<StopPoint>, val context: Context) : RecyclerView.Adapter<StopPointViewHolder>() {
 

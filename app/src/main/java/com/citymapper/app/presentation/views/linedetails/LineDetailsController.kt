@@ -1,7 +1,6 @@
 package com.citymapper.app.presentation.views.linedetails
 
 import android.arch.lifecycle.LifecycleOwner
-import com.citymapper.app.domain.models.stoppoint.StopPoint
 import com.citymapper.app.presentation.models.StopPointSequenceParcelable
 
 interface LineDetailsController : LifecycleOwner {

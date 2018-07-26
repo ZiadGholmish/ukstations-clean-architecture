@@ -1,10 +1,10 @@
 package com.citymapper.app.domain
 
 import android.arch.core.executor.testing.InstantTaskExecutorRule
-import com.citymapper.app.utils.FakeSchedulerImpl
 import com.citymapper.app.data.remote.repository.RepositoryImpl
 import com.citymapper.app.domain.models.arrivals.StopArrivalsResult
 import com.citymapper.app.domain.usecase.FetchArrivalTimesUseCase
+import com.citymapper.app.utils.FakeSchedulerImpl
 import io.reactivex.Observable
 import org.junit.Rule
 import org.junit.Test

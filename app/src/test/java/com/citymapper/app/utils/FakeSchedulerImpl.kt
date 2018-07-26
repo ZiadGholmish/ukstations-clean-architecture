@@ -2,7 +2,6 @@ package com.citymapper.app.utils
 
 import com.citymapper.app.util.scheduler.BaseSchedulerProvider
 import io.reactivex.Scheduler
-import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
 class FakeSchedulerImpl : BaseSchedulerProvider {

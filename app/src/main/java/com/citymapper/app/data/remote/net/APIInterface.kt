@@ -5,7 +5,9 @@ import com.citymapper.app.data.remote.models.linedetails.LineDetailsResponseMode
 import com.citymapper.app.data.remote.models.stops.StopPointsResponseModel
 import io.reactivex.Observable
 import retrofit2.Response
-import retrofit2.http.*
+import retrofit2.http.GET
+import retrofit2.http.Path
+import retrofit2.http.Query
 
 interface APIInterface {
 

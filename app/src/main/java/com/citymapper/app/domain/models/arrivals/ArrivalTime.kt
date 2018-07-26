@@ -1,7 +1,5 @@
 package com.citymapper.app.domain.models.arrivals
 
-import java.util.*
-
 data class ArrivalTime(val id: String,
                        val naptanId: String,
                        val lineName: String,

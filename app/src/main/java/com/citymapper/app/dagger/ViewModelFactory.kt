@@ -1,10 +1,9 @@
 package com.citymapper.app.dagger
 
 import android.arch.lifecycle.ViewModel
-import javax.inject.Inject
 import android.arch.lifecycle.ViewModelProvider
+import javax.inject.Inject
 import javax.inject.Provider
-import javax.inject.Singleton
 
 class ViewModelFactory @Inject constructor(
         private val creators: Map<Class<out ViewModel>, @JvmSuppressWildcards Provider<ViewModel>>) : ViewModelProvider.Factory {

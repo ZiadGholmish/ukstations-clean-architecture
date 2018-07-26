@@ -3,9 +3,9 @@ package com.citymapper.app.presentation.views.linedetails
 import android.arch.lifecycle.ViewModelProviders
 import android.graphics.Color
 import android.os.Build
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
+import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.view.WindowManager
 import android.widget.Toast
@@ -15,13 +15,13 @@ import com.citymapper.app.app.CitymapperApp
 import com.citymapper.app.dagger.ViewModelFactory
 import com.citymapper.app.presentation.models.StopPointSequenceParcelable
 import com.citymapper.app.presentation.views.linedetails.adapters.StopPointSequenceAdapter
+import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.*
 import kotlinx.android.synthetic.main.activity_line_details.*
 import javax.inject.Inject
-import com.google.android.gms.maps.CameraUpdateFactory
-import com.google.android.gms.maps.model.*
 
 
 class LineDetailsActivity : AppCompatActivity(), LineDetailsController,
@@ -33,7 +33,7 @@ class LineDetailsActivity : AppCompatActivity(), LineDetailsController,
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
 
-    private lateinit var mMap: GoogleMap
+    private var mMap: GoogleMap? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -72,9 +72,9 @@ class LineDetailsActivity : AppCompatActivity(), LineDetailsController,
 
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
-        mMap.setOnInfoWindowClickListener(this)
+        mMap?.setOnInfoWindowClickListener(this)
         //recommended by the google to fix the stack overflow exception
-        mMap.isIndoorEnabled = false
+        mMap?.isIndoorEnabled = false
         setupPresenterAndVM()
     }
 
@@ -102,10 +102,10 @@ class LineDetailsActivity : AppCompatActivity(), LineDetailsController,
     override fun showSequenceStopPoints(stopPoint: List<StopPointSequenceParcelable>) {
         showStopPointsForLinea(stopPoint)
         stopPoint.forEach {
-            val marker = mMap.addMarker(MarkerOptions()
+            val marker = mMap?.addMarker(MarkerOptions()
                     .position(LatLng(it.lat, it.lon)))
-            marker.snippet = it.commonName
-            marker.tag = it
+            marker?.snippet = it.commonName
+            marker?.tag = it
         }
         drawRouteOnMap(stopPoint.map { LatLng(it.lat, it.lon) })
 
@@ -115,12 +115,12 @@ class LineDetailsActivity : AppCompatActivity(), LineDetailsController,
         val options = PolylineOptions().width(10f).color(Color.BLUE).geodesic(true)
         options.addAll(positions)
         if (positions.isNotEmpty()) {
-            mMap.addPolyline(options)
+            mMap?.addPolyline(options)
             val cameraPosition = CameraPosition.Builder()
                     .target(LatLng(positions[0].latitude, positions[0].longitude))
                     .zoom(15f)
                     .build()
-            mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition))
+            mMap?.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition))
         }
     }
 
@@ -147,6 +147,11 @@ class LineDetailsActivity : AppCompatActivity(), LineDetailsController,
 
     override fun showLineName(lineName: String) {
         tvLineName.text = lineName
+    }
+
+    override fun onDestroy() {
+        mMap?.clear()
+        super.onDestroy()
     }
 
 }

@@ -11,8 +11,9 @@ import com.citymapper.app.utils.RxImmediateSchedulerRule
 import org.junit.Before
 import org.junit.Rule
 import org.junit.runner.RunWith
-import org.mockito.*
-import org.mockito.Mockito.*
+import org.mockito.Mock
+import org.mockito.Mockito.mock
+import org.mockito.Mockito.reset
 import org.mockito.junit.MockitoJUnitRunner
 
 

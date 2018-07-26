@@ -1,6 +1,5 @@
 package com.citymapper.app.data.datautil
 
-import com.citymapper.app.data.remote.models.stops.StopPointsResponseModel
 import com.citymapper.app.domain.models.arrivals.StopArrivalNetworkHttpError
 import com.citymapper.app.domain.models.arrivals.StopArrivalsResult
 import com.citymapper.app.domain.models.linedetails.LineDetailsNetworkHttpError
@@ -10,7 +9,6 @@ import com.citymapper.app.domain.models.stoppoint.StopPointsResult
 import okhttp3.ResponseBody
 import org.json.JSONException
 import org.json.JSONObject
-import retrofit2.Response
 
 
 object Util {
