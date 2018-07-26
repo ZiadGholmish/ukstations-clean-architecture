@@ -76,7 +76,6 @@ class LineDetailsActivity : AppCompatActivity(), LineDetailsController,
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
         mMap.setOnInfoWindowClickListener(this)
-        mMap.setInfoWindowAdapter(CustomInfoWindowGoogleMap(this))
         //recommended by the google to fix the stack overflow exception
         mMap.isIndoorEnabled = false
         setupPresenterAndVM()
@@ -110,7 +109,7 @@ class LineDetailsActivity : AppCompatActivity(), LineDetailsController,
         stopPoint.forEach {
             val marker = mMap.addMarker(MarkerOptions()
                     .position(LatLng(it.lat, it.lon)))
-            marker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.tube_icon))
+            marker.snippet = it.commonName
             marker.tag = it
         }
         drawRouteOnMap(stopPoint.map { LatLng(it.lat, it.lon) })
