@@ -7,6 +7,7 @@
         android:id="@+id/lineViewVerticalTop"
         android:layout_width="5dp"
         android:layout_height="38dp"
+        android:layout_marginStart="@dimen/generic_padding"
         android:background="@color/colorAccent"
         android:visibility="visible"
         app:layout_constraintStart_toStartOf="parent"
@@ -16,17 +17,31 @@
         android:id="@+id/lineViewCenter"
         android:layout_width="15dp"
         android:layout_height="5dp"
+        android:layout_marginStart="@dimen/generic_padding"
         android:background="@color/colorAccent"
         android:visibility="visible"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/lineViewVerticalTop" />
 
     <View
         android:id="@+id/lineViewVerticalDown"
         android:layout_width="5dp"
         android:layout_height="38dp"
+        android:layout_marginStart="@dimen/generic_padding"
         android:background="@color/colorAccent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/lineViewCenter" />
+
+
+    <View
+        android:id="@+id/nearestView"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+
+        android:background="@drawable/ic_near_icon"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 
     <TextView

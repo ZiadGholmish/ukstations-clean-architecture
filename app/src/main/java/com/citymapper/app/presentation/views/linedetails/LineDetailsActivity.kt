@@ -13,7 +13,7 @@ import com.citymapper.app.R
 import com.citymapper.app.app.AppConstants
 import com.citymapper.app.app.CitymapperApp
 import com.citymapper.app.dagger.ViewModelFactory
-import com.citymapper.app.presentation.models.StopPointSequenceParcelable
+import com.citymapper.app.presentation.models.StopPointSequence
 import com.citymapper.app.presentation.views.linedetails.adapters.StopPointSequenceAdapter
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -99,7 +99,7 @@ class LineDetailsActivity : AppCompatActivity(), LineDetailsController,
      * change the stop points to markers on the map
      * and then draw the Polyline
      */
-    override fun showSequenceStopPoints(stopPoint: List<StopPointSequenceParcelable>) {
+    override fun showSequenceStopPoints(stopPoint: List<StopPointSequence>) {
         showStopPointsForLinea(stopPoint)
         stopPoint.forEach {
             val marker = mMap?.addMarker(MarkerOptions()
@@ -118,13 +118,12 @@ class LineDetailsActivity : AppCompatActivity(), LineDetailsController,
             mMap?.addPolyline(options)
             val cameraPosition = CameraPosition.Builder()
                     .target(LatLng(positions[0].latitude, positions[0].longitude))
-                    .zoom(15f)
-                    .build()
+                    .zoom(15f).build()
             mMap?.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition))
         }
     }
 
-    private fun showStopPointsForLinea(stopPoints: List<StopPointSequenceParcelable>) {
+    private fun showStopPointsForLinea(stopPoints: List<StopPointSequence>) {
         val adapter = StopPointSequenceAdapter(stopPoints)
         lineStopPointsRecycler.adapter = adapter
     }

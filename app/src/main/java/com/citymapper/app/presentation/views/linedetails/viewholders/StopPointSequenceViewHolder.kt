@@ -5,16 +5,17 @@ import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.widget.TextView
 import com.citymapper.app.R
-import com.citymapper.app.presentation.models.StopPointSequenceParcelable
-import kotlin.coroutines.experimental.coroutineContext
+import com.citymapper.app.presentation.models.StopPointSequence
 
 class StopPointSequenceViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
     val lineViewVerticalTop: View = view.findViewById(R.id.lineViewVerticalTop)
     val lineViewCenter: View = view.findViewById(R.id.lineViewCenter)
     val lineViewVerticalDown: View = view.findViewById(R.id.lineViewVerticalDown)
+    val nearestView: View = view.findViewById(R.id.nearestView)
     val stopPointName: TextView = view.findViewById(R.id.stopPointName)
 
-    fun bind(stopPoint: StopPointSequenceParcelable) {
+
+    fun bind(stopPoint: StopPointSequence) {
         handleTopView(stopPoint.hideTop)
         handleCenterView(stopPoint.hideCenter)
         handleBottomView(stopPoint.hideBottom)
@@ -28,6 +29,12 @@ class StopPointSequenceViewHolder(val view: View) : RecyclerView.ViewHolder(view
             stopPointName.textSize = 15F
             stopPointName.setTextColor(ContextCompat.getColor(stopPointName.context,
                     R.color.colorGray))
+        }
+
+        if (stopPoint.isTheNearest) {
+            nearestView.visibility = View.VISIBLE
+        } else {
+            nearestView.visibility = View.INVISIBLE
         }
     }
 

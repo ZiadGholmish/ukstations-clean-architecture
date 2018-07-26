@@ -4,10 +4,10 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.citymapper.app.R
-import com.citymapper.app.presentation.models.StopPointSequenceParcelable
+import com.citymapper.app.presentation.models.StopPointSequence
 import com.citymapper.app.presentation.views.linedetails.viewholders.StopPointSequenceViewHolder
 
-class StopPointSequenceAdapter(private val lineStopPoints: List<StopPointSequenceParcelable>) : RecyclerView.Adapter<StopPointSequenceViewHolder>() {
+class StopPointSequenceAdapter(private val lineStopPoints: List<StopPointSequence>) : RecyclerView.Adapter<StopPointSequenceViewHolder>() {
 
 
     override fun onCreateViewHolder(parent: ViewGroup, p1: Int): StopPointSequenceViewHolder {
