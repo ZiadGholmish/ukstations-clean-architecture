@@ -14,7 +14,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <View
-        android:id="@+id/lineStopName"
+        android:id="@+id/lineViewCenter"
         android:layout_width="15dp"
         android:layout_height="5dp"
         android:background="@color/colorAccent"
@@ -27,7 +27,7 @@
         android:layout_height="38dp"
         android:background="@color/colorAccent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/lineStopName" />
+        app:layout_constraintTop_toBottomOf="@id/lineViewCenter" />
 
 
     <TextView
@@ -41,7 +41,7 @@
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/lineStopName"
+        app:layout_constraintStart_toEndOf="@id/lineViewCenter"
         app:layout_constraintTop_toTopOf="parent" />
 
 </android.support.constraint.ConstraintLayout>

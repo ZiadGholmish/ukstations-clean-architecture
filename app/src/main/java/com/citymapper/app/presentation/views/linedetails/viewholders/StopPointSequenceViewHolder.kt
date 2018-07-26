@@ -5,11 +5,10 @@ import android.view.View
 import android.widget.TextView
 import com.citymapper.app.R
 import com.citymapper.app.presentation.models.StopPointSequenceParcelable
-import kotlinx.android.synthetic.main.notification_template_lines_media.view.*
 
 class StopPointSequenceViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     val lineViewVerticalTop: View = view.findViewById(R.id.lineViewVerticalTop)
-    val lineStopName: View = view.findViewById(R.id.lineStopName)
+    val lineViewCenter: View = view.findViewById(R.id.lineViewCenter)
     val lineViewVerticalDown: View = view.findViewById(R.id.lineViewVerticalDown)
     val stopPointName: TextView = view.findViewById(R.id.stopPointName)
 
@@ -30,9 +29,9 @@ class StopPointSequenceViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
     private fun handleCenterView(hide: Boolean) {
         if (hide) {
-            lineStopName.visibility = View.INVISIBLE
+            lineViewCenter.visibility = View.INVISIBLE
         } else {
-            lineStopName.visibility = View.VISIBLE
+            lineViewCenter.visibility = View.VISIBLE
         }
     }
 

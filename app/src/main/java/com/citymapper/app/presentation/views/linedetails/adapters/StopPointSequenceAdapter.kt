@@ -25,8 +25,16 @@ class StopPointSequenceAdapter(private val lineStopPoints: List<StopPointSequenc
     override fun onBindViewHolder(holder: StopPointSequenceViewHolder, position: Int) {
         val stopPoint = lineStopPoints[holder.adapterPosition]
         when {
-            holder.adapterPosition == 0 -> stopPoint.hideTop = false
-            holder.adapterPosition == lineStopPoints.size - 1 -> stopPoint.hideTop = false
+            holder.adapterPosition == 0 -> {
+                stopPoint.hideTop = true
+                stopPoint.hideCenter = false
+                stopPoint.hideBottom = false
+            }
+            holder.adapterPosition == lineStopPoints.size - 1 -> {
+                stopPoint.hideTop = false
+                stopPoint.hideCenter = false
+                stopPoint.hideBottom = true
+            }
             else -> {
                 stopPoint.hideTop = false
                 stopPoint.hideCenter = false
