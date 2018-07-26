@@ -1,12 +1,14 @@
 package com.citymapper.app.presentation.views.linedetails.viewholders
 
+import android.support.v4.content.ContextCompat
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.widget.TextView
 import com.citymapper.app.R
 import com.citymapper.app.presentation.models.StopPointSequenceParcelable
+import kotlin.coroutines.experimental.coroutineContext
 
-class StopPointSequenceViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+class StopPointSequenceViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
     val lineViewVerticalTop: View = view.findViewById(R.id.lineViewVerticalTop)
     val lineViewCenter: View = view.findViewById(R.id.lineViewCenter)
     val lineViewVerticalDown: View = view.findViewById(R.id.lineViewVerticalDown)
@@ -18,10 +20,14 @@ class StopPointSequenceViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         handleBottomView(stopPoint.hideBottom)
         stopPointName.text = stopPoint.commonName
 
-        if(stopPoint.clickedStation){
+        if (stopPoint.clickedStation) {
             stopPointName.textSize = 20F
-        }else{
+            stopPointName.setTextColor(ContextCompat.getColor(stopPointName.context,
+                    R.color.colorBlack))
+        } else {
             stopPointName.textSize = 15F
+            stopPointName.setTextColor(ContextCompat.getColor(stopPointName.context,
+                    R.color.colorGray))
         }
     }
 

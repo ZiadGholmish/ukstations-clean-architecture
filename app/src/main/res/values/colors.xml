@@ -5,4 +5,8 @@
     <color name="colorAccent">#37ab2e</color>
     <color name="colorTube">#124291</color>
     <color name="colorWhite">#FFFFFF</color>
+
+    <color name="colorBlack">#000000</color>
+    <color name="colorGray">#635f5f</color>
+
 </resources>
