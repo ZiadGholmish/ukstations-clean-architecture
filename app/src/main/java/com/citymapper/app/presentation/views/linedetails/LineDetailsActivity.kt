@@ -13,10 +13,8 @@ import com.citymapper.app.R
 import com.citymapper.app.app.AppConstants
 import com.citymapper.app.app.CitymapperApp
 import com.citymapper.app.dagger.ViewModelFactory
-import com.citymapper.app.domain.models.stoppoint.StopPoint
 import com.citymapper.app.presentation.models.StopPointSequenceParcelable
 import com.citymapper.app.presentation.views.linedetails.adapters.StopPointSequenceAdapter
-import com.citymapper.app.presentation.views.nearbystations.adapter.CustomInfoWindowGoogleMap
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
@@ -47,8 +45,8 @@ class LineDetailsActivity : AppCompatActivity(), LineDetailsController,
 
     private fun setupActionBar() {
         setSupportActionBar(toolbar)
+        toolbar.setNavigationIcon(R.drawable.ic_arrow_back_24dp)
         changeStatusBarColor(R.color.colorTube)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
         title = ""
     }
 
@@ -60,7 +58,6 @@ class LineDetailsActivity : AppCompatActivity(), LineDetailsController,
             window.statusBarColor = ContextCompat.getColor(this, color)
         }
     }
-
 
     /**
      *  Obtain the SupportMapFragment and get notified when
@@ -95,10 +92,8 @@ class LineDetailsActivity : AppCompatActivity(), LineDetailsController,
         lineStopPointsRecycler.layoutManager = linearLayout
     }
 
-
     override fun onInfoWindowClick(p0: Marker?) {
     }
-
 
     /**
      * change the stop points to markers on the map
