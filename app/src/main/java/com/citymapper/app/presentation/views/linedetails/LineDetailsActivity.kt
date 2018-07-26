@@ -10,6 +10,7 @@ import com.citymapper.app.R
 import com.citymapper.app.app.CitymapperApp
 import com.citymapper.app.dagger.ViewModelFactory
 import com.citymapper.app.domain.models.stoppoint.StopPointModel
+import com.citymapper.app.presentation.views.linedetails.adapters.StopPointSequenceAdapter
 import com.citymapper.app.presentation.views.nearbystations.NearbyStationsPresenter
 import com.citymapper.app.presentation.views.nearbystations.NearbyStationsVM
 import com.citymapper.app.presentation.views.nearbystations.adapter.CustomInfoWindowGoogleMap
@@ -25,7 +26,6 @@ import com.google.android.gms.maps.model.*
 
 class LineDetailsActivity : AppCompatActivity(), LineDetailsController,
         OnMapReadyCallback, GoogleMap.OnInfoWindowClickListener {
-
 
     @Inject
     lateinit var mPresenter: LineDetailsPresenter
@@ -75,6 +75,8 @@ class LineDetailsActivity : AppCompatActivity(), LineDetailsController,
         val linearLayout = LinearLayoutManager(this)
         linearLayout.orientation = LinearLayoutManager.VERTICAL
         lineStopPointsRecycler.layoutManager = linearLayout
+        val adapter = StopPointSequenceAdapter()
+        lineStopPointsRecycler.adapter = adapter
     }
 
 
@@ -82,6 +84,10 @@ class LineDetailsActivity : AppCompatActivity(), LineDetailsController,
     }
 
 
+    /**
+     * change the stop points to markers on the map
+     * and then draw the Polyline
+     */
     override fun showSequenceStopPoints(stopPointModel: List<StopPointModel>) {
         stopPointModel.forEach {
             val marker = mMap.addMarker(MarkerOptions()

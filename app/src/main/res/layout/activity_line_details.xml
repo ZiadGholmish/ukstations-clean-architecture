@@ -65,9 +65,9 @@
 
             <android.support.constraint.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-
+                android:layout_height="wrap_content"
+                android:paddingEnd="@dimen/generic_padding"
+                android:paddingStart="@dimen/generic_padding">
 
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/lineStopPointsRecycler"
@@ -76,19 +76,8 @@
                     android:layout_marginTop="@dimen/activity_margin"
                     android:clipToPadding="false"
                     android:paddingBottom="100dp"
-                    android:layout_marginStart="@dimen/generic_padding"
                     card_view:layout_constraintEnd_toEndOf="parent"
-                    card_view:layout_constraintStart_toEndOf="@+id/dummyView"
                     tools:listitem="@layout/stop_point_sequence_item_layout" />
-
-                <View
-                    android:id="@+id/dummyView"
-                    android:background="@color/colorPrimaryDark"
-                    card_view:layout_constraintStart_toStartOf="parent"
-                    card_view:layout_constraintTop_toTopOf="@id/lineStopPointsRecycler"
-                    card_view:layout_constraintBottom_toBottomOf="@id/lineStopPointsRecycler"
-                    android:layout_width="10dp"
-                    android:layout_height="0dp"/>
 
             </android.support.constraint.ConstraintLayout>
 

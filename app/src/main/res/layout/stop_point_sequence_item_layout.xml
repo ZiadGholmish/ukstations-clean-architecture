@@ -2,36 +2,46 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="100dp">
+    android:layout_height="80dp">
 
     <View
-        android:id="@+id/horizontalView"
-        android:layout_width="30dp"
-        android:layout_height="10dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:background="@color/colorPrimaryDark"
+        android:id="@+id/lineViewVerticalTop"
+        android:layout_width="5dp"
+        android:layout_height="38dp"
+        android:background="@color/colorAccent"
+        android:visibility="visible"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <View
-        android:id="@+id/verticalView"
-        android:layout_width="10dp"
-        android:layout_height="100dp"
-        android:background="@color/colorPrimaryDark"
-        app:layout_constraintStart_toStartOf="@id/horizontalView"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:id="@+id/lineStopName"
+        android:layout_width="15dp"
+        android:layout_height="5dp"
+        android:background="@color/colorAccent"
+        android:visibility="visible"
+        app:layout_constraintTop_toBottomOf="@id/lineViewVerticalTop" />
+
+    <View
+        android:id="@+id/lineViewVerticalDown"
+        android:layout_width="5dp"
+        android:layout_height="38dp"
+        android:background="@color/colorAccent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/lineStopName" />
 
 
     <TextView
         android:id="@+id/stopPointName"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/activity_margin"
+        android:layout_marginStart="@dimen/activity_margin"
+        android:gravity="center|start"
+        android:text="StopPoint name"
         android:textSize="20sp"
-        android:gravity="center"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/horizontalView"
-        tools:text="StopPoint name" />
+        app:layout_constraintStart_toEndOf="@id/lineStopName"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </android.support.constraint.ConstraintLayout>
