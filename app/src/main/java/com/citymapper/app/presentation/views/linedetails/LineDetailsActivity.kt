@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
+import android.view.MenuItem
 import android.view.WindowManager
 import android.widget.Toast
 import com.citymapper.app.R
@@ -146,6 +147,14 @@ class LineDetailsActivity : AppCompatActivity(), LineDetailsController,
 
     override fun showLineName(lineName: String) {
         tvLineName.text = lineName
+    }
+
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            android.R.id.home -> onBackPressed()
+        }
+        return true
     }
 
     override fun onDestroy() {
