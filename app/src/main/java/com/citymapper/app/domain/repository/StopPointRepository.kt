@@ -1,6 +1,5 @@
 package com.citymapper.app.domain.repository
 
-import com.citymapper.app.domain.models.arrivals.ArrivalTimeModel
 import com.citymapper.app.domain.models.arrivals.StopArrivalsResult
 import com.citymapper.app.domain.models.linedetails.LineDetailsResult
 import com.citymapper.app.domain.models.stoppoint.StopPointsResult

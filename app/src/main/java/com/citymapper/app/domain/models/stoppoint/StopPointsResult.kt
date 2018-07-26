@@ -3,7 +3,7 @@ package com.citymapper.app.domain.models.stoppoint
 sealed class StopPointsResult
 
 sealed class StopPintsPayLoad : StopPointsResult() {
-    data class Data(val data: List<StopPointModel>) : StopPintsPayLoad()
+    data class Data(val data: List<StopPoint>) : StopPintsPayLoad()
 }
 
 /**

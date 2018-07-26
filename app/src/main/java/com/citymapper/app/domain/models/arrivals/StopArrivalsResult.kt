@@ -3,7 +3,7 @@ package com.citymapper.app.domain.models.arrivals
 sealed class StopArrivalsResult
 
 sealed class StopArrivalsPayLoad : StopArrivalsResult() {
-    data class Data(val data: List<ArrivalTimeModel>) : StopArrivalsPayLoad()
+    data class Data(val data: List<ArrivalTime>) : StopArrivalsPayLoad()
 }
 
 /**

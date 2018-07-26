@@ -5,7 +5,6 @@ import com.citymapper.app.data.datautil.toAggregateLineDetailsResult
 import com.citymapper.app.data.datautil.toAggregatePointsResult
 import com.citymapper.app.data.remote.net.APIConstants
 import com.citymapper.app.data.remote.net.APIInterface
-import com.citymapper.app.domain.models.arrivals.ArrivalTimeModel
 import com.citymapper.app.domain.models.arrivals.StopArrivalsResult
 import com.citymapper.app.domain.models.linedetails.LineDetailsResult
 import com.citymapper.app.domain.models.stoppoint.StopPointsResult

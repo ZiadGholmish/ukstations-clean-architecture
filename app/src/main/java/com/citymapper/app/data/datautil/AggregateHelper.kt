@@ -1,18 +1,15 @@
 package com.citymapper.app.data.datautil
 
-import com.citymapper.app.data.remote.models.arrivaltimes.ArrivalTimeResponseModel
+import com.citymapper.app.data.remote.models.arrivaltimes.ArrivalTimeResponse
 import com.citymapper.app.data.remote.models.linedetails.LineDetailsResponseModel
-import com.citymapper.app.data.remote.models.linedetails.StopPointSequence
-import com.citymapper.app.data.remote.models.stops.StopPointEntity
+import com.citymapper.app.data.remote.models.stops.StopPointResponse
 import com.citymapper.app.data.remote.models.stops.StopPointsResponseModel
-import com.citymapper.app.domain.models.arrivals.ArrivalTimeModel
+import com.citymapper.app.domain.models.arrivals.ArrivalTime
 import com.citymapper.app.domain.models.arrivals.StopArrivalsPayLoad
-import com.citymapper.app.domain.models.linedetails.LineDetailsModel
+import com.citymapper.app.domain.models.linedetails.LineDetails
 import com.citymapper.app.domain.models.linedetails.LineDetailsPayLoad
-import com.citymapper.app.domain.models.linedetails.LineDetailsResult
-import com.citymapper.app.domain.models.linedetails.StopPointSequenceModel
 import com.citymapper.app.domain.models.stoppoint.StopPintsPayLoad
-import com.citymapper.app.domain.models.stoppoint.StopPointModel
+import com.citymapper.app.domain.models.stoppoint.StopPoint
 import retrofit2.Response
 
 
@@ -26,7 +23,7 @@ fun Response<StopPointsResponseModel>.toAggregatePointsResult() =
             Util.fromErrorResponse(this.code(), Util.formatErrorBody(this.errorBody()))
         }
 
-fun Response<List<ArrivalTimeResponseModel>>.toAggregateArrivalsResult() =
+fun Response<List<ArrivalTimeResponse>>.toAggregateArrivalsResult() =
         if (this.isSuccessful) {
             StopArrivalsPayLoad.Data(this.body()!!.map { it.toArrivalTime() })
         } else {
@@ -43,12 +40,12 @@ fun Response<LineDetailsResponseModel>.toAggregateLineDetailsResult() =
 /**
  * extension function to map the entity to the stop point domain model
  */
-fun StopPointEntity.toStopPoint(): StopPointModel {
-    return StopPointModel(this.id, this.commonName, this.distance, this.lat, this.lon, listOf())
+fun StopPointResponse.toStopPoint(): StopPoint {
+    return StopPoint(this.id, this.commonName, this.distance, this.lat, this.lon, listOf())
 }
 
-fun ArrivalTimeResponseModel.toArrivalTime(): ArrivalTimeModel {
-    return ArrivalTimeModel(this.id, this.naptanId, this.lineName,this.lineId,
+fun ArrivalTimeResponse.toArrivalTime(): ArrivalTime {
+    return ArrivalTime(this.id, this.naptanId, this.lineName,this.lineId,
             this.destinationName, this.timeToStation,
             this.expectedArrival, this.towards, this.direction,
             this.platformName)
@@ -57,18 +54,18 @@ fun ArrivalTimeResponseModel.toArrivalTime(): ArrivalTimeModel {
 /**
  * extension function to map the data sequence model to the domain one
  */
-fun StopPointSequence.toStopPointSequenceModel(): StopPointSequenceModel {
-    return StopPointSequenceModel(this.lineId, this.lineName, this.direction
-            , this.branchId, this.stopPoint.map { it.toStopPoint() }, this.serviceType)
+fun StopPointSequence.toStopPointSequenceModel(): com.citymapper.app.domain.models.linedetails.LineSequence {
+    return com.citymapper.app.domain.models.linedetails.StopPointSequence(lineId, lineName, direction
+            , branchId, stopPoint.map { it.toStopPoint() }, serviceType)
 
 }
 
 /**
  * extension function to map the whole line details response to the domain one
  */
-fun LineDetailsResponseModel.toLineDetailsModel(): LineDetailsModel {
+fun LineDetailsResponseModel.toLineDetailsModel(): LineDetails {
     val sequence = this.stopPointSequences.map { it.toStopPointSequenceModel() }
-    return LineDetailsModel(this.lineId, this.lineName, sequence)
+    return LineDetails(this.lineId, this.lineName, sequence)
 }
 
 

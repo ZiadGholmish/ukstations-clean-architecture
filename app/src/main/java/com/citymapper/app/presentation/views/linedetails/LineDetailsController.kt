@@ -1,11 +1,11 @@
 package com.citymapper.app.presentation.views.linedetails
 
 import android.arch.lifecycle.LifecycleOwner
-import com.citymapper.app.domain.models.stoppoint.StopPointModel
+import com.citymapper.app.domain.models.stoppoint.StopPoint
 
 interface LineDetailsController : LifecycleOwner {
 
-    fun showSequenceStopPoints(stopPointModel: List<StopPointModel>)
+    fun showSequenceStopPoints(stopPoint: List<StopPoint>)
 
     fun showNoStopPoints()
 
@@ -14,5 +14,7 @@ interface LineDetailsController : LifecycleOwner {
     fun showLoading()
 
     fun hideLoading()
+
+    fun showLineName(lineName: String)
 
 }

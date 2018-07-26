@@ -4,7 +4,7 @@ sealed class LineDetailsResult
 
 
 sealed class LineDetailsPayLoad : LineDetailsResult() {
-    data class Data(val data: LineDetailsModel) : LineDetailsPayLoad()
+    data class Data(val data: LineDetails) : LineDetailsPayLoad()
 }
 
 /**

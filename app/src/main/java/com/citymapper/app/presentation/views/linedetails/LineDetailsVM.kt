@@ -2,12 +2,11 @@ package com.citymapper.app.presentation.views.linedetails
 
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
-import com.citymapper.app.dagger.ViewModelFactory
 import com.citymapper.app.data.remote.models.RequestState
 import com.citymapper.app.domain.models.linedetails.LineDetailsNetworkHttpError
 import com.citymapper.app.domain.models.linedetails.LineDetailsPayLoad
 import com.citymapper.app.domain.models.linedetails.LineDetailsResult
-import com.citymapper.app.domain.models.stoppoint.StopPointModel
+import com.citymapper.app.domain.models.stoppoint.StopPoint
 import com.citymapper.app.domain.usecase.FetchLineDetailsUseCase
 import io.reactivex.disposables.CompositeDisposable
 import javax.inject.Inject
@@ -18,7 +17,7 @@ class LineDetailsVM @Inject constructor(private val fetchLineDetailsUseCase: Fet
     private val compositeDisposable = CompositeDisposable()
 
     //live data to control the values
-    val lineStopPointsLiveData = MutableLiveData<List<StopPointModel>>()
+    val lineStopPointsLiveData = MutableLiveData<List<StopPoint>>()
     val lineStopPointsNetworkHttpError = MutableLiveData<LineDetailsNetworkHttpError>()
     val lineStopPointsRequestState = MutableLiveData<RequestState>()
 
@@ -56,7 +55,7 @@ class LineDetailsVM @Inject constructor(private val fetchLineDetailsUseCase: Fet
         when (payload) {
             is LineDetailsPayLoad.Data ->
                 if (payload.data.stopPointSequences.isNotEmpty()) {
-                    lineStopPointsLiveData.value = payload.data.stopPointSequences[0].stopPointModel
+                    lineStopPointsLiveData.value = payload.data.stopPointSequences[0].stopPoint
                 }
         }
     }

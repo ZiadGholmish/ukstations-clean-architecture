@@ -7,14 +7,12 @@ import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.widget.Toast
 import com.citymapper.app.R
+import com.citymapper.app.app.AppConstants
 import com.citymapper.app.app.CitymapperApp
 import com.citymapper.app.dagger.ViewModelFactory
-import com.citymapper.app.domain.models.stoppoint.StopPointModel
+import com.citymapper.app.domain.models.stoppoint.StopPoint
 import com.citymapper.app.presentation.views.linedetails.adapters.StopPointSequenceAdapter
-import com.citymapper.app.presentation.views.nearbystations.NearbyStationsPresenter
-import com.citymapper.app.presentation.views.nearbystations.NearbyStationsVM
 import com.citymapper.app.presentation.views.nearbystations.adapter.CustomInfoWindowGoogleMap
-import com.citymapper.app.presentation.views.nearbystations.adapter.StopPointAdapter
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
@@ -37,6 +35,7 @@ class LineDetailsActivity : AppCompatActivity(), LineDetailsController,
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setSupportActionBar(toolbar)
         setContentView(R.layout.activity_line_details)
         setupRecycler()
         setupGoogleMap()
@@ -68,7 +67,7 @@ class LineDetailsActivity : AppCompatActivity(), LineDetailsController,
         mPresenter.attachView(this)
         val lineDetailsVM = ViewModelProviders.of(this,
                 viewModelFactory).get(LineDetailsVM::class.java)
-        mPresenter.initPresenter(lineDetailsVM, intent.getStringExtra("id"), intent.getStringExtra("direction"))
+        mPresenter.initPresenter(lineDetailsVM, intent.getParcelableExtra(AppConstants.ARRIVAL_TIME_INTENT_NAME))
     }
 
     private fun setupRecycler() {
@@ -88,14 +87,14 @@ class LineDetailsActivity : AppCompatActivity(), LineDetailsController,
      * change the stop points to markers on the map
      * and then draw the Polyline
      */
-    override fun showSequenceStopPoints(stopPointModel: List<StopPointModel>) {
-        stopPointModel.forEach {
+    override fun showSequenceStopPoints(stopPoint: List<StopPoint>) {
+        stopPoint.forEach {
             val marker = mMap.addMarker(MarkerOptions()
                     .position(LatLng(it.lat, it.lon)))
             marker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.tube_icon))
             marker.tag = it
         }
-        drawRouteOnMap(stopPointModel.map { LatLng(it.lat, it.lon) })
+        drawRouteOnMap(stopPoint.map { LatLng(it.lat, it.lon) })
     }
 
 
@@ -126,6 +125,10 @@ class LineDetailsActivity : AppCompatActivity(), LineDetailsController,
 
     override fun hideLoading() {
         loadingView.hide()
+    }
+
+    override fun showLineName(lineName: String) {
+        tvLineName.text = lineName
     }
 
 }

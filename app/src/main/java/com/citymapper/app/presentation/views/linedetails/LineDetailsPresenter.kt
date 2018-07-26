@@ -4,16 +4,21 @@ import android.arch.lifecycle.Observer
 import com.citymapper.app.app.AbsPresenter
 import com.citymapper.app.data.remote.models.RequestState
 import com.citymapper.app.domain.models.linedetails.LineDetailsNetworkHttpError
+import com.citymapper.app.presentation.models.ArrivalTimeParcelable
 import javax.inject.Inject
 
 class LineDetailsPresenter @Inject constructor() : AbsPresenter<LineDetailsController>() {
 
     private lateinit var liveDetailsVM: LineDetailsVM
 
-    fun initPresenter(liveDetailsVM: LineDetailsVM, id: String, direction: String) {
+    fun initPresenter(liveDetailsVM: LineDetailsVM, arrivalTime: ArrivalTimeParcelable?) {
         this.liveDetailsVM = liveDetailsVM
         setObservers()
-        liveDetailsVM.fetchLineDetails(id, direction)
+        arrivalTime?.let {
+            liveDetailsVM.fetchLineDetails(arrivalTime.id, arrivalTime.direction?.let { it }
+                    ?: "inbound")
+            mView?.showLineName(arrivalTime.lineName)
+        }
     }
 
     private fun setObservers() {

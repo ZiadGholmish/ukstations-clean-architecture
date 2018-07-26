@@ -3,7 +3,6 @@ package com.citymapper.app.presentation.views.linedetails.viewholders
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import com.citymapper.app.R
-import com.citymapper.app.domain.models.stoppoint.StopPointModel
 
 class StopPointSequenceViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     val lineViewVerticalTop: View = view.findViewById(R.id.lineViewVerticalTop)

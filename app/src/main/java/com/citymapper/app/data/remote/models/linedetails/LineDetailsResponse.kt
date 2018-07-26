@@ -1,6 +1,6 @@
 package com.citymapper.app.data.remote.models.linedetails
 
-import com.citymapper.app.data.remote.models.stops.StopPointEntity
+import com.citymapper.app.data.remote.models.stops.StopPointResponse
 
 
 data class LineDetailsResponseModel(
@@ -26,7 +26,7 @@ data class StopPointSequence(
         val lineName: String,
         val direction: String,
         val branchId: Int,
-        val stopPoint: List<StopPointEntity>,
+        val stopPoint: List<StopPointResponse>,
         val serviceType: String
 )
 

@@ -2,7 +2,7 @@ package com.citymapper.app.presentation.viewmodels
 
 import android.arch.core.executor.testing.InstantTaskExecutorRule
 import android.arch.lifecycle.Observer
-import com.citymapper.app.domain.models.stoppoint.StopPointModel
+import com.citymapper.app.domain.models.stoppoint.StopPoint
 import com.citymapper.app.domain.models.stoppoint.StopPointsResult
 import com.citymapper.app.domain.usecase.FetchArrivalTimesUseCase
 import com.citymapper.app.domain.usecase.FetchStopPointsUseCase
@@ -32,7 +32,7 @@ class NearbyStationsVMUnitTesting {
 
 
     @Mock
-    private lateinit var observer: Observer<List<StopPointModel>>
+    private lateinit var observer: Observer<List<StopPoint>>
 
 
     @Mock

@@ -3,7 +3,7 @@ package com.citymapper.app.data.remote.models.stops
 
 data class StopPointsResponseModel(
         val centrePoint: List<Double>,
-        val stopPoints: List<StopPointEntity>,
+        val stopPoints: List<StopPointResponse>,
         val pageSize: Int,
         val total: Int,
         val page: Int,
@@ -11,7 +11,7 @@ data class StopPointsResponseModel(
         val httpStatusCode: Int
 )
 
-data class StopPointEntity(
+data class StopPointResponse(
         val naptanId: String,
         val modes: List<String>,
         val icsCode: String,
