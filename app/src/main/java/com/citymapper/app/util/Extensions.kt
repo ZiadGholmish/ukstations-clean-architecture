@@ -12,7 +12,7 @@ fun StopPoint.toParcelable(): StopPointSequenceParcelable {
 }
 
 
-fun ArrivalTime.toParcelable(): ArrivalTimeParcelable {
+fun ArrivalTime.toParcelable(lat: Double, lon: Double): ArrivalTimeParcelable {
     return ArrivalTimeParcelable(this.id,
-            this.lineName, this.lineId, this.naptanId, this.expectedArrival, this.direction)
+            this.lineName, this.lineId, this.naptanId, this.expectedArrival, this.direction, lat, lon)
 }

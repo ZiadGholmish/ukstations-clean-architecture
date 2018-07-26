@@ -8,14 +8,18 @@ data class ArrivalTimeParcelable(val id: String,
                                  val lineId: String,
                                  val naptanId: String,
                                  val expectedArrival: String,
-                                 var direction: String?) : Parcelable {
+                                 var direction: String?,
+                                 val userLocationLat: Double,
+                                 val userLocationLong: Double) : Parcelable {
     constructor(parcel: Parcel) : this(
             parcel.readString(),
             parcel.readString(),
             parcel.readString(),
             parcel.readString(),
             parcel.readString(),
-            parcel.readString()) {
+            parcel.readString(),
+            parcel.readDouble(),
+            parcel.readDouble()) {
     }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
@@ -25,6 +29,8 @@ data class ArrivalTimeParcelable(val id: String,
         parcel.writeString(naptanId)
         parcel.writeString(expectedArrival)
         parcel.writeString(direction)
+        parcel.writeDouble(userLocationLat)
+        parcel.writeDouble(userLocationLong)
     }
 
     override fun describeContents(): Int {

@@ -1,16 +1,21 @@
 package com.citymapper.app.presentation.views.nearbystations
 
 import android.arch.lifecycle.ViewModelProviders
+import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.widget.Toast
 import com.citymapper.app.R
+import com.citymapper.app.app.AppConstants
 import com.citymapper.app.app.CitymapperApp
 import com.citymapper.app.dagger.ViewModelFactory
+import com.citymapper.app.domain.models.arrivals.ArrivalTime
 import com.citymapper.app.domain.models.stoppoint.StopPoint
+import com.citymapper.app.presentation.views.linedetails.LineDetailsActivity
 import com.citymapper.app.presentation.views.nearbystations.adapter.CustomInfoWindowGoogleMap
 import com.citymapper.app.presentation.views.nearbystations.adapter.StopPointAdapter
+import com.citymapper.app.util.toParcelable
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -32,7 +37,7 @@ class NearbyStationsActivity : AppCompatActivity(), NearbyStationsController, On
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
 
-    private  var mMap: GoogleMap? = null
+    private var mMap: GoogleMap? = null
 
     private var currentMarkers = mutableListOf<Marker>()
 
@@ -113,8 +118,22 @@ class NearbyStationsActivity : AppCompatActivity(), NearbyStationsController, On
         val linearLayout = LinearLayoutManager(this)
         linearLayout.orientation = LinearLayoutManager.VERTICAL
         stopPointRecycler.layoutManager = linearLayout
-        adapter = StopPointAdapter(mutableListOf(), applicationContext)
+        setAdapterWithClickListener()
         stopPointRecycler.adapter = adapter
+    }
+
+    private fun setAdapterWithClickListener() {
+        adapter = StopPointAdapter(mutableListOf(), applicationContext, object : ArrivalTimeClickListner {
+            override fun onArrivalClick(arrivalTime: ArrivalTime) {
+                mMap?.let {
+                    val intent = Intent(applicationContext, LineDetailsActivity::class.java)
+                    intent.putExtra(AppConstants.ARRIVAL_TIME_INTENT_NAME,
+                            arrivalTime.toParcelable(it.cameraPosition.target.latitude,
+                                    it.cameraPosition.target.longitude))
+                    startActivity(intent)
+                }
+            }
+        })
     }
 
     override fun showArrivalTimes(stopPoints: List<StopPoint>) {
