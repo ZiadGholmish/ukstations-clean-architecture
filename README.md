@@ -7,12 +7,12 @@ You have to clone the app and import in android studio then sync and you will be
 ## Project structure 
 
 **1. data Layer**
-- Contains all my data whether come from the backend or from local database.
+- Contains all data whether come from the backend or from local database.
 - Repository pattern to access these data and provide interface between the domain layer and the data layer.
 - helpers methods to format the retrofit response to sealed classes so there is a way to unified the error handling from the network.
 
 **2. Domain Layer**
-- Contains all my use business cases away from the dependencies of android paltform.
+- Contains all business cases away from the dependencies of android paltform.
 - All the use cases running in background process till they finish their work.
 
 **3. Presentation Layer**
