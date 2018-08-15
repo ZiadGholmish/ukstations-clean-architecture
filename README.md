@@ -1,29 +1,29 @@
-# README #
+# ukstations-clean-architecture
+A proof of concept using the api for TFL to get the available stations to the user location also will update the expected arrival times for each stations every 30 seconds.
 
-This README would normally document whatever steps are necessary to get your application up and running.
+## Getting Started
+You have to clone the app and import in android studio then sync and you will be able to run it.
 
-### What is this repository for? ###
+## Project structure 
 
-* Quick summary
-* Version
-* [Learn Markdown](https://bitbucket.org/tutorials/markdowndemo)
+**1. data Layer**
+- Contains all my data whether come from the backend or from local database.
+- Repository pattern to access these data and provide interface between the domain layer and the data layer.
+- helpers methods to format the retrofit response to sealed classes so there is a way to unified the error handling from the network.
 
-### How do I get set up? ###
+**2. Domain Layer**
+- Contains all my use business cases away from the dependencies of android paltform.
+- All the use cases running in background process till they finish their work.
 
-* Summary of set up
-* Configuration
-* Dependencies
-* Database configuration
-* How to run tests
-* Deployment instructions
+**3. Presentation Layer**
+- The presentation layer specific for android and it brings the data from the domain layer.
+- MVP with MVVM and live data to manage the view logic and the state of the data.
+- ViewModels to handle the presentations logic and dealing with the domain layer.
+- MVP pattern to handle the logic of views from presneter not the activity.
 
-### Contribution guidelines ###
+## Libraries
 
-* Writing tests
-* Code review
-* Other guidelines
-
-### Who do I talk to? ###
-
-* Repo owner or admin
-* Other community or team contact
+1. Kotlin
+2. RXjava2
+3. Dagger2
+5. Retrofit
